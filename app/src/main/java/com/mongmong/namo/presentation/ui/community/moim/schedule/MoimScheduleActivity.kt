@@ -199,7 +199,13 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
                 setContent()
             }
             if (schedule.participants.isNotEmpty()) {
-                setParticipantAdapter()
+                 setParticipantAdapter()
+            }
+        }
+
+        viewModel.isCurrentUserOwner.observe(this) { isOwner ->
+            if (isOwner) {
+                participantAdapter.updateIsOwner(isOwner)
             }
         }
 
@@ -353,6 +359,7 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
                 flexDirection = FlexDirection.ROW
             }
         }
+        Log.d("MoimScheduleAct", "isOwner: ${viewModel.isCurrentUserOwner.value!!}")
     }
 
     //TODO: 게스트 리사이클러뷰 연결
