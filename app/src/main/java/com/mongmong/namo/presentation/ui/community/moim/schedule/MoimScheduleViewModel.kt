@@ -73,8 +73,7 @@ class MoimScheduleViewModel @Inject constructor(
     }
 
     /** 모임 일정 수정 */
-    //TODO: 방장만 편집 가능
-    fun editMoimSchedule() {
+    private fun editMoimSchedule() { // 방장만 편집 가능
         viewModelScope.launch {
             uploadImageToServer(_moimSchedule.value?.coverImg)
 
@@ -100,13 +99,17 @@ class MoimScheduleViewModel @Inject constructor(
     }
 
     /** 모임 일정 프로필 변경 */
-    //TODO: userId를 통해 사용자의 방장 여부를 판별 후 연동 필요
-    fun editMoimScheduleProfile() {
+    private fun editMoimScheduleProfile() {
         viewModelScope.launch {
-            repository.editMoimScheduleProfile(
-                _moimSchedule.value!!.moimId,
-                _moimSchedule.value!!.title,
-                _moimSchedule.value!!.coverImg)
+            uploadImageToServer(_moimSchedule.value?.coverImg)
+
+            _successState.value = SuccessState(
+                SuccessType.EDIT,
+                repository.editMoimScheduleProfile(
+                    _moimSchedule.value!!.moimId,
+                    _moimSchedule.value!!.title,
+                    _moimSchedule.value!!.coverImg)
+            )
         }
     }
 
@@ -179,6 +182,14 @@ class MoimScheduleViewModel @Inject constructor(
 
     fun updatePrevClickedPicker(clicked: TextView?) {
         _prevClickedPicker.value = clicked
+    }
+
+    fun onClickEditButton() {
+        if (_isCurrentUserOwner.value == true) { // 모임 일정 편집
+            editMoimSchedule()
+        } else { // 모임 일정 프로필 수정
+            editMoimScheduleProfile()
+        }
     }
 
     fun isCreateMode() = _moimSchedule.value!!.moimId == 0L
