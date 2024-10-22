@@ -1,6 +1,7 @@
 package com.mongmong.namo.presentation.ui.community.moim.schedule
 
 import android.net.Uri
+import android.util.Log
 import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,10 +13,13 @@ import com.mongmong.namo.domain.model.Participant
 import com.mongmong.namo.domain.model.SchedulePeriod
 import com.mongmong.namo.domain.repositories.ScheduleRepository
 import com.mongmong.namo.domain.usecases.UploadImageToS3UseCase
+import com.mongmong.namo.presentation.config.ApplicationClass.Companion.dsManager
 import com.mongmong.namo.presentation.state.SuccessState
 import com.mongmong.namo.presentation.state.SuccessType
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.joda.time.LocalDateTime
 import javax.inject.Inject
 
@@ -26,6 +30,9 @@ class MoimScheduleViewModel @Inject constructor(
 ) : ViewModel() {
     private val _moimSchedule = MutableLiveData<MoimScheduleDetail>()
     val moimSchedule: LiveData<MoimScheduleDetail> = _moimSchedule
+
+    private val _isCurrentUserOwner = MutableLiveData<Boolean>(false) // 로그인 한 유저가 모임의 방장인지
+    val isCurrentUserOwner: LiveData<Boolean> = _isCurrentUserOwner
 
     private val _prevClickedPicker = MutableLiveData<TextView?>()
     var prevClickedPicker: LiveData<TextView?> = _prevClickedPicker
@@ -42,11 +49,12 @@ class MoimScheduleViewModel @Inject constructor(
     private val _successState = MutableLiveData<SuccessState>()
     var successState: LiveData<SuccessState> = _successState
 
-    /** 모임 일정 조회 */
+    /** 모임 일정 상세 조회 */
     private fun getMoimSchedule(moimScheduleId: Long) {
         viewModelScope.launch {
             _moimSchedule.value = repository.getMoimScheduleDetail(moimScheduleId)
             getGuestInvitationLink()
+            checkIsCurrentUserOwner() // 현재 로그인 한 유저가 모임의 방장인지를 확인
         }
     }
 
@@ -106,6 +114,12 @@ class MoimScheduleViewModel @Inject constructor(
         viewModelScope.launch {
             guestInvitationLink = repository.getGuestInvitaionLink(_moimSchedule.value!!.moimId)
         }
+    }
+
+    private fun checkIsCurrentUserOwner() {
+        val myInfo = _moimSchedule.value!!.participants.find { it.userId == getMyUserId() }
+        Log.d("MoimScheduleVM", "myUserId: ${getMyUserId()}, isOwner: ${myInfo?.isOwner}")
+        _isCurrentUserOwner.value = myInfo?.isOwner
     }
 
     private suspend fun uploadImageToServer(imageUri: String?) {
@@ -185,6 +199,11 @@ class MoimScheduleViewModel @Inject constructor(
 //            )
 //        }
         return null
+    }
+
+    // 저장된 userId 가져오기
+    private fun getMyUserId(): Long = runBlocking {
+        dsManager.getUserId().first() ?: 0L
     }
 
     companion object {

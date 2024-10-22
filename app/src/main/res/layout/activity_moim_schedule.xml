@@ -354,8 +354,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="25dp"
                         android:paddingVertical="3dp"
+                        android:clickable="@{viewModel.isCurrentUserOwner ? true : false}"
+                        android:textColor="@{viewModel.isCurrentUserOwner ? @color/main_text : @color/text_unselected}"
+                        android:text="@string/moim_schedule_do_friend_invite"
+                        app:drawableTintColor="@{viewModel.isCurrentUserOwner ? @color/main_text : @color/text_unselected}"
                         android:drawableEnd="@drawable/ic_arrow_right"
-                        android:text="@string/moim_schedule_add_participant"
                         style="@style/content_bold"/>
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -374,8 +377,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="25dp"
                         android:paddingVertical="3dp"
+                        android:clickable="@{viewModel.isCurrentUserOwner ? true : false}"
                         android:visibility="@{viewModel.moimSchedule.moimId == 0L ? View.GONE : View.VISIBLE }"
                         android:drawableEnd="@drawable/ic_arrow_right"
+                        app:drawableTintColor="@{viewModel.isCurrentUserOwner ? @color/main_text : @color/text_unselected}"
+                        android:textColor="@{viewModel.isCurrentUserOwner ? @color/main_text : @color/text_unselected}"
                         android:text="@string/moim_schedule_add_guest"
                         style="@style/content_bold"/>
 

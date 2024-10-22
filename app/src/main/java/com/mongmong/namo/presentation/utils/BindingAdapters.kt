@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
@@ -32,6 +33,22 @@ object BindingAdapters {
             else -> CategoryColor.DEFAULT_PALETTE_COLOR1.hexColor
         }
         view.backgroundTintList = ColorStateList.valueOf(Color.parseColor(hexColor))
+    }
+
+    @JvmStatic
+    @BindingAdapter("drawableTintColor")
+    fun setDrawableTintColor(view: AppCompatTextView, color: Int) {
+        // TextView의 drawableEnd를 가져옴
+        val drawables = view.compoundDrawablesRelative
+        val drawableEnd = drawables[2] // drawableEnd는 배열의 세 번째 요소
+
+        drawableEnd?.let {
+            // 전달된 color 값을 사용하여 tint 적용
+            it.setTint(color)
+            view.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                drawables[0], drawables[1], it, drawables[3]
+            )
+        }
     }
 
     @JvmStatic
