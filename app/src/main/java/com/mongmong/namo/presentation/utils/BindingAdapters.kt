@@ -13,8 +13,10 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import com.bumptech.glide.Glide
 import com.mongmong.namo.R
+import com.mongmong.namo.domain.model.ActivityParticipant
 import com.mongmong.namo.domain.model.ParticipantInfo
 import com.mongmong.namo.presentation.config.CategoryColor
+import java.math.BigDecimal
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -75,7 +77,7 @@ object BindingAdapters {
 
     @JvmStatic
     @BindingAdapter(value = ["participantsText", "maxCount"], requireAll = false)
-    fun setParticipantsText(textView: TextView, participants: List<ParticipantInfo>?, maxCount: Int?) {
+    fun setParticipantsText(textView: TextView, participants: List<ActivityParticipant>?, maxCount: Int?) {
         val maxCount = maxCount ?: 3
 
         participants?.let {
@@ -100,11 +102,11 @@ object BindingAdapters {
 
     @JvmStatic
     @BindingAdapter("currencyText")
-    fun setCurrencyEditText(editText: EditText, amount: Int?) {
+    fun setCurrencyEditText(editText: EditText, amount: BigDecimal?) {
         if (amount == null) return
 
-        val formattedText = if (amount == 0)  ""
-        else NumberFormat.getNumberInstance(Locale.US).format(amount) + " 원"
+        val formattedText = if (amount == BigDecimal.ZERO)  ""
+        else NumberFormat.getNumberInstance(Locale.US).format(amount.toInt()) + " 원"
 
         if (editText.text.toString() != formattedText) {
             editText.setText(formattedText)
@@ -114,17 +116,25 @@ object BindingAdapters {
 
     @JvmStatic
     @BindingAdapter("currencyText")
-    fun setCurrencyText(textView: TextView, amount: Int?) {
+    fun setCurrencyText(textView: TextView, amount: BigDecimal?) {
         if (amount == null) return
-        val formattedText = NumberFormat.getNumberInstance(Locale.US).format(amount) + " 원"
+        val formattedText = NumberFormat.getNumberInstance(Locale.US).format(amount.toInt()) + " 원"
         textView.text = formattedText
     }
 
     @JvmStatic
     @BindingAdapter("totalCurrencyText")
-    fun setTotalCurrencyText(textView: TextView, amount: Int?) {
+    fun setTotalCurrencyText(textView: TextView, amount: BigDecimal?) {
         if (amount == null) return
-        val formattedText = "총 " + NumberFormat.getNumberInstance(Locale.US).format(amount) + " 원"
+        val formattedText = "총 " + NumberFormat.getNumberInstance(Locale.US).format(amount.toInt()) + " 원"
+        textView.text = formattedText
+    }
+
+    @JvmStatic
+    @BindingAdapter("totalAmount")
+    fun setTotalAmount(textView: TextView, amount: BigDecimal?) {
+        val formattedText = if (amount == null || amount == BigDecimal.ZERO) textView.context.getString(R.string.moim_diary_none)
+            else "총 " + NumberFormat.getNumberInstance(Locale.US).format(amount.toInt()) + " 원"
         textView.text = formattedText
     }
 

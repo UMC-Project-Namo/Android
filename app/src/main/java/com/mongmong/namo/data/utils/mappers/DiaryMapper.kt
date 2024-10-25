@@ -64,6 +64,7 @@ object DiaryMapper {
             hasDiary = this.hasDiary,
             participantInfo = this.participantInfo.map { ParticipantInfo(
                 userId = it.userId,
+                participantId = it.participantId,
                 nickname = it.nickname,
                 isGuest = it.isGuest
             ) },

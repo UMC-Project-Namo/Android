@@ -70,7 +70,7 @@ class ActivityDataSource @Inject constructor(
                         activityEndDate = activity.endDate,
                         imageList = activity.images.map { it.imageUrl },
                         location = activity.location.toDTO(),
-                        participantIdList = activity.participants.map { it.userId },
+                        participantIdList = activity.participants.map { it.participantId },
                         settlement = activity.payment.toDTO(),
                         tag = activity.tag,
                         title = activity.title
@@ -153,7 +153,7 @@ class ActivityDataSource @Inject constructor(
                         amountPerPerson = payment.amountPerPerson,
                         totalAmount = payment.totalAmount,
                         divisionCount = payment.divisionCount,
-                        participantIdList = payment.participants.map { it.id }
+                        activityParticipantId = payment.participants.filter { it.isPayer }.map { it.id }
                     )
                 )
             }.onSuccess {

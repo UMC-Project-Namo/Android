@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <import type="java.math.BigDecimal"/>
         <import type="com.mongmong.namo.presentation.utils.DiaryDateConverter" />
         <import type="android.view.View" />
         <variable
@@ -334,7 +335,7 @@
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/ic_arrow_right"
                     android:drawablePadding="8dp"
-                    android:text='@{activity.payment.totalAmount == 0 ? @string/moim_diary_none : "총 " + String.valueOf(activity.payment.totalAmount) + "원"}' />
+                    app:totalAmount="@{activity.payment.totalAmount}"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

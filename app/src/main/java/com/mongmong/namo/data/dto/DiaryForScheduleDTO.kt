@@ -19,6 +19,7 @@ data class GetScheduleForDiaryResult(
 
 data class ScheduleForDiaryParticipant(
     val userId: Long = 0L,
+    val participantId: Long = 0L,
     val nickname: String = "",
     val isGuest: Boolean = false
 )

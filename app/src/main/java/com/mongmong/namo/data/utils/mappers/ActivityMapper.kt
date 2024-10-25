@@ -4,8 +4,10 @@ import com.mongmong.namo.data.dto.ActivityLocationDTO
 import com.mongmong.namo.data.dto.PatchActivityPaymentRequest
 import com.mongmong.namo.data.dto.GetActivitiesResult
 import com.mongmong.namo.data.dto.GetActivityPaymentResult
+import com.mongmong.namo.data.dto.Payment
 import com.mongmong.namo.domain.model.Activity
 import com.mongmong.namo.domain.model.ActivityLocation
+import com.mongmong.namo.domain.model.ActivityParticipant
 import com.mongmong.namo.domain.model.DiaryImage
 import com.mongmong.namo.domain.model.ParticipantInfo
 import com.mongmong.namo.domain.model.ActivityPayment
@@ -23,7 +25,11 @@ object ActivityMapper {
                 latitude = this.activityLocation.latitude,
                 longitude = this.activityLocation.longitude),
             participants = this.activityParticipants.map {
-                ParticipantInfo(nickname = it.participantNickname, userId = it.participantMemberId)
+                ActivityParticipant(
+                    nickname = it.participantNickname,
+                    participantId = it.participantId,
+                    activityParticipantId = it.activityParticipantId
+                )
             },
             title = this.activityTitle,
             tag = this.tag,
@@ -57,12 +63,13 @@ object ActivityMapper {
         )
     }
 
-    fun ActivityPayment.toDTO(): PatchActivityPaymentRequest {
-        return PatchActivityPaymentRequest(
+    fun ActivityPayment.toDTO(): Payment {
+        return Payment(
             amountPerPerson = this.amountPerPerson,
             divisionCount = this.divisionCount,
             participantIdList = this.participants.map { it.id },
             totalAmount = this.totalAmount
         )
     }
+
 }

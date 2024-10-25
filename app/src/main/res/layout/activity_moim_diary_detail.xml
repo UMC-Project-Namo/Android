@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="java.math.BigDecimal"/>
         <import type="com.mongmong.namo.presentation.utils.DiaryDateConverter" />
         <import type="android.text.TextUtils" />
         <import type="android.view.View" />
@@ -251,8 +251,8 @@
                         android:drawableEnd="@drawable/ic_arrow_right"
                         android:drawablePadding="8dp"
                         android:drawableTint="@color/text_unselected"
-                        android:text='@{viewModel.moimPayment.totalAmount == 0 ? @string/moim_diary_none_activity : "총 " +viewModel.moimPayment.totalAmount + "원"}'
-                        android:textColor="@{viewModel.moimPayment.totalAmount == 0 ? @color/text_unselected : @color/main_text}" />
+                        totalAmount="@{viewModel.moimPayment.totalAmount}"
+                        android:textColor="@{viewModel.moimPayment.totalAmount == BigDecimal.ZERO ? @color/text_unselected : @color/main_text}" />
                 </LinearLayout>
 
                 <androidx.viewpager2.widget.ViewPager2

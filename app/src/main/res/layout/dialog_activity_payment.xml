@@ -99,7 +99,7 @@
                 android:textIsSelectable="false"
                 android:cursorVisible="false"
                 android:enabled="@{viewModel.diarySchedule.hasDiary &amp;&amp; viewModel.isEditMode ? true : false}"
-                android:text="@{String.valueOf(payment.totalAmount)}"
+                currencyText="@{payment.totalAmount}"
                 android:textAlignment="textEnd"
                 android:textColorHint="@color/text_placeholder"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -99,8 +99,6 @@ class EditMoimDiaryUseCase @Inject constructor(
         }
     }
 
-
-
     companion object {
         const val DIARY_PREFIX = "diary"
         const val ACTIVITY_PREFIX = "activity"
