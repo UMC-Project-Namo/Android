@@ -15,6 +15,7 @@ import com.mongmong.namo.domain.model.Activity
 import com.mongmong.namo.domain.model.DiaryDetail
 import com.mongmong.namo.domain.model.DiaryImage
 import com.mongmong.namo.presentation.utils.DiaryDateConverter
+import java.util.Calendar
 
 class MoimDiaryVPAdapter(
     private val diaryEventListener: OnDiaryEventListener,
@@ -25,10 +26,17 @@ class MoimDiaryVPAdapter(
     private var diary = DiaryDetail("", 0L, emptyList(), 3)
     private var isEditMode: Boolean = false  // 편집 모드 상태 저장
     private var hasDiary: Boolean = false
+    private var scheduleStartDate: String = ""
+    private var scheduleEndDate: String = ""
 
     fun updateDiary(diary: DiaryDetail) {
         this.diary = diary
         notifyItemChanged(0)
+    }
+
+    fun setScheduleDate(startDate: String, endDate: String) {
+        this.scheduleStartDate = startDate
+        this.scheduleEndDate = endDate
     }
 
     fun submitActivities(newActivities: List<Activity>) {
@@ -203,6 +211,14 @@ class MoimDiaryVPAdapter(
             val endDate = endDateTime[0].split("-")
             val endTime = endDateTime[1].split(":")
 
+            // 일정의 시작 및 종료 날짜를 파싱하여 Calendar로 변환
+            val scheduleStartCalendar = Calendar.getInstance().apply {
+                time = DiaryDateConverter.parseDate(scheduleStartDate)
+            }
+            val scheduleEndCalendar = Calendar.getInstance().apply {
+                time = DiaryDateConverter.parseDate(scheduleEndDate)
+            }
+
             // 시작 날짜 설정
             binding.activityStartDateDp.init(
                 startDate[0].toInt(),
@@ -210,7 +226,12 @@ class MoimDiaryVPAdapter(
                 startDate[2].toInt()
             ) { _, year, monthOfYear, dayOfMonth ->
                 val updatedDate = DiaryDateConverter.formatDateToDiaryString(year, monthOfYear, dayOfMonth, startDateTime[1])
-                val updatedEndDate = DiaryDateConverter.formatDateToDiaryString(endDate[0].toInt(), endDate[1].toInt() - 1, endDate[2].toInt(), endDateTime[1])
+                val updatedEndDate = DiaryDateConverter.formatDateToDiaryString(
+                    binding.activityEndDateDp.year,
+                    binding.activityEndDateDp.month,
+                    binding.activityEndDateDp.dayOfMonth,
+                    endDateTime[1]
+                )
 
                 // 텍스트뷰에 업데이트된 날짜 설정
                 binding.activityStartDateTv.text = DiaryDateConverter.toDate(updatedDate)
@@ -224,6 +245,10 @@ class MoimDiaryVPAdapter(
                 activityEventListener.onStartDateSelected(bindingAdapterPosition - 1, updatedDate)
             }
 
+            // 시작 날짜 선택기에 최소 및 최대 날짜 설정
+            binding.activityStartDateDp.minDate = scheduleStartCalendar.timeInMillis
+            binding.activityStartDateDp.maxDate = scheduleEndCalendar.timeInMillis
+
             // 종료 날짜 설정
             binding.activityEndDateDp.init(
                 endDate[0].toInt(),
@@ -231,7 +256,12 @@ class MoimDiaryVPAdapter(
                 endDate[2].toInt()
             ) { _, year, monthOfYear, dayOfMonth ->
                 val updatedEndDate = DiaryDateConverter.formatDateToDiaryString(year, monthOfYear, dayOfMonth, endDateTime[1])
-                val updatedStartDate = DiaryDateConverter.formatDateToDiaryString(startDate[0].toInt(), startDate[1].toInt() - 1, startDate[2].toInt(), startDateTime[1])
+                val updatedStartDate = DiaryDateConverter.formatDateToDiaryString(
+                    binding.activityStartDateDp.year,
+                    binding.activityStartDateDp.month,
+                    binding.activityStartDateDp.dayOfMonth,
+                    startDateTime[1]
+                )
 
                 // 텍스트뷰에 업데이트된 종료 날짜 설정
                 binding.activityEndDateTv.text = DiaryDateConverter.toDate(updatedEndDate)
@@ -246,6 +276,10 @@ class MoimDiaryVPAdapter(
                 activityEventListener.onEndDateSelected(bindingAdapterPosition - 1, updatedEndDate)
             }
 
+            // 종료 날짜 선택기에 최소 및 최대 날짜 설정
+            binding.activityEndDateDp.minDate = scheduleStartCalendar.timeInMillis
+            binding.activityEndDateDp.maxDate = scheduleEndCalendar.timeInMillis
+
             // 시작 시간 설정
             with(binding.activityStartTimeTp) {
                 this.hour = startTime[0].toInt()
@@ -253,19 +287,25 @@ class MoimDiaryVPAdapter(
 
                 this.setOnTimeChangedListener { _, hourOfDay, minute ->
                     val updatedTime = DiaryDateConverter.formatTimeToDiaryString(hourOfDay, minute, startTime[2])
-                    val updatedEndTime = DiaryDateConverter.formatTimeToDiaryString(endTime[0].toInt(), endTime[1].toInt(), endTime[2])
+                    val updatedStartDateTime = "${binding.activityStartDateTv.text}T$updatedTime"
+                    val updatedEndTime = DiaryDateConverter.formatTimeToDiaryString(
+                        binding.activityEndTimeTp.hour,
+                        binding.activityEndTimeTp.minute,
+                        endTime[2]
+                    )
+                    val updatedEndDateTime = "${binding.activityEndDateTv.text}T$updatedEndTime"
 
-                    binding.activityStartTimeTv.text = DiaryDateConverter.to12HourTime("${startDateTime[0]}T$updatedTime")
+                    binding.activityStartTimeTv.text = DiaryDateConverter.to12HourTime(updatedStartDateTime)
 
                     // 시작 시간이 종료 시간을 넘어가지 않도록 설정
-                    if (startDateTime[0] == endDateTime[0] && updatedTime > updatedEndTime) {
+                    if (updatedStartDateTime >= updatedEndDateTime) {
                         binding.activityEndTimeTp.hour = hourOfDay
                         binding.activityEndTimeTp.minute = minute
-                        binding.activityEndTimeTv.text = DiaryDateConverter.to12HourTime("${endDateTime[0]}T$updatedTime")
-                        activityEventListener.onEndDateSelected(bindingAdapterPosition - 1, "${endDateTime[0]}T$updatedTime")
+                        binding.activityEndTimeTv.text = DiaryDateConverter.to12HourTime(updatedEndDateTime)
+                        activityEventListener.onEndDateSelected(bindingAdapterPosition - 1, updatedEndDateTime)
                     }
 
-                    activityEventListener.onStartDateSelected(bindingAdapterPosition - 1, "${startDateTime[0]}T$updatedTime")
+                    activityEventListener.onStartDateSelected(bindingAdapterPosition - 1, updatedStartDateTime)
                 }
             }
 
@@ -276,22 +316,29 @@ class MoimDiaryVPAdapter(
 
                 this.setOnTimeChangedListener { _, hourOfDay, minute ->
                     val updatedEndTime = DiaryDateConverter.formatTimeToDiaryString(hourOfDay, minute, endTime[2])
-                    val updatedStartTime = DiaryDateConverter.formatTimeToDiaryString(startTime[0].toInt(), startTime[1].toInt(), startTime[2])
+                    val updatedEndDateTime = "${binding.activityEndDateTv.text}T$updatedEndTime"
+                    val updatedStartTime = DiaryDateConverter.formatTimeToDiaryString(
+                        binding.activityStartTimeTp.hour,
+                        binding.activityStartTimeTp.minute,
+                        startTime[2]
+                    )
+                    val updatedStartDateTime = "${binding.activityStartDateTv.text}T$updatedStartTime"
 
-                    binding.activityEndTimeTv.text = DiaryDateConverter.to12HourTime("${endDateTime[0]}T$updatedEndTime")
+                    binding.activityEndTimeTv.text = DiaryDateConverter.to12HourTime(updatedEndDateTime)
 
                     // 종료 시간이 시작 시간보다 빠르지 않도록 설정
-                    if (endDateTime[0] == startDateTime[0] && updatedEndTime < updatedStartTime) {
+                    if (updatedEndDateTime <= updatedStartDateTime) {
                         binding.activityStartTimeTp.hour = hourOfDay
                         binding.activityStartTimeTp.minute = minute
-                        binding.activityStartTimeTv.text = DiaryDateConverter.to12HourTime("${startDateTime[0]}T$updatedEndTime")
-                        activityEventListener.onStartDateSelected(bindingAdapterPosition - 1, "${startDateTime[0]}T$updatedEndTime")
+                        binding.activityStartTimeTv.text = DiaryDateConverter.to12HourTime(updatedStartDateTime)
+                        activityEventListener.onStartDateSelected(bindingAdapterPosition - 1, updatedStartDateTime)
                     }
 
-                    activityEventListener.onEndDateSelected(bindingAdapterPosition - 1, "${endDateTime[0]}T$updatedEndTime")
+                    activityEventListener.onEndDateSelected(bindingAdapterPosition - 1, updatedEndDateTime)
                 }
             }
         }
+
 
         private fun handleDateViews(targetMotionLayout: MotionLayout, selectedTextView: TextView) {
             // 모든 MotionLayout 리스트

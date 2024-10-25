@@ -267,6 +267,10 @@ class MoimDiaryDetailActivity :
             binding.moimDiaryLoading.visibility = View.VISIBLE
             binding.moimDiarySaveBtn.isEnabled = false
         }
+
+        binding.moimDiaryScheduleBtn.setOnClickListener {
+            
+        }
     }
 
     private fun showDeleteDialog(isActivity: Boolean) {
