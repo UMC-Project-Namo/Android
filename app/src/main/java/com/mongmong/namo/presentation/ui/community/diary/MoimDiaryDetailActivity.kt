@@ -163,8 +163,11 @@ class MoimDiaryDetailActivity :
 
     private fun initObserve() {
         viewModel.diarySchedule.observe(this) { diarySchedule ->
+            val startDate = viewModel.diarySchedule.value?.date ?: ""
+            val endDate = viewModel.diarySchedule.value?.date ?: ""
             participantsAdapter.submitList(diarySchedule.participantInfo)
             vpAdapter.setHasDiary(diarySchedule.hasDiary)
+            vpAdapter.setScheduleDate(startDate, endDate)
         }
 
         viewModel.diary.observe(this) { diary ->
@@ -267,8 +270,11 @@ class MoimDiaryDetailActivity :
     }
 
     private fun showDeleteDialog(isActivity: Boolean) {
-        val title = if (isActivity) DELETE_ACTIVITY_TITLE else DELETE_DIARY_TITLE
-        val content = if (isActivity) DELETE_ACTIVITY_CONTENT else DELETE_DIARY_CONTENT
+        val title = if (isActivity) getString(R.string.moim_diary_confirm_delete_activity_title)
+        else getString(R.string.moim_diary_confirm_delete_diary_title)
+
+        val content = if (isActivity) getString(R.string.moim_diary_confirm_delete_activity_content)
+        else getString(R.string.moim_diary_confirm_delete_diary_content)
 
         val dialog = ConfirmDialog(this, title, content, "확인",
             if (isActivity) DELETE_ACTIVITY_BUTTON_ACTION else DELETE_DIARY_BUTTON_ACTION
@@ -277,16 +283,23 @@ class MoimDiaryDetailActivity :
         dialog.show(this.supportFragmentManager, "ConfirmDialog")
     }
 
+
     private fun showBackDialog(isModeChange: Boolean) {
-        val title = BACK_TITLE
-        val content = if(isModeChange) VIEW_CONTENT else BACK_CONTENT
+        val title = getString(R.string.moim_diary_confirm_back_title)
+        val content = if (isModeChange) getString(R.string.moim_diary_confirm_view_content)
+        else getString(R.string.moim_diary_confirm_back_content)
 
         val dialog = ConfirmDialog(
-            this, title, content, "확인",
-            if(isModeChange) VIEW_BUTTON_ACTION else BACK_BUTTON_ACTION)
+            this,
+            title,
+            content,
+            "확인",
+            if (isModeChange) VIEW_BUTTON_ACTION else BACK_BUTTON_ACTION
+        )
         dialog.isCancelable = false
         dialog.show(supportFragmentManager, "")
     }
+
 
     override fun onClickYesButton(id: Int) {
         when(id) {
@@ -433,13 +446,6 @@ class MoimDiaryDetailActivity :
         const val DELETE_ACTIVITY_BUTTON_ACTION = 2
         const val BACK_BUTTON_ACTION = 3
         const val VIEW_BUTTON_ACTION = 4
-        const val DELETE_DIARY_TITLE = "일기를 삭제하시겠어요?"
-        const val DELETE_DIARY_CONTENT = "삭제한 일기는 내 기록에서 삭제됩니다."
-        const val DELETE_ACTIVITY_TITLE = "활동을 삭제하시겠어요?"
-        const val DELETE_ACTIVITY_CONTENT = "삭제한 모임 활동은\n모든 참석자의 기록에서 삭제됩니다."
-        const val BACK_TITLE = "편집한 내용이 저장되지 않습니다."
-        const val BACK_CONTENT = "정말 나가시겠어요?"
-        const val VIEW_CONTENT = "정말 조회 모드로 돌아가시겠어요?"
     }
 }
 
