@@ -36,6 +36,7 @@ import com.mongmong.namo.presentation.utils.PermissionChecker
 import com.mongmong.namo.presentation.utils.hideKeyboardOnTouchOutside
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.NullPointerException
+import java.math.BigDecimal
 import java.util.ArrayList
 
 
@@ -93,7 +94,9 @@ class MoimDiaryDetailActivity :
                     Toast.makeText(this@MoimDiaryDetailActivity, "일기장은 본인만 확인할 수 있습니다.", Toast.LENGTH_SHORT).show()
                 }
                 override fun onEditModeClicked() { viewModel.setIsEditMode(true) }
-                override fun onViewModeClicked() { showBackDialog(isModeChange = true) }
+                override fun onViewModeClicked() {
+                    if(viewModel.diaryChanged.value == true) showBackDialog(isModeChange = true)
+                }
 
                 override fun onAddImageClicked() {
                     positionForGallery = DIARY_POSITION
@@ -237,7 +240,7 @@ class MoimDiaryDetailActivity :
 
         // 전체 정산
         binding.moimPaymentTv.setOnClickListener {
-            if(viewModel.moimPayment.value?.totalAmount != 0) showMoimPaymentDialog()
+            if(viewModel.moimPayment.value?.totalAmount != BigDecimal.ZERO) showMoimPaymentDialog()
         }
 
         //  활동 추가 버튼 클릭리스너

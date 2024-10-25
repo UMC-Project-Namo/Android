@@ -1,99 +1,14 @@
 package com.mongmong.namo.domain.model
 
+import android.annotation.SuppressLint
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.mongmong.namo.presentation.config.BaseResponse
 import com.google.gson.annotations.SerializedName
 import com.mongmong.namo.BR
 import com.mongmong.namo.presentation.state.RoomState
+import java.math.BigDecimal
 import java.util.Calendar
-
-data class PersonalDiary(
-    val diaryId: Long = 0L,  // roomDB scheduleId
-    var scheduleServerId: Long = 0L, // server scheduleId
-    private var _content: String? = null,
-    var images: List<DiaryImage>? = null,
-    var state: String = RoomState.DEFAULT.state,
-    var isUpload: Boolean = false,
-    var isHeader: Boolean = false
-) : BaseObservable() {
-    @get:Bindable
-    var content: String?
-        get() = _content
-        set(value) {
-            _content = value
-            notifyPropertyChanged(BR.content)
-        }
-}
-
-/*data class DiaryImage(
-    val id: Long,
-    val url: String
-) : Serializable*/
-
-
-/** 기록 전체 조회 **/
-data class DiaryGetAllResponse(
-    val result: List<DiaryGetAllResult>
-) : BaseResponse()
-
-data class DiaryGetAllResult(
-    val scheduleId: Long,
-    val contents: String?,
-    val urls: List<String>,
-)
-
-data class GetMoimMemoResponse(
-    val result: MoimDiary
-): BaseResponse()
-
-/** 기록 월 별 조회 **/
-data class DiaryGetMonthResponse(
-    val result: DiaryGetMonthResult
-) : BaseResponse()
-
-data class DiaryGetMonthResult(
-    val content: List<MoimDiary>,
-    val currentPage: Int,
-    val size: Int,
-    val first: Boolean,
-    val last: Boolean
-)
-
-data class MoimDiary(
-    var scheduleId: Long,
-    @SerializedName("name") var title: String,
-    var startDate: Long,
-    @SerializedName("contents") var _content: String?,
-    var images: List<DiaryImage>,
-    var categoryId: Long,
-    var color: Int,
-    var placeName: String
-) : java.io.Serializable, BaseObservable() {
-    @get:Bindable
-    var content: String?
-        get() = _content
-        set(value) {
-            _content = value
-            notifyPropertyChanged(BR.content)
-        }
-
-    fun getImageUrls() = this.images.map { it.imageUrl }
-}
-
-data class DiarySchedule(
-    var scheduleId: Long = 0L,
-    var title: String = "",
-    var startDate: Long = 0,
-    var categoryId: Long = 0L,
-    var place: String = "없음",
-    var content: String?,
-    var images: List<DiaryImage>?,
-    var serverId: Long = 0L, // scheduleServerId
-    var categoryServerId: Long = 0L,
-    var color: Int = 1,
-    var isHeader: Boolean = false
-)
 
 /** v2 Model (ui 레이어에서 비즈니스 로직에서 사용)*/
 data class Diary(
@@ -190,6 +105,7 @@ data class ScheduleForDiaryLocation(
 
 data class ParticipantInfo(
     val userId: Long,
+    val participantId: Long,
     val nickname: String,
     val isGuest: Boolean = true
 )
@@ -212,6 +128,7 @@ data class CalendarDay(
         return calendarDayDate.after(today)
     }
 
+    @SuppressLint("DefaultLocale")
     fun toDateString(): String {
         val monthString = String.format("%02d", month + 1)
         val dayString = String.format("%02d", date)
@@ -244,10 +161,10 @@ data class CalendarDiaryDate(
 
 data class MoimPayment(
     val moimPaymentParticipants: List<MoimPaymentParticipant>,
-    val totalAmount: Int
+    val totalAmount: BigDecimal
 )
 
 data class MoimPaymentParticipant(
-    val amount: Int,
+    val amount: BigDecimal,
     val nickname: String
 )

@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mongmong.namo.domain.model.Activity
 import com.mongmong.namo.domain.model.ActivityLocation
+import com.mongmong.namo.domain.model.ActivityParticipant
 import com.mongmong.namo.domain.model.DiaryDetail
 import com.mongmong.namo.domain.model.DiaryImage
 import com.mongmong.namo.domain.model.ParticipantInfo
@@ -15,7 +16,6 @@ import com.mongmong.namo.domain.model.ActivityPayment
 import com.mongmong.namo.domain.model.DiaryBaseResponse
 import com.mongmong.namo.domain.model.MoimPayment
 import com.mongmong.namo.domain.model.MoimPaymentParticipant
-import com.mongmong.namo.domain.model.PaymentParticipant
 import com.mongmong.namo.domain.model.ScheduleForDiary
 import com.mongmong.namo.domain.repositories.ActivityRepository
 import com.mongmong.namo.domain.repositories.DiaryRepository
@@ -23,7 +23,12 @@ import com.mongmong.namo.domain.usecases.AddMoimDiaryUseCase
 import com.mongmong.namo.domain.usecases.EditMoimDiaryUseCase
 import com.mongmong.namo.domain.usecases.GetActivitiesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 import javax.inject.Inject
 
 @HiltViewModel
@@ -58,11 +63,11 @@ class MoimDiaryViewModel @Inject constructor(
     private val _deleteDiaryResult = MutableLiveData<DiaryBaseResponse>()
     val deleteDiaryResult: LiveData<DiaryBaseResponse> = _deleteDiaryResult
 
-    private val _editActivityParticipantsResult = MutableLiveData<DiaryBaseResponse>()
-    val editActivityParticipantsResult: LiveData<DiaryBaseResponse> = _editActivityParticipantsResult
+    private val _editActivityParticipantsResult = MutableSharedFlow<DiaryBaseResponse>()
+    val editActivityParticipantsResult: SharedFlow<DiaryBaseResponse> = _editActivityParticipantsResult
 
-    private val _editActivityPaymentResult = MutableLiveData<DiaryBaseResponse>()
-    val editActivityPaymentResult: LiveData<DiaryBaseResponse> = _editActivityPaymentResult
+    private val _editActivityPaymentResult = MutableSharedFlow<DiaryBaseResponse?>()
+    val editActivityPaymentResult: SharedFlow<DiaryBaseResponse?> = _editActivityPaymentResult
 
     private val _isActivityAdded = MutableLiveData<Boolean>(false)
     val isActivityAdded: LiveData<Boolean> = _isActivityAdded
@@ -209,9 +214,7 @@ class MoimDiaryViewModel @Inject constructor(
                 startDate = diarySchedule.value?.date ?: "",
                 title = "",
                 tag = "",
-                payment = ActivityPayment(participants = _diarySchedule.value?.participantInfo?.map {
-                    PaymentParticipant(it.userId, it.nickname, false)
-                } ?: emptyList()),
+                payment = ActivityPayment(participants = emptyList()),
                 images = emptyList()
             )
         )
@@ -255,15 +258,17 @@ class MoimDiaryViewModel @Inject constructor(
     }
 
     // 활동 참가자 변경 (ui)
-    fun updateActivityParticipants(position: Int, members: List<ParticipantInfo>) {
-        _activities.value?.get(position)?.participants = members
+    fun updateActivityParticipants(position: Int, members: List<ActivityParticipant>) {
+        _activities.value?.get(position)?.apply {
+            participants = members
+        }
         _activities.value = _activities.value
     }
 
     // 활동 정산 변경 (ui)
     fun updateActivityPayment(position: Int, payment: ActivityPayment) {
         _activities.value?.get(position)?.payment = payment
-        Log.d("updateActivityPayment", "$payment")
+        Log.d("updateActivityPayment", "${_activities.value?.get(position)?.payment}")
         _activities.value = _activities.value
     }
 
@@ -271,7 +276,14 @@ class MoimDiaryViewModel @Inject constructor(
     fun editActivityParticipants(activityId: Long, participantsToAdd: List<Long>, participantsToRemove: List<Long>) {
         viewModelScope.launch {
             val result = activityRepository.editActivityParticipants(activityId, participantsToAdd, participantsToRemove)
-            _editActivityParticipantsResult.value = result
+            _editActivityParticipantsResult.emit(result)
+        }
+    }
+
+    fun getActivityPayment(activityId: Long, position: Int) {
+        viewModelScope.launch {
+            val result = activityRepository.getActivityPayment(activityId)
+            activities.value?.get(position)?.payment = result
         }
     }
 
@@ -279,7 +291,7 @@ class MoimDiaryViewModel @Inject constructor(
     fun editActivityPayment(activityId: Long, payment: ActivityPayment) {
         viewModelScope.launch {
             val result = activityRepository.editActivityPayment(activityId = activityId, payment = payment)
-            _editActivityPaymentResult.value = result
+            _editActivityPaymentResult.emit(result)
         }
     }
 
@@ -427,12 +439,12 @@ class MoimDiaryViewModel @Inject constructor(
     }
 
     // MoimPayment 계산
-    fun calculateMoimPayment() {
+    fun setTotalMoimPayment() {
         viewModelScope.launch {
             val currentActivities = _activities.value ?: return@launch
 
-            val paymentMap = mutableMapOf<String, Int>() // 참가자별 금액을 저장할 맵
-            var totalAmount = 0 // 총액
+            val paymentMap = mutableMapOf<String, BigDecimal>() // 참가자별 금액을 저장할 맵
+            var totalAmount = BigDecimal.ZERO // 총액
 
             // 각 활동의 payment를 기반으로 참가자별 금액을 모으는 로직
             currentActivities.forEach { activity ->
@@ -440,7 +452,7 @@ class MoimDiaryViewModel @Inject constructor(
                     totalAmount += payment.totalAmount
 
                     payment.participants.forEach { participant ->
-                        val existingAmount = paymentMap[participant.nickname] ?: 0
+                        val existingAmount = paymentMap[participant.nickname] ?: BigDecimal.ZERO
 
                         paymentMap[participant.nickname] = existingAmount + payment.amountPerPerson
                     }
