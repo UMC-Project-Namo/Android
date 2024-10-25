@@ -9,7 +9,7 @@ import java.util.*
 
 object DiaryDateConverter {
 
-    private fun parseDate(dateString: String?): Date? {
+    fun parseDate(dateString: String?): Date? {
         return try {
             val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
             format.parse(dateString)
