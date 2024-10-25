@@ -9,6 +9,7 @@ import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
@@ -191,6 +192,7 @@ class MoimDiaryDetailActivity :
         }
 
         viewModel.addDiaryResult.observe(this) { response ->
+            binding.moimDiaryLoading.visibility = View.GONE
             if(response.isSuccess) {
                 viewModel.getDiaryData()
                 Toast.makeText(this, "기록이 저장되었습니다.", Toast.LENGTH_SHORT).show()
@@ -201,6 +203,7 @@ class MoimDiaryDetailActivity :
         }
 
         viewModel.editDiaryResult.observe(this) { response ->
+            binding.moimDiaryLoading.visibility = View.GONE
             if(response.isSuccess) {
                 viewModel.getDiaryData()
                 viewModel.getActivitiesData()
@@ -258,6 +261,7 @@ class MoimDiaryDetailActivity :
                 Log.d("MoimDiaryDetailActivity", "editDiary")
                 viewModel.editDiary()
             }
+            binding.moimDiaryLoading.visibility = View.VISIBLE
             binding.moimDiarySaveBtn.isEnabled = false
         }
     }
