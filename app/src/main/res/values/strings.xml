@@ -129,6 +129,14 @@
     <string name="moim_diary_none">없음</string>
     <string name="moim_payment">전체 정산</string>
     <string name="moim_payment_total">모든 활동 합계</string>
+    <!-- moim diary 확인 다이얼로그 -->
+    <string name="moim_diary_confirm_delete_diary_title">일기를 삭제하시겠어요?</string>
+    <string name="moim_diary_confirm_delete_diary_content">삭제한 일기는 내 기록에서 삭제됩니다.</string>
+    <string name="moim_diary_confirm_delete_activity_title">활동을 삭제하시겠어요?</string>
+    <string name="moim_diary_confirm_delete_activity_content">삭제한 모임 활동은\n모든 참석자의 기록에서 삭제됩니다.</string>
+    <string name="moim_diary_confirm_back_title">편집한 내용이 저장되지 않습니다.</string>
+    <string name="moim_diary_confirm_back_content">정말 나가시겠어요?</string>
+    <string name="moim_diary_confirm_view_content">정말 조회 모드로 돌아가시겠어요?</string>
     <!-- activity 관련 String -->
     <string name="activity_tag">활동 태그</string>
     <string name="activity_participants">활동 참석자</string>
