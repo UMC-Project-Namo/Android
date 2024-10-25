@@ -21,8 +21,6 @@ import androidx.activity.viewModels
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -184,7 +182,7 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
 
     /** 모임 일정 수정 */
     private fun editSchedule() {
-        viewModel.editMoimSchedule()
+        viewModel.onClickEditButton()
     }
 
     /** 모임 일정 삭제 */
@@ -199,7 +197,13 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
                 setContent()
             }
             if (schedule.participants.isNotEmpty()) {
-                setParticipantAdapter()
+                 setParticipantAdapter()
+            }
+        }
+
+        viewModel.isCurrentUserOwner.observe(this) { isOwner ->
+            if (isOwner) {
+                participantAdapter.updateIsOwner(isOwner)
             }
         }
 
@@ -353,6 +357,7 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
                 flexDirection = FlexDirection.ROW
             }
         }
+        Log.d("MoimScheduleAct", "isOwner: ${viewModel.isCurrentUserOwner.value!!}")
     }
 
     //TODO: 게스트 리사이클러뷰 연결

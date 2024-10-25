@@ -1,5 +1,6 @@
 package com.mongmong.namo.presentation.ui.community.moim.schedule.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -7,6 +8,14 @@ import com.mongmong.namo.databinding.ItemMoimParticipantBinding
 import com.mongmong.namo.domain.model.Participant
 
 class MoimParticipantRVAdapter(private val participantList : List<Participant>) : RecyclerView.Adapter<MoimParticipantRVAdapter.ViewHolder>() {
+
+    var isOwner: Boolean = false
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateIsOwner(isOwner: Boolean) {
+        this.isOwner = isOwner
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -26,6 +35,7 @@ class MoimParticipantRVAdapter(private val participantList : List<Participant>) 
     inner class ViewHolder(val binding: ItemMoimParticipantBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(participant : Participant) {
             binding.participant = participant
+            binding.isCurrentUserOwner = isOwner
         }
     }
 }

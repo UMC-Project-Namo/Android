@@ -7,6 +7,9 @@
         <import type="com.mongmong.namo.presentation.config.CategoryColor"/>
         <import type="android.view.View"/>
         <variable
+            name="isCurrentUserOwner"
+            type="Boolean" />
+        <variable
             name="participant"
             type="com.mongmong.namo.domain.model.Participant" />
     </data>
@@ -69,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:src="@drawable/ic_close"
-                android:visibility="@{participant.isOwner ? View.GONE : View.VISIBLE }"/>
+                android:visibility="@{!isCurrentUserOwner ? View.GONE : ( participant.isOwner ? View.GONE : View.VISIBLE ) }"/>
 
         </LinearLayout>
 
