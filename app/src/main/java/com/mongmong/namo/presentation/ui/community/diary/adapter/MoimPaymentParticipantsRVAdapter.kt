@@ -23,10 +23,9 @@ class MoimPaymentParticipantsRVAdapter(
 
     override fun getItemCount(): Int = participants.size
 
-    class ParticipantViewHolder(
+    inner class ParticipantViewHolder(
         private val binding: ItemMoimPaymentParticipantBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-
         fun bind(participant: MoimPaymentParticipant) {
             binding.participant = participant
             binding.executePendingBindings()

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +12,11 @@ import android.view.Window
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import com.mongmong.namo.databinding.DialogActivityParticipantsBinding
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mongmong.namo.databinding.DialogMoimPaymentBinding
-import com.mongmong.namo.presentation.ui.community.diary.adapter.ActivityParticipantsRVAdapter
+import com.mongmong.namo.domain.model.MoimPaymentParticipant
 import com.mongmong.namo.presentation.ui.community.diary.adapter.MoimPaymentParticipantsRVAdapter
+import java.math.BigDecimal
 
 
 class MoimPaymentDialog() : DialogFragment() {
@@ -43,9 +45,14 @@ class MoimPaymentDialog() : DialogFragment() {
     }
 
     private fun initRecyclerView() {
+        Log.d("MoimPaymentDialog", "${viewModel.moimPayment.value?.moimPaymentParticipants}")
         participantsAdapter = MoimPaymentParticipantsRVAdapter(
-            viewModel.moimPayment.value?.moimPaymentParticipants ?: emptyList())
-        binding.moimPaymentRv.adapter = participantsAdapter
+            viewModel.moimPayment.value?.moimPaymentParticipants ?: emptyList()
+        )
+        binding.moimPaymentRv.apply {
+            adapter = participantsAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
     }
 
     private fun initClickListener() {
