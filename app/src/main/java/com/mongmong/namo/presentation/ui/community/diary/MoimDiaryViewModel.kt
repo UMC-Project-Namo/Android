@@ -452,9 +452,10 @@ class MoimDiaryViewModel @Inject constructor(
                     totalAmount += payment.totalAmount
 
                     payment.participants.forEach { participant ->
-                        val existingAmount = paymentMap[participant.nickname] ?: BigDecimal.ZERO
-
-                        paymentMap[participant.nickname] = existingAmount + payment.amountPerPerson
+                        if (participant.isPayer) {
+                            val existingAmount = paymentMap[participant.nickname] ?: BigDecimal.ZERO
+                            paymentMap[participant.nickname] = existingAmount + payment.amountPerPerson
+                        }
                     }
                 }
             }
