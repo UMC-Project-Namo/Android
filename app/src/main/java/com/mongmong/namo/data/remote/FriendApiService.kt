@@ -1,14 +1,22 @@
 package com.mongmong.namo.data.remote
 
 import com.mongmong.namo.data.dto.FriendBaseResponse
+import com.mongmong.namo.data.dto.GetFriendListResponse
 import com.mongmong.namo.data.dto.GetFriendRequestResponse
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface FriendApiService {
     /** 친구 정보 */
+    // 친구 목록 조회
+    @GET("friends")
+    suspend fun getFriendList(
+        @Query("page") page: Int = 1,
+        @Query("search") searchWord: String?
+    ): GetFriendListResponse
 
     /** 친구 요청 */
     // 친구 요청 목록 조회

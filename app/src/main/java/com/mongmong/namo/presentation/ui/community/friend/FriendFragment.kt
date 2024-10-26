@@ -6,7 +6,9 @@ import com.mongmong.namo.R
 import com.mongmong.namo.databinding.FragmentFriendBinding
 import com.mongmong.namo.presentation.config.BaseFragment
 import com.mongmong.namo.presentation.ui.community.friend.adapter.FriendRVAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_friend) {
 
     private val viewModel: FriendViewModel by viewModels()

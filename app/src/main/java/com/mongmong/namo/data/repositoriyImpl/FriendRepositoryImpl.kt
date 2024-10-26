@@ -3,6 +3,7 @@ package com.mongmong.namo.data.repositoriyImpl
 import com.mongmong.namo.data.datasource.friend.RemoteFriendDataSource
 import com.mongmong.namo.data.dto.FriendBaseResponse
 import com.mongmong.namo.data.utils.mappers.FriendMapper.toModel
+import com.mongmong.namo.domain.model.Friend
 import com.mongmong.namo.domain.model.FriendRequest
 import com.mongmong.namo.domain.repositories.FriendRepository
 import javax.inject.Inject
@@ -10,6 +11,12 @@ import javax.inject.Inject
 class FriendRepositoryImpl @Inject constructor(
     private val remoteFriendDataSource: RemoteFriendDataSource
 ): FriendRepository {
+    override suspend fun getFiendList(): List<Friend> {
+        return remoteFriendDataSource.getFriends().result.friendList.map { friend ->
+            friend.toModel()
+        }
+    }
+
     override suspend fun getFriendRequests(): List<FriendRequest> {
         return remoteFriendDataSource.getFriendRequests().result.map { friendRequest ->
             friendRequest.toModel()
