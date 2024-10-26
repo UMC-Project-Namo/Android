@@ -99,7 +99,7 @@
                         android:layout_height="wrap_content"
                         android:elevation="5dp"
                         android:includeFontPadding="false"
-                        android:text="@{DiaryDateConverter.toMMM(viewModel.diarySchedule.date)}"
+                        android:text="@{DiaryDateConverter.toMMM(viewModel.diarySchedule.startDate)}"
                         app:layout_constraintBottom_toTopOf="@id/moim_diary_today_num_tv"
                         app:layout_constraintEnd_toEndOf="@id/moim_diary_date_circle_iv"
                         app:layout_constraintStart_toStartOf="@id/moim_diary_date_circle_iv"
@@ -113,7 +113,7 @@
                         android:layout_height="wrap_content"
                         android:elevation="5dp"
                         android:includeFontPadding="false"
-                        android:text="@{DiaryDateConverter.toDD(viewModel.diarySchedule.date)}"
+                        android:text="@{DiaryDateConverter.toDD(viewModel.diarySchedule.startDate)}"
                         android:textSize="36sp"
                         app:layout_constraintBottom_toBottomOf="@id/moim_diary_date_circle_iv"
                         app:layout_constraintEnd_toEndOf="@id/moim_diary_date_circle_iv"
@@ -138,7 +138,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:text="@{DiaryDateConverter.toFullDateTimeWithDay(viewModel.diarySchedule.date)}"
+                        android:text="@{DiaryDateConverter.toFullDateTimeWithDay(viewModel.diarySchedule.startDate)}"
                         app:layout_constraintStart_toEndOf="@id/moim_diary_date_tv"
                         app:layout_constraintTop_toTopOf="@id/moim_diary_date_tv" />
 

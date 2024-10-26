@@ -10,13 +10,23 @@ import java.util.*
 object DiaryDateConverter {
 
     fun parseDate(dateString: String?): Date? {
-        return try {
-            val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
-            format.parse(dateString)
-        } catch (e: Exception) {
-            null
+        if (dateString == null) return null
+        val formats = arrayOf(
+            "yyyy-MM-dd'T'HH:mm:ss",
+            "yyyy-MM-dd HH:mm:ss",
+            "yyyy-MM-dd"
+        )
+        for (formatStr in formats) {
+            try {
+                val format = SimpleDateFormat(formatStr, Locale.getDefault())
+                return format.parse(dateString)
+            } catch (e: Exception) {
+                // 파싱 실패 시 다음 형식으로 시도
+            }
         }
+        return null // 모든 형식에서 파싱 실패 시 null 반환
     }
+
 
     @JvmStatic
     fun toMMM(dateString: String?): String? {
@@ -86,14 +96,9 @@ object DiaryDateConverter {
 
     fun CalendarDay.toYearMonth(): String = "${this.year}-${String.format("%02d", this.month + 1)}"
 
-
-    fun formatDateToDiaryString(year: Int, monthOfYear: Int, dayOfMonth: Int, time: String): String {
-        // year, month, day, time을 조합해 "yyyy-MM-dd'T'HH:mm:ss" 형식의 String 반환
-        return "$year-${String.format("%02d", monthOfYear + 1)}-${String.format("%02d", dayOfMonth)}T$time"
+    fun formatDateTime(date: Date): String {
+        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+        return format.format(date)
     }
 
-    fun formatTimeToDiaryString(hour: Int, minute: Int, seconds: String): String {
-        // 시간과 분을 받아 "HH:mm:ss" 형식으로 변환
-        return "${String.format("%02d", hour)}:${String.format("%02d", minute)}:$seconds"
-    }
 }

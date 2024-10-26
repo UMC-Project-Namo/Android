@@ -11,7 +11,6 @@ import com.mongmong.namo.domain.model.ActivityLocation
 import com.mongmong.namo.domain.model.ActivityParticipant
 import com.mongmong.namo.domain.model.DiaryDetail
 import com.mongmong.namo.domain.model.DiaryImage
-import com.mongmong.namo.domain.model.ParticipantInfo
 import com.mongmong.namo.domain.model.ActivityPayment
 import com.mongmong.namo.domain.model.DiaryBaseResponse
 import com.mongmong.namo.domain.model.MoimPayment
@@ -24,9 +23,7 @@ import com.mongmong.namo.domain.usecases.EditMoimDiaryUseCase
 import com.mongmong.namo.domain.usecases.GetActivitiesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -207,11 +204,11 @@ class MoimDiaryViewModel @Inject constructor(
     fun addEmptyActivity() {
         _activities.value = _activities.value?.plus(
             Activity(
-                endDate = diarySchedule.value?.date ?: "",
+                endDate = diarySchedule.value?.startDate ?: "",
                 activityId = 0L,
                 location = ActivityLocation(),
                 participants = emptyList(),
-                startDate = diarySchedule.value?.date ?: "",
+                startDate = diarySchedule.value?.startDate ?: "",
                 title = "",
                 tag = "",
                 payment = ActivityPayment(participants = emptyList()),

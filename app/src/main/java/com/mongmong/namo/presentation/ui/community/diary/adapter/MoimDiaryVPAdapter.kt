@@ -16,6 +16,7 @@ import com.mongmong.namo.domain.model.DiaryDetail
 import com.mongmong.namo.domain.model.DiaryImage
 import com.mongmong.namo.presentation.utils.DiaryDateConverter
 import java.util.Calendar
+import java.util.Date
 
 class MoimDiaryVPAdapter(
     private val diaryEventListener: OnDiaryEventListener,
@@ -70,7 +71,8 @@ class MoimDiaryVPAdapter(
             }
             VIEW_TYPE_ACTIVITY -> {
                 ActivityViewHolder(
-                    ItemMoimDiaryActivityBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+                    ItemMoimDiaryActivityBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                )
             }
             else -> throw IllegalArgumentException("Invalid view type")
         }
@@ -201,143 +203,188 @@ class MoimDiaryVPAdapter(
         }
 
         private fun initPickerListeners(activity: Activity) {
-            // 시작 날짜와 시간
-            val startDateTime = activity.startDate.split("T")
-            val startDate = startDateTime[0].split("-")
-            val startTime = startDateTime[1].split(":")
+            // 선택된 시작 및 종료 날짜를 저장하는 변수 (내부 형식 유지)
+            var selectedStartDate = activity.startDate  // 예: "2023-10-15T14:00:00"
+            var selectedEndDate = activity.endDate      // 예: "2023-10-15T16:00:00"
 
-            // 종료 날짜와 시간
-            val endDateTime = activity.endDate.split("T")
-            val endDate = endDateTime[0].split("-")
-            val endTime = endDateTime[1].split(":")
+            // 초기 표시값 설정
+            binding.activityStartDateTv.text = DiaryDateConverter.toDate(selectedStartDate)
+            binding.activityStartTimeTv.text = DiaryDateConverter.to12HourTime(selectedStartDate)
+            binding.activityEndDateTv.text = DiaryDateConverter.toDate(selectedEndDate)
+            binding.activityEndTimeTv.text = DiaryDateConverter.to12HourTime(selectedEndDate)
 
-            // 일정의 시작 및 종료 날짜를 파싱하여 Calendar로 변환
-            val scheduleStartCalendar = Calendar.getInstance().apply {
-                time = DiaryDateConverter.parseDate(scheduleStartDate)
-            }
-            val scheduleEndCalendar = Calendar.getInstance().apply {
-                time = DiaryDateConverter.parseDate(scheduleEndDate)
-            }
+            // 시작 날짜와 시간 파싱
+            val startDateTime = selectedStartDate.split("T")
+            val startDateParts = startDateTime[0].split("-")
+            val startTimeParts = startDateTime[1].split(":")
+
+            // 종료 날짜와 시간 파싱
+            val endDateTime = selectedEndDate.split("T")
+            val endDateParts = endDateTime[0].split("-")
+            val endTimeParts = endDateTime[1].split(":")
+
+            // 일정의 시작 및 종료 날짜와 시간을 파싱하여 Date 객체로 변환
+            val scheduleStartDateTime = DiaryDateConverter.parseDate(scheduleStartDate) ?: Date()
+            val scheduleEndDateTime = DiaryDateConverter.parseDate(scheduleEndDate) ?: Date()
+            val scheduleStartMillis = scheduleStartDateTime.time
+            val scheduleEndMillis = scheduleEndDateTime.time
 
             // 시작 날짜 설정
             binding.activityStartDateDp.init(
-                startDate[0].toInt(),
-                startDate[1].toInt() - 1,
-                startDate[2].toInt()
+                startDateParts[0].toInt(),
+                startDateParts[1].toInt() - 1,
+                startDateParts[2].toInt()
             ) { _, year, monthOfYear, dayOfMonth ->
-                val updatedDate = DiaryDateConverter.formatDateToDiaryString(year, monthOfYear, dayOfMonth, startDateTime[1])
-                val updatedEndDate = DiaryDateConverter.formatDateToDiaryString(
-                    binding.activityEndDateDp.year,
-                    binding.activityEndDateDp.month,
-                    binding.activityEndDateDp.dayOfMonth,
-                    endDateTime[1]
-                )
+                val datePart = String.format("%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth)
+                val timePart = selectedStartDate.substring(11)  // "HH:mm:ss"
+                val updatedStartDate = "${datePart}T${timePart}"
 
-                // 텍스트뷰에 업데이트된 날짜 설정
-                binding.activityStartDateTv.text = DiaryDateConverter.toDate(updatedDate)
+                selectedStartDate = updatedStartDate
 
-                // 시작 날짜가 종료 날짜를 넘어가면 종료 날짜를 시작 날짜로 맞춤
-                if (updatedDate > updatedEndDate) {
+                // 텍스트뷰 업데이트
+                binding.activityStartDateTv.text = DiaryDateConverter.toDate(selectedStartDate)
+
+                // 시작 날짜가 종료 날짜보다 이후인 경우 종료 날짜를 시작 날짜로 맞춤
+                if (selectedStartDate > selectedEndDate) {
+                    selectedEndDate = selectedStartDate
                     binding.activityEndDateDp.updateDate(year, monthOfYear, dayOfMonth)
-                    binding.activityEndDateTv.text = DiaryDateConverter.toDate(updatedDate)
-                    activityEventListener.onEndDateSelected(bindingAdapterPosition - 1, updatedDate)
+                    binding.activityEndDateTv.text = DiaryDateConverter.toDate(selectedEndDate)
+                    activityEventListener.onEndDateSelected(bindingAdapterPosition - 1, selectedEndDate)
                 }
-                activityEventListener.onStartDateSelected(bindingAdapterPosition - 1, updatedDate)
+                activityEventListener.onStartDateSelected(bindingAdapterPosition - 1, selectedStartDate)
             }
 
             // 시작 날짜 선택기에 최소 및 최대 날짜 설정
-            binding.activityStartDateDp.minDate = scheduleStartCalendar.timeInMillis
-            binding.activityStartDateDp.maxDate = scheduleEndCalendar.timeInMillis
+            binding.activityStartDateDp.minDate = scheduleStartDateTime.time
+            binding.activityStartDateDp.maxDate = scheduleEndDateTime.time
 
             // 종료 날짜 설정
             binding.activityEndDateDp.init(
-                endDate[0].toInt(),
-                endDate[1].toInt() - 1,
-                endDate[2].toInt()
+                endDateParts[0].toInt(),
+                endDateParts[1].toInt() - 1,
+                endDateParts[2].toInt()
             ) { _, year, monthOfYear, dayOfMonth ->
-                val updatedEndDate = DiaryDateConverter.formatDateToDiaryString(year, monthOfYear, dayOfMonth, endDateTime[1])
-                val updatedStartDate = DiaryDateConverter.formatDateToDiaryString(
-                    binding.activityStartDateDp.year,
-                    binding.activityStartDateDp.month,
-                    binding.activityStartDateDp.dayOfMonth,
-                    startDateTime[1]
-                )
+                val datePart = String.format("%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth)
+                val timePart = selectedEndDate.substring(11)
+                val updatedEndDate = "${datePart}T${timePart}"
 
-                // 텍스트뷰에 업데이트된 종료 날짜 설정
-                binding.activityEndDateTv.text = DiaryDateConverter.toDate(updatedEndDate)
+                selectedEndDate = updatedEndDate
 
-                // 종료 날짜가 시작 날짜를 넘지 않도록 설정
-                if (updatedEndDate < updatedStartDate) {
+                // 텍스트뷰 업데이트
+                binding.activityEndDateTv.text = DiaryDateConverter.toDate(selectedEndDate)
+
+                // 종료 날짜가 시작 날짜보다 이전인 경우 시작 날짜를 종료 날짜로 맞춤
+                if (selectedEndDate < selectedStartDate) {
+                    selectedStartDate = selectedEndDate
                     binding.activityStartDateDp.updateDate(year, monthOfYear, dayOfMonth)
-                    binding.activityStartDateTv.text = DiaryDateConverter.toDate(updatedEndDate)
-                    activityEventListener.onStartDateSelected(bindingAdapterPosition - 1, updatedEndDate)
+                    binding.activityStartDateTv.text = DiaryDateConverter.toDate(selectedStartDate)
+                    activityEventListener.onStartDateSelected(bindingAdapterPosition - 1, selectedStartDate)
                 }
-
-                activityEventListener.onEndDateSelected(bindingAdapterPosition - 1, updatedEndDate)
+                activityEventListener.onEndDateSelected(bindingAdapterPosition - 1, selectedEndDate)
             }
 
             // 종료 날짜 선택기에 최소 및 최대 날짜 설정
-            binding.activityEndDateDp.minDate = scheduleStartCalendar.timeInMillis
-            binding.activityEndDateDp.maxDate = scheduleEndCalendar.timeInMillis
+            binding.activityEndDateDp.minDate = scheduleStartDateTime.time
+            binding.activityEndDateDp.maxDate = scheduleEndDateTime.time
 
             // 시작 시간 설정
             with(binding.activityStartTimeTp) {
-                this.hour = startTime[0].toInt()
-                this.minute = startTime[1].toInt()
+                this.hour = startTimeParts[0].toInt()
+                this.minute = startTimeParts[1].toInt()
 
                 this.setOnTimeChangedListener { _, hourOfDay, minute ->
-                    val updatedTime = DiaryDateConverter.formatTimeToDiaryString(hourOfDay, minute, startTime[2])
-                    val updatedStartDateTime = "${binding.activityStartDateTv.text}T$updatedTime"
-                    val updatedEndTime = DiaryDateConverter.formatTimeToDiaryString(
-                        binding.activityEndTimeTp.hour,
-                        binding.activityEndTimeTp.minute,
-                        endTime[2]
-                    )
-                    val updatedEndDateTime = "${binding.activityEndDateTv.text}T$updatedEndTime"
+                    val timePart = String.format("%02d:%02d:%02d", hourOfDay, minute, 0)
+                    val datePart = selectedStartDate.substring(0, 10)
+                    val updatedStartDateTimeString = "${datePart}T${timePart}"
+                    val updatedStartDateTime = DiaryDateConverter.parseDate(updatedStartDateTimeString) ?: Date()
 
-                    binding.activityStartTimeTv.text = DiaryDateConverter.to12HourTime(updatedStartDateTime)
+                    val calendar = Calendar.getInstance()
 
-                    // 시작 시간이 종료 시간을 넘어가지 않도록 설정
-                    if (updatedStartDateTime >= updatedEndDateTime) {
-                        binding.activityEndTimeTp.hour = hourOfDay
-                        binding.activityEndTimeTp.minute = minute
-                        binding.activityEndTimeTv.text = DiaryDateConverter.to12HourTime(updatedEndDateTime)
-                        activityEventListener.onEndDateSelected(bindingAdapterPosition - 1, updatedEndDateTime)
+                    // 선택된 시작 시간이 기록의 시작 시간보다 이전인 경우
+                    if (updatedStartDateTime.time < scheduleStartMillis) {
+                        // 기록의 시작 시간으로 설정
+                        selectedStartDate = DiaryDateConverter.formatDateTime(scheduleStartDateTime)
+                        calendar.time = scheduleStartDateTime
+                        this.hour = calendar.get(Calendar.HOUR_OF_DAY)
+                        this.minute = calendar.get(Calendar.MINUTE)
+                        binding.activityStartTimeTv.text = DiaryDateConverter.to12HourTime(selectedStartDate)
+                    }
+                    // 선택된 시작 시간이 기록의 종료 시간보다 이후인 경우
+                    else if (updatedStartDateTime.time > scheduleEndMillis) {
+                        // 기록의 종료 시간으로 설정
+                        selectedStartDate = DiaryDateConverter.formatDateTime(scheduleEndDateTime)
+                        calendar.time = scheduleEndDateTime
+                        this.hour = calendar.get(Calendar.HOUR_OF_DAY)
+                        this.minute = calendar.get(Calendar.MINUTE)
+                        binding.activityStartTimeTv.text = DiaryDateConverter.to12HourTime(selectedStartDate)
+                    } else {
+                        selectedStartDate = updatedStartDateTimeString
+                        binding.activityStartTimeTv.text = DiaryDateConverter.to12HourTime(selectedStartDate)
                     }
 
-                    activityEventListener.onStartDateSelected(bindingAdapterPosition - 1, updatedStartDateTime)
+                    // 시작 시간이 종료 시간보다 이후인 경우 종료 시간을 시작 시간으로 맞춤
+                    if (selectedStartDate >= selectedEndDate) {
+                        selectedEndDate = selectedStartDate
+                        binding.activityEndTimeTp.hour = this.hour
+                        binding.activityEndTimeTp.minute = this.minute
+                        binding.activityEndTimeTv.text = binding.activityStartTimeTv.text
+                        activityEventListener.onEndDateSelected(bindingAdapterPosition - 1, selectedEndDate)
+                    }
+
+                    activityEventListener.onStartDateSelected(bindingAdapterPosition - 1, selectedStartDate)
                 }
             }
 
             // 종료 시간 설정
             with(binding.activityEndTimeTp) {
-                this.hour = endTime[0].toInt()
-                this.minute = endTime[1].toInt()
+                this.hour = endTimeParts[0].toInt()
+                this.minute = endTimeParts[1].toInt()
 
                 this.setOnTimeChangedListener { _, hourOfDay, minute ->
-                    val updatedEndTime = DiaryDateConverter.formatTimeToDiaryString(hourOfDay, minute, endTime[2])
-                    val updatedEndDateTime = "${binding.activityEndDateTv.text}T$updatedEndTime"
-                    val updatedStartTime = DiaryDateConverter.formatTimeToDiaryString(
-                        binding.activityStartTimeTp.hour,
-                        binding.activityStartTimeTp.minute,
-                        startTime[2]
-                    )
-                    val updatedStartDateTime = "${binding.activityStartDateTv.text}T$updatedStartTime"
+                    val timePart = String.format("%02d:%02d:%02d", hourOfDay, minute, 0)
+                    val datePart = selectedEndDate.substring(0, 10)
+                    val updatedEndDateTimeString = "${datePart}T${timePart}"
+                    val updatedEndDateTime = DiaryDateConverter.parseDate(updatedEndDateTimeString) ?: Date()
 
-                    binding.activityEndTimeTv.text = DiaryDateConverter.to12HourTime(updatedEndDateTime)
+                    val calendar = Calendar.getInstance()
 
-                    // 종료 시간이 시작 시간보다 빠르지 않도록 설정
-                    if (updatedEndDateTime <= updatedStartDateTime) {
-                        binding.activityStartTimeTp.hour = hourOfDay
-                        binding.activityStartTimeTp.minute = minute
-                        binding.activityStartTimeTv.text = DiaryDateConverter.to12HourTime(updatedStartDateTime)
-                        activityEventListener.onStartDateSelected(bindingAdapterPosition - 1, updatedStartDateTime)
+                    // 선택된 종료 시간이 기록의 시작 시간보다 이전인 경우
+                    if (updatedEndDateTime.time < scheduleStartMillis) {
+                        // 기록의 시작 시간으로 설정
+                        selectedEndDate = DiaryDateConverter.formatDateTime(scheduleStartDateTime)
+                        calendar.time = scheduleStartDateTime
+                        this.hour = calendar.get(Calendar.HOUR_OF_DAY)
+                        this.minute = calendar.get(Calendar.MINUTE)
+                        binding.activityEndTimeTv.text = DiaryDateConverter.to12HourTime(selectedEndDate)
+                    }
+                    // 선택된 종료 시간이 기록의 종료 시간보다 이후인 경우
+                    else if (updatedEndDateTime.time > scheduleEndMillis) {
+                        // 기록의 종료 시간으로 설정
+                        selectedEndDate = DiaryDateConverter.formatDateTime(scheduleEndDateTime)
+                        calendar.time = scheduleEndDateTime
+                        this.hour = calendar.get(Calendar.HOUR_OF_DAY)
+                        this.minute = calendar.get(Calendar.MINUTE)
+                        binding.activityEndTimeTv.text = DiaryDateConverter.to12HourTime(selectedEndDate)
+                    } else {
+                        selectedEndDate = updatedEndDateTimeString
+                        binding.activityEndTimeTv.text = DiaryDateConverter.to12HourTime(selectedEndDate)
                     }
 
-                    activityEventListener.onEndDateSelected(bindingAdapterPosition - 1, updatedEndDateTime)
+                    // 종료 시간이 시작 시간보다 이전인 경우 시작 시간을 종료 시간으로 맞춤
+                    if (selectedEndDate <= selectedStartDate) {
+                        selectedStartDate = selectedEndDate
+                        binding.activityStartTimeTp.hour = this.hour
+                        binding.activityStartTimeTp.minute = this.minute
+                        binding.activityStartTimeTv.text = binding.activityEndTimeTv.text
+                        activityEventListener.onStartDateSelected(bindingAdapterPosition - 1, selectedStartDate)
+                    }
+
+                    activityEventListener.onEndDateSelected(bindingAdapterPosition - 1, selectedEndDate)
                 }
             }
         }
+
+
 
 
         private fun handleDateViews(targetMotionLayout: MotionLayout, selectedTextView: TextView) {
