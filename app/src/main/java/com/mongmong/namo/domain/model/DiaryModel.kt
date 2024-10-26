@@ -3,10 +3,7 @@ package com.mongmong.namo.domain.model
 import android.annotation.SuppressLint
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
-import com.mongmong.namo.presentation.config.BaseResponse
-import com.google.gson.annotations.SerializedName
 import com.mongmong.namo.BR
-import com.mongmong.namo.presentation.state.RoomState
 import java.math.BigDecimal
 import java.util.Calendar
 
@@ -89,7 +86,8 @@ class DiaryDetail(
 
 data class ScheduleForDiary(
     val scheduleId: Long = 0,
-    val date: String = "",
+    val startDate: String = "",
+    val endDate: String = "",
     val location: ScheduleForDiaryLocation,
     var hasDiary: Boolean = false,
     val title: String = "",

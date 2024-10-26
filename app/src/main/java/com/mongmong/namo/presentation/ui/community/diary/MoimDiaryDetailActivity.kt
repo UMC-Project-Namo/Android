@@ -163,8 +163,8 @@ class MoimDiaryDetailActivity :
 
     private fun initObserve() {
         viewModel.diarySchedule.observe(this) { diarySchedule ->
-            val startDate = viewModel.diarySchedule.value?.date ?: ""
-            val endDate = viewModel.diarySchedule.value?.date ?: ""
+            val startDate = viewModel.diarySchedule.value?.startDate ?: ""
+            val endDate = viewModel.diarySchedule.value?.endDate ?: ""
             participantsAdapter.submitList(diarySchedule.participantInfo)
             vpAdapter.setHasDiary(diarySchedule.hasDiary)
             vpAdapter.setScheduleDate(startDate, endDate)
@@ -269,7 +269,7 @@ class MoimDiaryDetailActivity :
         }
 
         binding.moimDiaryScheduleBtn.setOnClickListener {
-            
+
         }
     }
 

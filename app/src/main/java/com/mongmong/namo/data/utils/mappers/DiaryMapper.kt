@@ -55,19 +55,22 @@ object DiaryMapper {
         return ScheduleForDiary(
             scheduleId = this.scheduleId,
             title = this.scheduleTitle,
-            date = this.scheduleStartDate,
+            startDate = this.scheduleStartDate,
+            endDate = this.scheduleEndDate,
             location = ScheduleForDiaryLocation(
                 kakaoLocationId = this.locationInfo.kakaoLocationId,
                 name = this.locationInfo.locationName
             ),
             categoryId = this.categoryInfo.colorId,
             hasDiary = this.hasDiary,
-            participantInfo = this.participantInfo.map { ParticipantInfo(
-                userId = it.userId,
-                participantId = it.participantId,
-                nickname = it.nickname,
-                isGuest = it.isGuest
-            ) },
+            participantInfo = this.participantInfo.map {
+                ParticipantInfo(
+                    userId = it.userId,
+                    participantId = it.participantId,
+                    nickname = it.nickname,
+                    isGuest = it.isGuest
+                )
+            },
             participantCount = this.participantCount
         )
     }
