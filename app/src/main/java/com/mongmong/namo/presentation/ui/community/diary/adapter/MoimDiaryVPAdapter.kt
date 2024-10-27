@@ -138,6 +138,10 @@ class MoimDiaryVPAdapter(
             binding.isEdit = isEditMode
             binding.hasDiary = hasDiary
 
+            if (!isEditMode) {
+                closeAllDateViews()
+            }
+
             binding.activityEditBtn.setOnClickListener { activityEventListener.onEditModeClicked() }
             binding.activityViewBtn.setOnClickListener { activityEventListener.onViewModeClicked() }
 
@@ -384,9 +388,6 @@ class MoimDiaryVPAdapter(
             }
         }
 
-
-
-
         private fun handleDateViews(targetMotionLayout: MotionLayout, selectedTextView: TextView) {
             // 모든 MotionLayout 리스트
             val allMotionLayouts = listOf(
@@ -423,6 +424,34 @@ class MoimDiaryVPAdapter(
             } else {
                 targetMotionLayout.transitionToStart() // 닫기 애니메이션
                 selectedTextView.setTextColor(selectedTextView.context.getColor(R.color.main_text)) // 다시 클릭 시 색상 복원
+            }
+        }
+
+        private fun closeAllDateViews() {
+            val allMotionLayouts = listOf(
+                binding.activityStartDateLayout,
+                binding.activityStartTimeLayout,
+                binding.activityEndDateLayout,
+                binding.activityEndTimeLayout
+            )
+
+            val allTextViews = listOf(
+                binding.activityStartDateTv,
+                binding.activityStartTimeTv,
+                binding.activityEndDateTv,
+                binding.activityEndTimeTv
+            )
+
+            // 모든 MotionLayout을 닫기
+            allMotionLayouts.forEach { layout ->
+                if (layout.progress != 0f) {
+                    layout.transitionToStart()
+                }
+            }
+
+            // 텍스트 색상을 기본 색상으로 복원
+            allTextViews.forEach { textView ->
+                textView.setTextColor(textView.context.getColor(R.color.main_text))
             }
         }
     }
