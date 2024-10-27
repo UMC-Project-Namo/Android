@@ -112,16 +112,8 @@
                         android:id="@+id/friend_info_nickname_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{friend.nickname}"
-                        tools:text="코코아"
-                        style="@style/content_bold"/>
-
-                    <TextView
-                        android:id="@+id/friend_info_tag_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{friend.tag}"
-                        tools:text="#0000"
+                        android:text="@{@string/nickname_tag(friend.nickname, friend.tag)}"
+                        tools:text="@string/nickname_tag_hint"
                         style="@style/content_bold"/>
 
                 </LinearLayout>
@@ -242,7 +234,8 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:layout_marginStart="8dp"
-                        android:src="@color/main_pink"/>
+                        android:src="@color/main_pink"
+                        app:tintColor="@{friend.favoriteColorId}"/>
 
                 </LinearLayout>
 

@@ -216,6 +216,7 @@
     <string name="calendar_info">캘린더 정보</string>
     <string name="friend_calendar_category_notice">친구가 공개 설정을 해둔 카테고리만 볼 수 있습니다.</string>
     <string name="nickname_plus_tag">닉네임+태그</string>
+    <string name="nickname_tag">%s\#%s</string>
     <string name="nickname_tag_hint">나모#0000</string>
     <string name="friend_favorite_color">좋아하는 색깔</string>
 
