@@ -207,9 +207,8 @@ class MoimDiaryVPAdapter(
         }
 
         private fun initPickerListeners(activity: Activity) {
-            // 선택된 시작 및 종료 날짜를 저장하는 변수 (내부 형식 유지)
-            var selectedStartDate = activity.startDate  // 예: "2023-10-15T14:00:00"
-            var selectedEndDate = activity.endDate      // 예: "2023-10-15T16:00:00"
+            var selectedStartDate = activity.startDate
+            var selectedEndDate = activity.endDate
 
             // 초기 표시값 설정
             binding.activityStartDateTv.text = DiaryDateConverter.toDate(selectedStartDate)
