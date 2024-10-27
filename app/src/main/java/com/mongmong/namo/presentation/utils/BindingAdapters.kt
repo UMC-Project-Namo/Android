@@ -50,6 +50,9 @@ object BindingAdapters {
     @JvmStatic
     @BindingAdapter("app:imageUrl", "app:placeHolder")
     fun setImage(imageView : ImageView, url : String?, placeHolder: Drawable?) {
+        if (url == null) {
+           imageView.setImageDrawable(placeHolder)
+        }
         if (placeHolder == null) {
             Glide.with(imageView.context)
                 .load(url)

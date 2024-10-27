@@ -83,8 +83,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    tools:src="@drawable/ic_app_logo_square"
-                    app:placeHolder="@{@drawable/ic_app_logo_square}"
+                    tools:src="@drawable/img_default_profile"
+                    app:placeHolder="@{@drawable/img_default_profile}"
                     app:imageUrl="@{friend.profileUrl}"/>
 
             </androidx.cardview.widget.CardView>
