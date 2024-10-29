@@ -158,8 +158,7 @@ class CalendarMonthFragment : BaseFragment<FragmentCalendarMonthBinding>(R.layou
                 if (!schedule.isMeetingSchedule) return
                 requireActivity().startActivity(
                     Intent(context, MoimDiaryDetailActivity::class.java)
-                        .putExtra("moimScheduleId", schedule.scheduleId)
-                        .putExtra("paletteId", paletteId)
+                        .putExtra("scheduleId", schedule.scheduleId)
                 )
             }
         })
