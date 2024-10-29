@@ -250,15 +250,16 @@
                     <TextView
                         android:id="@+id/moim_payment_tv"
                         style="@style/content_regular"
-                        totalAmount="@{viewModel.moimPayment.totalAmount}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="12dp"
                         android:layout_marginEnd="20dp"
                         android:drawableEnd="@drawable/ic_arrow_right"
                         android:drawablePadding="8dp"
-                        app:drawableTint="@{viewModel.moimPayment.totalAmount.compareTo(BigDecimal.ZERO) == 0 ? @color/text_unselected : @color/main_text}"
-                        android:textColor="@{viewModel.moimPayment.totalAmount.compareTo(BigDecimal.ZERO) == 0 ? @color/text_unselected : @color/main_text}" />
+                        app:totalAmount="@{viewModel.moimPayment.totalAmount}"
+                        app:activityCnt="@{viewModel.activities.size()}"
+                        app:drawableTintColor="@{viewModel.activities.size() == 0 ? @color/text_unselected : @color/main_text}"
+                        android:textColor="@{viewModel.activities.size() == 0 ? @color/text_unselected : @color/main_text}" />
                 </LinearLayout>
 
                 <androidx.viewpager2.widget.ViewPager2
