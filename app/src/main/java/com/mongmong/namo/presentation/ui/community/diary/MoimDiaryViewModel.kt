@@ -119,6 +119,11 @@ class MoimDiaryViewModel @Inject constructor(
         }
     }
 
+    fun setHasDiary(hasDiary: Boolean) {
+        _diarySchedule.value?.hasDiary = hasDiary
+        _diarySchedule.value = _diarySchedule.value
+    }
+
     // 기록 추가
     fun addDiary() {
         viewModelScope.launch {

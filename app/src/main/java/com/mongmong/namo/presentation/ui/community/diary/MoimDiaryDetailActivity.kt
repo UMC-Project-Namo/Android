@@ -197,9 +197,13 @@ class MoimDiaryDetailActivity :
         viewModel.addDiaryResult.observe(this) { response ->
             binding.moimDiaryLoading.visibility = View.GONE
             if(response.isSuccess) {
+                // 기록 유무 갱신
+                viewModel.setHasDiary(hasDiary = true)
+                // 뷰 데이터 갱신
                 viewModel.getDiaryData()
-                Toast.makeText(this, "기록이 저장되었습니다.", Toast.LENGTH_SHORT).show()
                 viewModel.setIsEditMode(false)
+
+                Toast.makeText(this, "기록이 저장되었습니다.", Toast.LENGTH_SHORT).show()
             }
             else Toast.makeText(this, "${response.message}", Toast.LENGTH_SHORT).show()
             binding.moimDiarySaveBtn.isEnabled = true
@@ -208,11 +212,13 @@ class MoimDiaryDetailActivity :
         viewModel.editDiaryResult.observe(this) { response ->
             binding.moimDiaryLoading.visibility = View.GONE
             if(response.isSuccess) {
+                // 뷰 데이터 갱신
                 viewModel.getDiaryData()
                 viewModel.getActivitiesData()
                 viewModel.getTotalMoimPayment()
-                Toast.makeText(this, "변경 사항이 저장되었습니다.", Toast.LENGTH_SHORT).show()
                 viewModel.setIsEditMode(false)
+
+                Toast.makeText(this, "변경 사항이 저장되었습니다.", Toast.LENGTH_SHORT).show()
             }
             else Toast.makeText(this, "${response.message}", Toast.LENGTH_SHORT).show()
             binding.moimDiarySaveBtn.isEnabled = true
@@ -220,9 +226,13 @@ class MoimDiaryDetailActivity :
 
         viewModel.deleteDiaryResult.observe(this) { response ->
             if(response.isSuccess) {
+                // 기록 유무 갱신
+                viewModel.setHasDiary(hasDiary = false)
+                // 뷰 데이터 갱신
                 viewModel.setupNewDiary()
-                Toast.makeText(this, "기록이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
                 viewModel.setIsEditMode(false)
+
+                Toast.makeText(this, "기록이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
             }
             else Toast.makeText(this, "${response.message}", Toast.LENGTH_SHORT).show()
             binding.moimDiarySaveBtn.isEnabled = true
