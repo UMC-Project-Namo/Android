@@ -146,19 +146,19 @@ object BindingAdapters {
     }
 
     @JvmStatic
-    @BindingAdapter("totalAmount")
-    fun setTotalAmount(textView: TextView, amount: BigDecimal?) {
-        Log.d("totalAmount", "${amount==BigDecimal.ZERO}")
-        val formattedText = if (amount == null || amount == BigDecimal.ZERO) textView.context.getString(R.string.moim_diary_none_activity)
-            else "총 " + NumberFormat.getNumberInstance(Locale.US).format(amount.toInt()) + " 원"
+    @BindingAdapter("totalAmount", "activityCnt", requireAll = false)
+    fun setTotalAmount(textView: TextView, amount: BigDecimal?, activityCnt: Int) {
+        val formattedText = if (activityCnt == 0) {
+            textView.context.getString(R.string.moim_diary_none_activity)
+        } else {
+            "총 " + NumberFormat.getNumberInstance(Locale.US).format(amount?.toInt() ?: 0) + " 원"
+        }
         textView.text = formattedText
     }
 
     @JvmStatic
-    @BindingAdapter("drawableTint")
-    fun setDrawableTint(textView: TextView, color: Int) {
+    @BindingAdapter("drawableTintColor")
+    fun setDrawableTintColor(textView: TextView, color: Int) {
         textView.compoundDrawableTintList = ColorStateList.valueOf(color)
     }
-
-
 }
