@@ -18,6 +18,7 @@ class ActivityParticipantsRVAdapter(
     fun addSelectedItems(participants: List<ActivityParticipant>) {
         selectedParticipants.clear()
         selectedParticipants.addAll(participants)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
@@ -47,8 +48,8 @@ class ActivityParticipantsRVAdapter(
             binding.hasDiary = hasDiary
             binding.isEdit = isEdit
 
-            // 초기화 시에 activityParticipants에 포함된 항목을 체크
-            binding.itemActivityParticipantsCheckbox.isChecked = selectedParticipants.contains(participant)
+            binding.itemActivityParticipantsCheckbox.isChecked =
+                selectedParticipants.any { it.participantId == participant.participantId }
 
             binding.itemActivityParticipantsCheckbox.setOnClickListener {
                 if (binding.itemActivityParticipantsCheckbox.isChecked) {

@@ -53,15 +53,18 @@ class ActivityParticipantsDialog(private val position: Int) : DialogFragment() {
     private fun initRecyclerView() {
         participantsAdapter = ActivityParticipantsRVAdapter(
             scheduleParticipants =
-            if(activity.activityId == 0L) viewModel.diarySchedule.value?.participantInfo?.map {
-                ActivityParticipant(participantId = it.participantId, activityParticipantId = 0L, nickname = it.nickname)
-            } else { activity.participants } ?: emptyList(),
+            viewModel.diarySchedule.value?.participantInfo?.map {
+                ActivityParticipant(
+                    participantId = it.participantId,
+                    activityParticipantId = 0L,
+                    nickname = it.nickname
+                )
+            } ?: emptyList(),
             hasDiary = viewModel.diarySchedule.value?.hasDiary ?: false,
             isEdit = viewModel.isEditMode.value ?: false
         )
-        binding.activityParticipantsRv.adapter = participantsAdapter.apply {
-            addSelectedItems(viewModel.activities.value?.get(position)?.participants ?: emptyList())
-        }
+        binding.activityParticipantsRv.adapter = participantsAdapter
+        participantsAdapter.addSelectedItems(viewModel.activities.value?.get(position)?.participants ?: emptyList())
     }
 
     private fun initClickListener() {
@@ -95,7 +98,6 @@ class ActivityParticipantsDialog(private val position: Int) : DialogFragment() {
                         isPayer = false
                     )
                 }
-
                 updatedPaymentParticipants.addAll(newPaymentParticipants)
 
                 // 활동 정산 참가자 업데이트

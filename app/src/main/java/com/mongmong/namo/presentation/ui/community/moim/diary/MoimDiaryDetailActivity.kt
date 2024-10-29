@@ -97,6 +97,7 @@ class MoimDiaryDetailActivity :
                 override fun onEditModeClicked() { viewModel.setIsEditMode(true) }
                 override fun onViewModeClicked() {
                     if(viewModel.diaryChanged.value == true) showBackDialog(isModeChange = true)
+                    else viewModel.setIsEditMode(false)
                 }
 
                 override fun onAddImageClicked() {
@@ -119,7 +120,10 @@ class MoimDiaryDetailActivity :
             },
             activityEventListener = object : MoimDiaryVPAdapter.OnActivityEventListener {
                 override fun onEditModeClicked() { viewModel.setIsEditMode(true) }
-                override fun onViewModeClicked() { showBackDialog(isModeChange = true) }
+                override fun onViewModeClicked() {
+                    if(viewModel.diaryChanged.value == true) showBackDialog(isModeChange = true)
+                    else viewModel.setIsEditMode(false)
+                }
                 override fun onDeleteActivity(position: Int) {
                     activityPosition = position
                     showDeleteDialog(isActivity = true)
@@ -304,10 +308,7 @@ class MoimDiaryDetailActivity :
         else getString(R.string.moim_diary_confirm_back_content)
 
         val dialog = ConfirmDialog(
-            this,
-            title,
-            content,
-            "확인",
+            this, title, content, "확인",
             if (isModeChange) VIEW_BUTTON_ACTION else BACK_BUTTON_ACTION
         )
         dialog.isCancelable = false
