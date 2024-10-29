@@ -1,4 +1,4 @@
-package com.mongmong.namo.presentation.ui.community.diary
+package com.mongmong.namo.presentation.ui.community.moim.diary
 
 import android.net.Uri
 import android.util.Log

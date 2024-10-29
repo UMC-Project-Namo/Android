@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.mongmong.namo.presentation.ui.community.diary.MoimDiaryViewModel" />
+            type="com.mongmong.namo.presentation.ui.community.moim.diary.MoimDiaryViewModel" />
         <import type="android.view.View" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

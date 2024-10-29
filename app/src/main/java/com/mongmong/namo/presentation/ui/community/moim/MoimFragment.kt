@@ -10,7 +10,7 @@ import com.mongmong.namo.R
 import com.mongmong.namo.databinding.FragmentMoimBinding
 import com.mongmong.namo.domain.model.Moim
 import com.mongmong.namo.presentation.config.BaseFragment
-import com.mongmong.namo.presentation.ui.community.diary.MoimDiaryDetailActivity
+import com.mongmong.namo.presentation.ui.community.moim.diary.MoimDiaryDetailActivity
 import com.mongmong.namo.presentation.ui.community.moim.adapter.MoimRVAdapter
 import com.mongmong.namo.presentation.ui.community.moim.schedule.MoimScheduleActivity
 import dagger.hilt.android.AndroidEntryPoint
