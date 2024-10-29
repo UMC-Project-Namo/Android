@@ -157,6 +157,14 @@ object BindingAdapters {
     }
 
     @JvmStatic
+    @BindingAdapter("activityTotalAmount")
+    fun setActivityTotalAmount(textView: TextView, amount: BigDecimal?) {
+        val formattedText = if (amount == null || amount == BigDecimal.ZERO) textView.context.getString(R.string.moim_diary_none_activity)
+        else "총 " + NumberFormat.getNumberInstance(Locale.US).format(amount.toInt()) + " 원"
+        textView.text = formattedText
+    }
+
+    @JvmStatic
     @BindingAdapter("drawableTintColor")
     fun setDrawableTintColor(textView: TextView, color: Int) {
         textView.compoundDrawableTintList = ColorStateList.valueOf(color)

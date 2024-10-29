@@ -335,7 +335,7 @@
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/ic_arrow_right"
                     android:drawablePadding="8dp"
-                    app:totalAmount="@{activity.payment.totalAmount}"/>
+                    app:activityTotalAmount="@{activity.payment.totalAmount}"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
