@@ -269,7 +269,7 @@ class MoimDiaryDetailActivity :
         }
 
         binding.moimDiaryScheduleBtn.setOnClickListener {
-
+            //TODO: 모임 참여자 캘린더 이동
         }
     }
 
