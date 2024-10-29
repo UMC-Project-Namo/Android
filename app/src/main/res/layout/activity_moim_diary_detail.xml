@@ -257,8 +257,8 @@
                         android:layout_marginEnd="20dp"
                         android:drawableEnd="@drawable/ic_arrow_right"
                         android:drawablePadding="8dp"
-                        android:drawableTint="@color/text_unselected"
-                        android:textColor="@{viewModel.moimPayment.totalAmount == BigDecimal.ZERO ? @color/text_unselected : @color/main_text}" />
+                        app:drawableTint="@{viewModel.moimPayment.totalAmount.compareTo(BigDecimal.ZERO) == 0 ? @color/text_unselected : @color/main_text}"
+                        android:textColor="@{viewModel.moimPayment.totalAmount.compareTo(BigDecimal.ZERO) == 0 ? @color/text_unselected : @color/main_text}" />
                 </LinearLayout>
 
                 <androidx.viewpager2.widget.ViewPager2

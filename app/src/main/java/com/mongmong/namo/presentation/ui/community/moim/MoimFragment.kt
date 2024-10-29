@@ -10,6 +10,7 @@ import com.mongmong.namo.R
 import com.mongmong.namo.databinding.FragmentMoimBinding
 import com.mongmong.namo.domain.model.Moim
 import com.mongmong.namo.presentation.config.BaseFragment
+import com.mongmong.namo.presentation.ui.community.diary.MoimDiaryDetailActivity
 import com.mongmong.namo.presentation.ui.community.moim.adapter.MoimRVAdapter
 import com.mongmong.namo.presentation.ui.community.moim.schedule.MoimScheduleActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,7 +55,10 @@ class MoimFragment : BaseFragment<FragmentMoimBinding>(R.layout.fragment_moim) {
         }
         moimAdapter.setItemClickListener(object : MoimRVAdapter.MyItemClickListener {
             override fun onRecordButtonClick(position: Int) {
-                //TODO: 모임 기록 화면으로 이동
+                startActivity(
+                    Intent(context, MoimDiaryDetailActivity::class.java)
+                        .putExtra("scheduleId", viewModel.moimPreviewList.value!![position].moimId)
+                )
             }
 
             override fun onItemClick(position: Int) {

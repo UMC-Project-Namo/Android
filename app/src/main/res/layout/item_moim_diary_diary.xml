@@ -204,7 +204,7 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="7dp"
                     android:background="@drawable/bg_gallery_dotted"
-                    android:visibility="@{isEdit ? View.VISIBLE: View.GONE}"
+                    android:visibility="@{!hasDiary || isEdit ? View.VISIBLE: View.GONE}"
                     android:layerType="software"
                     android:scaleType="centerInside"
                     android:src="@drawable/ic_gallery" />

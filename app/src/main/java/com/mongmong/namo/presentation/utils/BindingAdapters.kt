@@ -3,6 +3,7 @@ package com.mongmong.namo.presentation.utils
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -147,9 +148,17 @@ object BindingAdapters {
     @JvmStatic
     @BindingAdapter("totalAmount")
     fun setTotalAmount(textView: TextView, amount: BigDecimal?) {
-        val formattedText = if (amount == null || amount == BigDecimal.ZERO) textView.context.getString(R.string.moim_diary_none)
+        Log.d("totalAmount", "${amount==BigDecimal.ZERO}")
+        val formattedText = if (amount == null || amount == BigDecimal.ZERO) textView.context.getString(R.string.moim_diary_none_activity)
             else "총 " + NumberFormat.getNumberInstance(Locale.US).format(amount.toInt()) + " 원"
         textView.text = formattedText
     }
+
+    @JvmStatic
+    @BindingAdapter("drawableTint")
+    fun setDrawableTint(textView: TextView, color: Int) {
+        textView.compoundDrawableTintList = ColorStateList.valueOf(color)
+    }
+
 
 }
