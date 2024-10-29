@@ -1,4 +1,4 @@
-package com.mongmong.namo.presentation.ui.community.diary.adapter
+package com.mongmong.namo.presentation.ui.community.moim.diary.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

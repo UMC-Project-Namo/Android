@@ -1,4 +1,4 @@
-package com.mongmong.namo.presentation.ui.community.diary
+package com.mongmong.namo.presentation.ui.community.moim.diary
 
 import android.annotation.SuppressLint
 import android.graphics.Color
@@ -15,7 +15,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mongmong.namo.databinding.DialogMoimPaymentBinding
 import com.mongmong.namo.domain.model.MoimPaymentParticipant
-import com.mongmong.namo.presentation.ui.community.diary.adapter.MoimPaymentParticipantsRVAdapter
+import com.mongmong.namo.presentation.ui.community.moim.diary.adapter.MoimPaymentParticipantsRVAdapter
 import java.math.BigDecimal
 
 

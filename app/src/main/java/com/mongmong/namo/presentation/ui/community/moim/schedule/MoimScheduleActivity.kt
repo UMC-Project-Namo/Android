@@ -37,7 +37,7 @@ import com.mongmong.namo.presentation.config.BaseActivity
 import com.mongmong.namo.presentation.state.SuccessType
 import com.mongmong.namo.presentation.ui.MainActivity
 import com.mongmong.namo.presentation.ui.community.CommunityCalendarActivity
-import com.mongmong.namo.presentation.ui.community.diary.MoimDiaryDetailActivity
+import com.mongmong.namo.presentation.ui.community.moim.diary.MoimDiaryDetailActivity
 import com.mongmong.namo.presentation.ui.community.moim.MoimFragment.Companion.MOIM_EDIT_KEY
 import com.mongmong.namo.presentation.ui.community.moim.schedule.adapter.MoimParticipantRVAdapter
 import com.mongmong.namo.presentation.ui.home.schedule.map.MapActivity

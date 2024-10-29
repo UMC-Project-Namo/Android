@@ -1,4 +1,4 @@
-package com.mongmong.namo.presentation.ui.community.diary
+package com.mongmong.namo.presentation.ui.community.moim.diary
 
 import android.annotation.SuppressLint
 import android.graphics.Color
@@ -18,7 +18,7 @@ import com.mongmong.namo.domain.model.Activity
 import com.mongmong.namo.domain.model.ActivityParticipant
 import com.mongmong.namo.domain.model.ActivityPayment
 import com.mongmong.namo.domain.model.PaymentParticipant
-import com.mongmong.namo.presentation.ui.community.diary.adapter.ActivityParticipantsRVAdapter
+import com.mongmong.namo.presentation.ui.community.moim.diary.adapter.ActivityParticipantsRVAdapter
 
 
 class ActivityParticipantsDialog(private val position: Int) : DialogFragment() {
