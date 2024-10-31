@@ -5,6 +5,7 @@ import com.mongmong.namo.data.dto.FriendBaseResponse
 import com.mongmong.namo.data.dto.GetFriendListResponse
 import com.mongmong.namo.data.dto.GetFriendListResult
 import com.mongmong.namo.data.dto.GetFriendRequestResponse
+import com.mongmong.namo.data.dto.GetFriendRequestResult
 import com.mongmong.namo.data.remote.FriendApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -33,7 +34,7 @@ class RemoteFriendDataSource @Inject constructor(
     /** 친구 요청 */
     // 친구 요청 목록 조회
     suspend fun getFriendRequests(): GetFriendRequestResponse {
-        var friendResponse = GetFriendRequestResponse(result = emptyList())
+        var friendResponse = GetFriendRequestResponse(result = GetFriendRequestResult())
         withContext(Dispatchers.IO) {
             runCatching {
                 friendApiService.getFriendRequestList()

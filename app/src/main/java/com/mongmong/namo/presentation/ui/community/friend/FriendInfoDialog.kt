@@ -12,10 +12,12 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.mongmong.namo.databinding.DialogFriendInfoBinding
 import com.mongmong.namo.domain.model.Friend
+import com.mongmong.namo.domain.model.FriendRequest
 import com.mongmong.namo.presentation.ui.community.CommunityCalendarActivity
 
 class FriendInfoDialog(
-    private val friendInfo: Friend,
+    private val friendInfo: Friend?,
+    private val friendRequestInfo: FriendRequest?,
     private val isFriendRequestMode: Boolean, // 친구 요청 화면인지, 친구 리스트 화면인지 판단
 ) : DialogFragment() {
     private lateinit var binding: DialogFriendInfoBinding
@@ -30,8 +32,11 @@ class FriendInfoDialog(
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))  // 배경 투명하게
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)  // dialog 모서리 둥글게
 
+        val info = friendInfo?.convertToFriendInfo() ?: friendRequestInfo!!.convertToFriendInfo()
+
         binding.apply {
-            friend = friendInfo
+            friendInfo = info
+            isFavorite = this@FriendInfoDialog.friendInfo?.isFavorite ?: false
             isFriendRequestMode = this@FriendInfoDialog.isFriendRequestMode
         }
 

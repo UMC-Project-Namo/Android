@@ -7,7 +7,10 @@ import com.mongmong.namo.databinding.FragmentFriendAlertBinding
 import com.mongmong.namo.presentation.config.BaseFragment
 import com.mongmong.namo.presentation.ui.community.alert.adapter.FriendAlertRVAdapter
 import com.mongmong.namo.presentation.ui.community.friend.FriendInfoDialog
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
 
+@AndroidEntryPoint
 class FriendAlertFragment : BaseFragment<FragmentFriendAlertBinding>(R.layout.fragment_friend_alert) {
 
     private val viewModel: AlertViewModel by activityViewModels()
@@ -29,7 +32,7 @@ class FriendAlertFragment : BaseFragment<FragmentFriendAlertBinding>(R.layout.fr
         friendAdapter.setItemClickListener(object : FriendAlertRVAdapter.MyItemClickListener {
             override fun onFriendInfoClick(position: Int) {
                 // 친구 정보 화면으로 이동
-                FriendInfoDialog(viewModel.friendRequestList.value!![position], true).show(parentFragmentManager, "FriendInfoDialog")
+                FriendInfoDialog(null, viewModel.friendRequestList.value!![position], true).show(parentFragmentManager, "FriendInfoDialog")
             }
 
             override fun onAcceptBtnClick(position: Int) {

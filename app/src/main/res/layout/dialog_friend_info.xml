@@ -9,8 +9,11 @@
             name="isFriendRequestMode"
             type="Boolean" />
         <variable
-            name="friend"
-            type="com.mongmong.namo.domain.model.Friend" />
+            name="friendInfo"
+            type="com.mongmong.namo.domain.model.FriendInfo" />
+        <variable
+            name="isFavorite"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -85,7 +88,7 @@
                     android:scaleType="centerCrop"
                     tools:src="@drawable/img_default_profile"
                     app:placeHolder="@{@drawable/img_default_profile}"
-                    app:imageUrl="@{friend.profileUrl}"/>
+                    app:imageUrl="@{friendInfo.profileUrl}"/>
 
             </androidx.cardview.widget.CardView>
 
@@ -112,7 +115,7 @@
                         android:id="@+id/friend_info_nickname_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{@string/nickname_tag(friend.nickname, friend.tag)}"
+                        android:text="@{@string/nickname_tag(friendInfo.nickname, friendInfo.tag)}"
                         tools:text="@string/nickname_tag_hint"
                         style="@style/content_bold"/>
 
@@ -123,7 +126,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="@{friend.introduction}"
+                    android:text="@{friendInfo.introduction}"
                     android:maxLines="2"
                     android:ellipsize="end"
                     tools:text="어쩌구저쩌구한줄소개 "
@@ -137,7 +140,7 @@
                 android:layout_height="28dp"
                 android:src="@drawable/ic_favorite"
                 android:visibility="@{isFriendRequestMode ? View.GONE : View.VISIBLE}"
-                app:tint="@{friend.isFavorite ? @color/main : @color/text_unselected}"
+                app:tint="@{isFavorite ? @color/main : @color/text_unselected}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/friend_info_default_content_ll"
                 app:layout_constraintBottom_toBottomOf="@id/friend_info_default_content_ll"/>
@@ -164,7 +167,7 @@
                     android:id="@+id/friend_info_name_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{friend.name}"
+                    android:text="@{friendInfo.nickname}"
                     tools:text="김나현"
                     style="@style/content_regular"/>
 
@@ -192,7 +195,7 @@
                     android:id="@+id/friend_info_birth_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{friend.birth}"
+                    android:text="@{friendInfo.birth}"
                     tools:text="1월 25일"
                     style="@style/content_regular"/>
 
@@ -235,7 +238,7 @@
                         android:layout_height="18dp"
                         android:layout_marginStart="8dp"
                         android:src="@color/main_pink"
-                        app:tintColor="@{friend.favoriteColorId}"/>
+                        app:tintColor="@{friendInfo.favoriteColorId}"/>
 
                 </LinearLayout>
 

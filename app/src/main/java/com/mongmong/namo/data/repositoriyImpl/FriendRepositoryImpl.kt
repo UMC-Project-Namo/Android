@@ -18,7 +18,7 @@ class FriendRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getFriendRequests(): List<FriendRequest> {
-        return remoteFriendDataSource.getFriendRequests().result.map { friendRequest ->
+        return remoteFriendDataSource.getFriendRequests().result.friendRequestDTO.map { friendRequest ->
             friendRequest.toModel()
         }
     }

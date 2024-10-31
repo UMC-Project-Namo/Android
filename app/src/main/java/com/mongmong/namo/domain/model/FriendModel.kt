@@ -12,13 +12,51 @@ data class Friend(
     val birth: String,
     val isFavorite: Boolean, // 즐겨찾기 여부
     val favoriteColorId: Int,
-): Serializable
+): Serializable {
+    fun convertToFriendInfo(): FriendInfo {
+        return FriendInfo(
+            profileUrl = this.profileUrl,
+            nickname = this.nickname,
+            tag = this.tag,
+            name = this.name,
+            introduction = this.introduction,
+            birth = this.birth,
+            favoriteColorId = this.favoriteColorId
+        )
+    }
+}
+
 
 data class FriendRequest(
     var userId: Long = 0L,
-    var profileImage: String = "",
-    var nicknameTag: String = "", // ex. 코코아#0000
+    var friendRequestId: Long = 0L,
+    var profileUrl: String? = "",
+    val nickname: String = "",
+    val tag: String = "",
     var introduction: String = "",
+    val name: String,
+    var birth: String = "",
+    var favoriteColorId: Int = 0
+) {
+    fun convertToFriendInfo(): FriendInfo {
+        return FriendInfo(
+            profileUrl = this.profileUrl,
+            nickname = this.nickname,
+            tag = this.tag,
+            introduction = this.introduction,
+            name = this.nickname,
+            birth = this.birth,
+            favoriteColorId = this.favoriteColorId
+        )
+    }
+}
+
+data class FriendInfo(
+    var profileUrl: String? = "",
+    val nickname: String = "",
+    val tag: String = "",
+    var introduction: String = "",
+    val name: String,
     var birth: String = "",
     var favoriteColorId: Int = 0
 )

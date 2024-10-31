@@ -1,12 +1,12 @@
 package com.mongmong.namo.data.utils.mappers
 
-import com.mongmong.namo.data.dto.FriendList
-import com.mongmong.namo.data.dto.GetFriendRequestResult
+import com.mongmong.namo.data.dto.FriendDTO
+import com.mongmong.namo.data.dto.FriendRequestDTO
 import com.mongmong.namo.domain.model.Friend
 import com.mongmong.namo.domain.model.FriendRequest
 
 object FriendMapper {
-    fun FriendList.toModel(): Friend {
+    fun FriendDTO.toModel(): Friend {
         return Friend(
             userid = this.memberId,
             profileUrl = this.profileImage,
@@ -21,12 +21,15 @@ object FriendMapper {
     }
 
     // DTO -> Model
-    fun GetFriendRequestResult.toModel(): FriendRequest {
+    fun FriendRequestDTO.toModel(): FriendRequest {
         return FriendRequest(
             userId = this.memberId,
-            nicknameTag = this.nickname + this.tag,
+            profileUrl = this.profileImage,
+            nickname = this.nickname,
+            tag = this.tag,
             introduction = this.bio,
             birth = this.birth,
+            name = this.nickname,
             favoriteColorId = this.favoriteColorId
         )
     }

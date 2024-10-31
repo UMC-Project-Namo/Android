@@ -12,14 +12,14 @@ data class GetFriendListResponse(
 )
 
 data class GetFriendListResult(
-    var friendList: List<FriendList> = emptyList(),
+    var friendList: List<FriendDTO> = emptyList(),
     var totalPage: Int = 0,
     var currentPage: Int = 0,
     var pageSize: Int = 0,
     var totalItems: Int = 0
 )
 
-data class FriendList(
+data class FriendDTO(
     var memberId: Long = 0L,
     var nickname: String = "",
     var favoriteFriend: Boolean = false,
@@ -33,10 +33,18 @@ data class FriendList(
 
 /** 친구 요청 목록 조회 */
 data class GetFriendRequestResponse(
-    val result: List<GetFriendRequestResult>
+    val result: GetFriendRequestResult
 )
 
 data class GetFriendRequestResult(
+    var friendRequestDTO: List<FriendRequestDTO> = emptyList(),
+    var totalPage: Int = 0,
+    var currentPage: Int = 0,
+    var pageSize: Int = 0,
+    var totalItems: Int = 0
+)
+
+data class FriendRequestDTO(
     var memberId: Long = 0L,
     var profileImage: String = "",
     var nickname: String = "",

@@ -3,17 +3,25 @@ package com.mongmong.namo.presentation.ui.community.alert
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mongmong.namo.domain.model.Friend
+import androidx.lifecycle.viewModelScope
+import com.mongmong.namo.domain.model.FriendRequest
 import com.mongmong.namo.domain.model.Moim
 import com.mongmong.namo.domain.model.group.GroupMember
+import com.mongmong.namo.domain.repositories.FriendRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import org.joda.time.LocalDateTime
+import javax.inject.Inject
 
-class AlertViewModel: ViewModel() {
+@HiltViewModel
+class AlertViewModel @Inject constructor(
+    private val friendRepository: FriendRepository
+): ViewModel() {
     private val _moimRequestList = MutableLiveData<List<Moim>>(emptyList())
     val moimRequestList: LiveData<List<Moim>> = _moimRequestList
 
-    private val _friendRequestList = MutableLiveData<List<Friend>>(emptyList())
-    val friendRequestList: LiveData<List<Friend>> = _friendRequestList
+    private val _friendRequestList = MutableLiveData<List<FriendRequest>>(emptyList())
+    val friendRequestList: LiveData<List<FriendRequest>> = _friendRequestList
 
     init {
         _moimRequestList.value = listOf(
@@ -22,7 +30,13 @@ class AlertViewModel: ViewModel() {
                 listOf(GroupMember(3, "코코아", 4)
             ))
         )
+        getFriendRequests()
+    }
 
-        _friendRequestList.value = emptyList()
+    /** 친구 요청 목록 조회 */
+    private fun getFriendRequests() {
+        viewModelScope.launch {
+            _friendRequestList.value = friendRepository.getFriendRequests()
+        }
     }
 }
