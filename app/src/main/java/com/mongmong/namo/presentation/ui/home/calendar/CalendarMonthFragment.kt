@@ -13,7 +13,7 @@ import com.mongmong.namo.databinding.FragmentCalendarMonthBinding
 import com.mongmong.namo.domain.model.Schedule
 import com.mongmong.namo.presentation.config.BaseFragment
 import com.mongmong.namo.presentation.ui.diary.PersonalDiaryDetailActivity
-import com.mongmong.namo.presentation.ui.group.diary.MoimDiaryDetailActivity
+import com.mongmong.namo.presentation.ui.community.moim.diary.MoimDiaryDetailActivity
 import com.mongmong.namo.presentation.ui.home.HomeFragment
 import com.mongmong.namo.presentation.ui.home.schedule.adapter.DailyScheduleRVAdapter
 import com.mongmong.namo.presentation.ui.home.schedule.ScheduleActivity
@@ -158,8 +158,7 @@ class CalendarMonthFragment : BaseFragment<FragmentCalendarMonthBinding>(R.layou
                 if (!schedule.isMeetingSchedule) return
                 requireActivity().startActivity(
                     Intent(context, MoimDiaryDetailActivity::class.java)
-                        .putExtra("moimScheduleId", schedule.scheduleId)
-                        .putExtra("paletteId", paletteId)
+                        .putExtra("scheduleId", schedule.scheduleId)
                 )
             }
         })

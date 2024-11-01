@@ -31,6 +31,7 @@ import com.kakao.vectormap.camera.CameraUpdateFactory
 import com.kakao.vectormap.label.LabelOptions
 import com.mongmong.namo.databinding.FragmentScheduleDialogBasicBinding
 import com.mongmong.namo.presentation.config.BaseFragment
+import com.mongmong.namo.presentation.ui.community.moim.diary.MoimDiaryDetailActivity
 import com.mongmong.namo.presentation.ui.diary.PersonalDiaryDetailActivity
 import com.mongmong.namo.presentation.utils.PickerConverter.setSelectedTime
 import dagger.hilt.android.AndroidEntryPoint
@@ -142,9 +143,13 @@ class ScheduleDialogBasicFragment : BaseFragment<FragmentScheduleDialogBasicBind
         // 기록하기 버튼
         binding.dialogScheduleRecordBtn.setOnClickListener {
             // 기록하기 화면으로 이동
-            requireActivity().startActivity(
-                Intent(context, PersonalDiaryDetailActivity::class.java)
-                    .putExtra("scheduleId", viewModel.schedule.value?.scheduleId)
+
+            startActivity(
+                Intent(
+                    context,
+                    if (viewModel.isMoimSchedule()) MoimDiaryDetailActivity::class.java
+                    else PersonalDiaryDetailActivity::class.java
+                ).putExtra("scheduleId", viewModel.schedule.value?.scheduleId)
             )
         }
     }

@@ -4,6 +4,7 @@ import com.mongmong.namo.data.dto.GetCalendarDiaryResult
 import com.mongmong.namo.data.dto.GetDiaryByDateResult
 import com.mongmong.namo.data.dto.GetDiaryCollectionResult
 import com.mongmong.namo.data.dto.GetDiaryResult
+import com.mongmong.namo.data.dto.GetMoimPaymentResult
 import com.mongmong.namo.data.dto.GetScheduleForDiaryResult
 import com.mongmong.namo.domain.model.CalendarDiaryDate
 import com.mongmong.namo.domain.model.CategoryInfo
@@ -11,6 +12,8 @@ import com.mongmong.namo.domain.model.Diary
 import com.mongmong.namo.domain.model.DiaryDetail
 import com.mongmong.namo.domain.model.DiaryImage
 import com.mongmong.namo.domain.model.DiarySummary
+import com.mongmong.namo.domain.model.MoimPayment
+import com.mongmong.namo.domain.model.MoimPaymentParticipant
 import com.mongmong.namo.domain.model.ParticipantInfo
 import com.mongmong.namo.domain.model.ParticipantSummary
 import com.mongmong.namo.domain.model.ScheduleForDiary
@@ -52,18 +55,22 @@ object DiaryMapper {
         return ScheduleForDiary(
             scheduleId = this.scheduleId,
             title = this.scheduleTitle,
-            date = this.scheduleStartDate,
+            startDate = this.scheduleStartDate,
+            endDate = this.scheduleEndDate,
             location = ScheduleForDiaryLocation(
                 kakaoLocationId = this.locationInfo.kakaoLocationId,
                 name = this.locationInfo.locationName
             ),
             categoryId = this.categoryInfo.colorId,
             hasDiary = this.hasDiary,
-            participantInfo = this.participantInfo.map { ParticipantInfo(
-                userId = it.userId,
-                nickname = it.nickname,
-                isGuest = it.isGuest
-            ) },
+            participantInfo = this.participantInfo.map {
+                ParticipantInfo(
+                    userId = it.userId,
+                    participantId = it.participantId,
+                    nickname = it.nickname,
+                    isGuest = it.isGuest
+                )
+            },
             participantCount = this.participantCount
         )
     }
@@ -108,6 +115,18 @@ object DiaryMapper {
                 count = this.participantInfo.participantsCount,
                 names = this.participantInfo.participantsNames ?: ""
             )
+        )
+    }
+
+    fun GetMoimPaymentResult.toModel(): MoimPayment {
+        return MoimPayment(
+            totalAmount = this.totalAmount,
+            moimPaymentParticipants = this.settlementUserList.map {
+                MoimPaymentParticipant(
+                    amount = it.amount,
+                    nickname = it.nickname
+                )
+            }
         )
     }
 }

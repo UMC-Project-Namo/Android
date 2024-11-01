@@ -37,6 +37,7 @@ import com.mongmong.namo.presentation.config.BaseActivity
 import com.mongmong.namo.presentation.state.SuccessType
 import com.mongmong.namo.presentation.ui.MainActivity
 import com.mongmong.namo.presentation.ui.community.CommunityCalendarActivity
+import com.mongmong.namo.presentation.ui.community.moim.diary.MoimDiaryDetailActivity
 import com.mongmong.namo.presentation.ui.community.moim.MoimFragment.Companion.MOIM_EDIT_KEY
 import com.mongmong.namo.presentation.ui.community.moim.schedule.adapter.MoimParticipantRVAdapter
 import com.mongmong.namo.presentation.ui.home.schedule.map.MapActivity
@@ -151,7 +152,10 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
 
         // 활동 기록하기 버튼 클릭 (편집 모드)
         binding.moimScheduleRecordActivityBtn.setOnClickListener {
-            //TODO: 활동 기록 화면으로 이동
+            startActivity(
+                Intent(this, MoimDiaryDetailActivity::class.java)
+                    .putExtra("scheduleId", viewModel.moimSchedule.value?.moimId)
+            )
         }
 
         // 닫기 클릭

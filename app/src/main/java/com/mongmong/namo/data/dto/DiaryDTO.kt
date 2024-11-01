@@ -1,6 +1,7 @@
 package com.mongmong.namo.data.dto
 
 import com.mongmong.namo.presentation.config.BaseResponse
+import java.math.BigDecimal
 
 data class DiaryResponse(
     val result: String
@@ -40,4 +41,18 @@ data class EditDiaryRequest(
     val diaryImages: List<DiaryRequestImage>,
     val enjoyRating: Int,
     val deleteImages: List<Long>
+)
+
+data class GetMoimPaymentResponse(
+    val result: GetMoimPaymentResult
+): BaseResponse()
+
+data class GetMoimPaymentResult(
+    val settlementUserList: List<MoimPaymentParticipant> = emptyList(),
+    val totalAmount: BigDecimal = BigDecimal.ZERO
+)
+
+data class MoimPaymentParticipant(
+    val amount: BigDecimal,
+    val nickname: String
 )

@@ -12,7 +12,9 @@ import com.mongmong.namo.data.remote.NetworkChecker
 import com.mongmong.namo.domain.model.CalendarDiaryDate
 import com.mongmong.namo.data.utils.mappers.DiaryMapper.toModel
 import com.mongmong.namo.domain.model.Diary
+import com.mongmong.namo.domain.model.DiaryBaseResponse
 import com.mongmong.namo.domain.model.DiaryDetail
+import com.mongmong.namo.domain.model.MoimPayment
 import com.mongmong.namo.domain.model.ScheduleForDiary
 import com.mongmong.namo.domain.repositories.DiaryRepository
 import kotlinx.coroutines.flow.Flow
@@ -61,9 +63,9 @@ class DiaryRepositoryImpl @Inject constructor(
         enjoyRating: Int,
         images: List<String>,
         scheduleId: Long
-    ): Boolean {
+    ): DiaryBaseResponse {
         Log.d("DiaryRepositoryImpl addDiary", "$content, $enjoyRating, $images, $scheduleId")
-        return remoteDiaryDataSource.addPersonalDiary(content, enjoyRating, images, scheduleId).isSuccess
+        return remoteDiaryDataSource.addPersonalDiary(content, enjoyRating, images, scheduleId)
     }
 
     // 기록 수정
@@ -73,15 +75,15 @@ class DiaryRepositoryImpl @Inject constructor(
         enjoyRating: Int,
         images: List<String>,
         deleteImageIds: List<Long>
-    ): Boolean {
+    ): DiaryBaseResponse {
         Log.d("DiaryRepositoryImpl editDiary", "$diaryId, $content, $enjoyRating, $images, $deleteImageIds")
-        return remoteDiaryDataSource.editPersonalDiary(diaryId, content, enjoyRating, images, deleteImageIds).isSuccess
+        return remoteDiaryDataSource.editPersonalDiary(diaryId, content, enjoyRating, images, deleteImageIds)
     }
 
     // 기록 삭제
-    override suspend fun deleteDiary(diaryId: Long): Boolean {
+    override suspend fun deleteDiary(diaryId: Long): DiaryBaseResponse {
         Log.d("DiaryRepositoryImpl deletePersonalDiary", "$diaryId")
-        return remoteDiaryDataSource.deletePersonalDiary(diaryId).isSuccess
+        return remoteDiaryDataSource.deletePersonalDiary(diaryId)
     }
 
     // 기록 캘린더 조회
@@ -93,6 +95,11 @@ class DiaryRepositoryImpl @Inject constructor(
     override suspend fun getDiaryByDate(date: String): List<Diary> {
         return remoteDiaryDataSource.getDiaryByDate(date).result.map { it.toModel() }
     }
+
+    override suspend fun getMoimPayment(scheduleId: Long): MoimPayment {
+        return remoteDiaryDataSource.getMoimPayment(scheduleId).result.toModel()
+    }
+
 
     companion object {
         const val PAGE_SIZE = 5

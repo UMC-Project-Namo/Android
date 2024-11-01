@@ -6,12 +6,17 @@
 
     <data>
 
+        <import type="java.math.BigDecimal" />
+
         <import type="com.mongmong.namo.presentation.utils.DiaryDateConverter" />
+
         <import type="android.text.TextUtils" />
+
         <import type="android.view.View" />
+
         <variable
             name="viewModel"
-            type="com.mongmong.namo.presentation.ui.group.diary.MoimDiaryViewModel" />
+            type="com.mongmong.namo.presentation.ui.community.moim.diary.MoimDiaryViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -56,17 +61,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/moim_diary_back_iv" />
 
-            <ImageView
-                android:id="@+id/moim_diary_delete_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:src="@drawable/ic_delete"
-                android:visibility="@{viewModel.diarySchedule.hasDiary ? View.VISIBLE : View.GONE}"
-                app:layout_constraintBottom_toBottomOf="@id/moim_diary_back_iv"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/moim_diary_back_iv" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -79,7 +73,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="60dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -89,10 +84,10 @@
                         android:id="@+id/moim_diary_date_circle_iv"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
+                        android:layout_marginStart="25dp"
                         android:backgroundTint="@color/white"
                         app:cardCornerRadius="80dp"
                         app:cardElevation="5dp"
-                        android:layout_marginStart="25dp"
                         app:layout_constraintBottom_toBottomOf="@+id/moim_diary_place_tv"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/moim_diary_date_tv" />
@@ -104,7 +99,7 @@
                         android:layout_height="wrap_content"
                         android:elevation="5dp"
                         android:includeFontPadding="false"
-                        android:text="@{DiaryDateConverter.toMMM(viewModel.diarySchedule.date)}"
+                        android:text="@{DiaryDateConverter.toMMM(viewModel.diarySchedule.startDate)}"
                         app:layout_constraintBottom_toTopOf="@id/moim_diary_today_num_tv"
                         app:layout_constraintEnd_toEndOf="@id/moim_diary_date_circle_iv"
                         app:layout_constraintStart_toStartOf="@id/moim_diary_date_circle_iv"
@@ -118,7 +113,7 @@
                         android:layout_height="wrap_content"
                         android:elevation="5dp"
                         android:includeFontPadding="false"
-                        android:text="@{DiaryDateConverter.toDD(viewModel.diarySchedule.date)}"
+                        android:text="@{DiaryDateConverter.toDD(viewModel.diarySchedule.startDate)}"
                         android:textSize="36sp"
                         app:layout_constraintBottom_toBottomOf="@id/moim_diary_date_circle_iv"
                         app:layout_constraintEnd_toEndOf="@id/moim_diary_date_circle_iv"
@@ -143,7 +138,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:text="@{DiaryDateConverter.toFullDateTimeWithDay(viewModel.diarySchedule.date)}"
+                        android:text="@{DiaryDateConverter.toFullDateTimeWithDay(viewModel.diarySchedule.startDate)}"
                         app:layout_constraintStart_toEndOf="@id/moim_diary_date_tv"
                         app:layout_constraintTop_toTopOf="@id/moim_diary_date_tv" />
 
@@ -187,8 +182,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="25dp"
-                        android:padding="5dp"
                         android:onClick="@{() -> viewModel.toggleIsParticipantVisible()}"
+                        android:padding="5dp"
                         android:rotation="@{viewModel.isParticipantVisible ? 180 : 0}"
                         android:src="@drawable/ic_arrow_down_bold"
                         android:visibility="visible"
@@ -203,16 +198,17 @@
                         android:layout_marginStart="30dp"
                         android:layout_marginTop="15dp"
                         android:backgroundTint="@color/main_text"
+                        android:visibility="@{viewModel.isParticipantVisible ? View.VISIBLE : View.GONE}"
                         app:cardCornerRadius="42dp"
                         app:cardElevation="0dp"
-                        android:visibility="@{viewModel.isParticipantVisible ? View.VISIBLE : View.GONE}"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/moim_diary_people_tv" >
+                        app:layout_constraintTop_toBottomOf="@id/moim_diary_people_tv">
+
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_calendar"
                             android:layout_gravity="center"
+                            android:src="@drawable/ic_calendar"
                             app:tint="@color/white" />
                     </androidx.cardview.widget.CardView>
 
@@ -228,7 +224,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/moim_diary_schedule_btn"
                         app:layout_constraintTop_toTopOf="@+id/moim_diary_schedule_btn"
-                        tools:listitem="@layout/item_moim_diary_participants" />
+                        tools:listitem="@layout/item_moim_diary_participant" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -252,6 +248,7 @@
                         android:text="@string/moim_diary_whole_money" />
 
                     <TextView
+                        android:id="@+id/moim_payment_tv"
                         style="@style/content_regular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -259,9 +256,10 @@
                         android:layout_marginEnd="20dp"
                         android:drawableEnd="@drawable/ic_arrow_right"
                         android:drawablePadding="8dp"
-                        android:drawableTint="@color/text_unselected"
-                        android:text="@string/moim_diary_none_activity"
-                        android:textColor="@color/text_unselected" />
+                        app:totalAmount="@{viewModel.moimPayment.totalAmount}"
+                        app:activityCnt="@{viewModel.activities.size()}"
+                        app:drawableTintColor="@{viewModel.activities.size() == 0 ? @color/text_unselected : @color/main_text}"
+                        android:textColor="@{viewModel.activities.size() == 0 ? @color/text_unselected : @color/main_text}" />
                 </LinearLayout>
 
                 <androidx.viewpager2.widget.ViewPager2
@@ -272,7 +270,7 @@
                 <me.relex.circleindicator.CircleIndicator3
                     android:id="@+id/moim_diary_indicator"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="10dp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="16dp"
                     app:ci_drawable="@drawable/ic_indicator"
@@ -285,7 +283,8 @@
                     android:layout_gravity="center"
                     android:layout_marginBottom="30dp"
                     android:background="@drawable/bg_basic_outline_btn"
-                    android:paddingHorizontal="25dp">
+                    android:paddingHorizontal="25dp"
+                    android:visibility="@{viewModel.diarySchedule.hasDiary &amp;&amp; viewModel.isEditMode ? View.VISIBLE : View.GONE}">
 
                     <ImageView
                         android:layout_width="18dp"
@@ -317,7 +316,25 @@
             android:text="@{viewModel.diarySchedule.hasDiary ? @string/diary_changes_save : @string/diary_add}"
             android:textAlignment="center"
             android:textColor="@color/white"
+            android:visibility="@{!viewModel.diarySchedule.hasDiary ? View.VISIBLE : viewModel.isEditMode ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent" />
+        <FrameLayout
+            android:id="@+id/moim_diary_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/dimed_light"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+        </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 

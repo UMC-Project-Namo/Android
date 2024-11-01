@@ -6,7 +6,6 @@ import com.mongmong.namo.data.datasource.diary.ActivityDataSource
 import com.mongmong.namo.data.datasource.schedule.RemoteScheduleDataSource
 import com.mongmong.namo.data.datasource.diary.RemoteDiaryDataSource
 import com.mongmong.namo.data.datasource.group.GroupDataSource
-import com.mongmong.namo.data.local.dao.DiaryDao
 import com.mongmong.namo.data.remote.ActivityApiService
 import com.mongmong.namo.data.remote.CategoryApiService
 import com.mongmong.namo.data.remote.DiaryApiService

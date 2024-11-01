@@ -10,6 +10,7 @@ data class GetScheduleForDiaryResult(
     val locationInfo: LocationInfo = LocationInfo(),
     val scheduleId: Long = 0L,
     val scheduleStartDate: String = "",
+    val scheduleEndDate: String = "",
     val scheduleTitle: String = "",
     val categoryInfo: CategoryInfo = CategoryInfo("", 0),
     val participantCount: Int = 0,
@@ -19,6 +20,7 @@ data class GetScheduleForDiaryResult(
 
 data class ScheduleForDiaryParticipant(
     val userId: Long = 0L,
+    val participantId: Long = 0L,
     val nickname: String = "",
     val isGuest: Boolean = false
 )

@@ -1,23 +1,28 @@
-package com.mongmong.namo.presentation.ui.group.diary
+package com.mongmong.namo.presentation.ui.community.moim.diary
 
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import com.mongmong.namo.databinding.DialogActivityParticipantsBinding
-import com.mongmong.namo.presentation.ui.group.diary.adapter.ActivityParticipantsRVAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.mongmong.namo.databinding.DialogMoimPaymentBinding
+import com.mongmong.namo.domain.model.MoimPaymentParticipant
+import com.mongmong.namo.presentation.ui.community.moim.diary.adapter.MoimPaymentParticipantsRVAdapter
+import java.math.BigDecimal
 
 
-class ActivityParticipantsDialog(private val position: Int) : DialogFragment() {
+class MoimPaymentDialog() : DialogFragment() {
 
-    lateinit var binding: DialogActivityParticipantsBinding
-    private lateinit var participantsAdapter: ActivityParticipantsRVAdapter
+    lateinit var binding: DialogMoimPaymentBinding
+    private lateinit var participantsAdapter: MoimPaymentParticipantsRVAdapter
 
     private val viewModel: MoimDiaryViewModel by activityViewModels()
 
@@ -27,7 +32,8 @@ class ActivityParticipantsDialog(private val position: Int) : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DialogActivityParticipantsBinding.inflate(inflater, container, false)
+        binding = DialogMoimPaymentBinding.inflate(inflater, container, false)
+        binding.viewModel = viewModel
 
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))  // 배경 투명하게
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)  // dialog 모서리 둥글게
@@ -39,22 +45,18 @@ class ActivityParticipantsDialog(private val position: Int) : DialogFragment() {
     }
 
     private fun initRecyclerView() {
-        participantsAdapter = ActivityParticipantsRVAdapter(
-            scheduleParticipants = viewModel.diarySchedule.value?.participantInfo ?: emptyList()
+        Log.d("MoimPaymentDialog", "${viewModel.moimPayment.value?.moimPaymentParticipants}")
+        participantsAdapter = MoimPaymentParticipantsRVAdapter(
+            viewModel.moimPayment.value?.moimPaymentParticipants ?: emptyList()
         )
-        binding.activityParticipantsRv.adapter = participantsAdapter.apply {
-            addSelectedItems(viewModel.activities.value?.get(position)?.participants ?: emptyList())
+        binding.moimPaymentRv.apply {
+            adapter = participantsAdapter
+            layoutManager = LinearLayoutManager(requireContext())
         }
     }
 
     private fun initClickListener() {
-        binding.activityPaymentSaveTv.setOnClickListener {
-            viewModel.updateActivityParticipants(position, participantsAdapter.getSelectedParticipants())
-            dismiss()
-        }
-
-        // 취소 버튼 클릭 시
-        binding.activityPaymentBackTv.setOnClickListener {
+        binding.moimPaymentBackTv.setOnClickListener {
             dismiss()
         }
     }

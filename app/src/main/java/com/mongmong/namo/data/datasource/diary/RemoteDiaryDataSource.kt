@@ -15,6 +15,8 @@ import com.mongmong.namo.data.dto.GetCalendarDiaryResult
 import com.mongmong.namo.data.dto.GetDiaryByDateResponse
 import com.mongmong.namo.data.dto.GetDiaryResponse
 import com.mongmong.namo.data.dto.GetDiaryResult
+import com.mongmong.namo.data.dto.GetMoimPaymentResponse
+import com.mongmong.namo.data.dto.GetMoimPaymentResult
 import com.mongmong.namo.data.dto.GetScheduleForDiaryResponse
 import com.mongmong.namo.data.dto.GetScheduleForDiaryResult
 import com.mongmong.namo.data.dto.LocationInfo
@@ -23,6 +25,7 @@ import com.mongmong.namo.data.remote.DiaryApiService
 import com.mongmong.namo.data.remote.group.GroupDiaryApiService
 import com.mongmong.namo.data.utils.RequestConverter.convertTextRequest
 import com.mongmong.namo.data.utils.RequestConverter.imageToMultipart
+import com.mongmong.namo.domain.model.DiaryBaseResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
@@ -70,8 +73,8 @@ class RemoteDiaryDataSource @Inject constructor(
         enjoyRating: Int,
         images: List<String>,
         scheduleId: Long
-    ): DiaryResponse {
-        var response = DiaryResponse("")
+    ): DiaryBaseResponse {
+        var response = DiaryBaseResponse("")
         withContext(Dispatchers.IO) {
             runCatching {
                 diaryApiService.addDiary(
@@ -99,8 +102,8 @@ class RemoteDiaryDataSource @Inject constructor(
         enjoyRating: Int,
         images: List<String>,
         deleteImageIds: List<Long>
-    ): DiaryResponse {
-        var response = DiaryResponse("")
+    ): DiaryBaseResponse {
+        var response = DiaryBaseResponse("")
         withContext(Dispatchers.IO) {
             runCatching {
                 diaryApiService.editDiary(
@@ -123,8 +126,8 @@ class RemoteDiaryDataSource @Inject constructor(
     }
 
     // 기록 삭제
-    suspend fun deletePersonalDiary(scheduleServerId: Long): DiaryResponse {
-        var diaryResponse = DiaryResponse("")
+    suspend fun deletePersonalDiary(scheduleServerId: Long): DiaryBaseResponse {
+        var diaryResponse = DiaryBaseResponse()
         withContext(Dispatchers.IO) {
             runCatching {
                 diaryApiService.deleteDiary(scheduleServerId)
@@ -167,6 +170,22 @@ class RemoteDiaryDataSource @Inject constructor(
                 Log.d("RemoteDiaryDataSource getDiaryByDate Fail", "$it")
             }
         }
+        return response
+    }
+
+    suspend fun getMoimPayment(scheduleId: Long): GetMoimPaymentResponse {
+        var response = GetMoimPaymentResponse(GetMoimPaymentResult())
+        withContext(Dispatchers.IO) {
+            runCatching {
+                diaryApiService.getMoimPayment(scheduleId)
+            }.onSuccess {
+                Log.d("RemoteDiaryDataSource getMoimPayment Success", "$it")
+                response = it
+            }.onFailure {
+                Log.d("RemoteDiaryDataSource getMoimPayment Fail", "$it")
+            }
+        }
+
         return response
     }
 }

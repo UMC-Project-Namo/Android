@@ -2,6 +2,7 @@ package com.mongmong.namo.data.dto
 
 import com.google.gson.annotations.SerializedName
 import com.mongmong.namo.presentation.config.BaseResponse
+import java.math.BigDecimal
 
 data class GetActivitiesResponse(
     val result: List<GetActivitiesResult>
@@ -20,7 +21,8 @@ data class GetActivitiesResult(
 )
 
 data class ActivityParticipant(
-    val participantMemberId: Long,
+    val participantId: Long,
+    val activityParticipantId: Long,
     val participantNickname: String
 )
 
@@ -42,10 +44,10 @@ data class GetActivityPaymentResponse(
 ): BaseResponse()
 
 data class GetActivityPaymentResult(
-    val amountPerPerson: Int = 0,
+    val amountPerPerson: BigDecimal = BigDecimal.ZERO,
     val divisionCount: Int = 0,
     val participants: List<PaymentParticipant> = emptyList(),
-    val totalAmount: Int = 0
+    val totalAmount: BigDecimal = BigDecimal.ZERO
 )
 
 data class PaymentParticipant(
@@ -60,17 +62,23 @@ data class PostActivityRequest(
     val imageList: List<String>,
     val location: ActivityLocationDTO,
     val participantIdList: List<Long>,
-    val settlement: PatchActivityPaymentRequest,
+    val settlement: Payment,
     val tag: String,
     val title: String
 )
 
-data class PatchActivityPaymentRequest(
-    val amountPerPerson: Int,
+data class Payment(
+    val amountPerPerson: BigDecimal,
     val divisionCount: Int,
-    @SerializedName(value = "participantIdList", alternate = ["activityParticipantId"])
     val participantIdList: List<Long>,
-    val totalAmount: Int
+    val totalAmount: BigDecimal
+)
+
+data class PatchActivityPaymentRequest(
+    val amountPerPerson: BigDecimal,
+    val divisionCount: Int,
+    val activityParticipantId: List<Long>,
+    val totalAmount: BigDecimal
 )
 
 data class PatchActivityParticipantsRequest(

@@ -3,7 +3,9 @@ package com.mongmong.namo.presentation.utils
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorInt
@@ -13,8 +15,12 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import com.bumptech.glide.Glide
 import com.mongmong.namo.R
+import com.mongmong.namo.domain.model.ActivityParticipant
 import com.mongmong.namo.domain.model.ParticipantInfo
 import com.mongmong.namo.presentation.config.CategoryColor
+import java.math.BigDecimal
+import java.text.NumberFormat
+import java.util.Locale
 
 object BindingAdapters {
     @JvmStatic
@@ -86,7 +92,7 @@ object BindingAdapters {
 
     @JvmStatic
     @BindingAdapter(value = ["participantsText", "maxCount"], requireAll = false)
-    fun setParticipantsText(textView: TextView, participants: List<ParticipantInfo>?, maxCount: Int?) {
+    fun setParticipantsText(textView: TextView, participants: List<ActivityParticipant>?, maxCount: Int?) {
         val maxCount = maxCount ?: 3
 
         participants?.let {
@@ -109,5 +115,58 @@ object BindingAdapters {
         }
     }
 
+    @JvmStatic
+    @BindingAdapter("currencyText")
+    fun setCurrencyEditText(editText: EditText, amount: BigDecimal?) {
+        if (amount == null) return
 
+        val formattedText = if (amount == BigDecimal.ZERO)  ""
+        else NumberFormat.getNumberInstance(Locale.US).format(amount.toInt()) + " 원"
+
+        if (editText.text.toString() != formattedText) {
+            editText.setText(formattedText)
+            editText.setSelection(formattedText.length)  // 커서를 텍스트 끝으로 이동
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("currencyText")
+    fun setCurrencyText(textView: TextView, amount: BigDecimal?) {
+        if (amount == null) return
+        val formattedText = NumberFormat.getNumberInstance(Locale.US).format(amount.toInt()) + " 원"
+        textView.text = formattedText
+    }
+
+    @JvmStatic
+    @BindingAdapter("totalCurrencyText")
+    fun setTotalCurrencyText(textView: TextView, amount: BigDecimal?) {
+        if (amount == null) return
+        val formattedText = "총 " + NumberFormat.getNumberInstance(Locale.US).format(amount.toInt()) + " 원"
+        textView.text = formattedText
+    }
+
+    @JvmStatic
+    @BindingAdapter("totalAmount", "activityCnt", requireAll = false)
+    fun setTotalAmount(textView: TextView, amount: BigDecimal?, activityCnt: Int) {
+        val formattedText = if (activityCnt == 0) {
+            textView.context.getString(R.string.moim_diary_none_activity)
+        } else {
+            "총 " + NumberFormat.getNumberInstance(Locale.US).format(amount?.toInt() ?: 0) + " 원"
+        }
+        textView.text = formattedText
+    }
+
+    @JvmStatic
+    @BindingAdapter("activityTotalAmount")
+    fun setActivityTotalAmount(textView: TextView, amount: BigDecimal?) {
+        val formattedText = if (amount == null || amount == BigDecimal.ZERO) textView.context.getString(R.string.moim_diary_none_activity)
+        else "총 " + NumberFormat.getNumberInstance(Locale.US).format(amount.toInt()) + " 원"
+        textView.text = formattedText
+    }
+
+    @JvmStatic
+    @BindingAdapter("drawableTintColor")
+    fun setDrawableTintColor(textView: TextView, color: Int) {
+        textView.compoundDrawableTintList = ColorStateList.valueOf(color)
+    }
 }
