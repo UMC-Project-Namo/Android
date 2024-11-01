@@ -102,6 +102,7 @@ class MoimDiaryViewModel @Inject constructor(
             initDiaryState() // 초기 상태 저장
             deleteDiaryImageIds.clear()
             deleteActivityImageIds.clear()
+            checkForChanges()
         }
     }
 
@@ -111,6 +112,7 @@ class MoimDiaryViewModel @Inject constructor(
         initDiaryState()
         deleteDiaryImageIds.clear()
         deleteActivityImageIds.clear()
+        checkForChanges()
     }
 
     fun getTotalMoimPayment() {

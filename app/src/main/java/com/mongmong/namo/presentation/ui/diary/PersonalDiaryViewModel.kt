@@ -53,8 +53,13 @@ class PersonalDiaryViewModel @Inject constructor(
     fun getScheduleForDiary(scheduleId: Long) {
         this.scheduleId = scheduleId
         viewModelScope.launch {
-            _diarySchedule.postValue(repository.getScheduleForDiary(scheduleId))
+            _diarySchedule.value = repository.getScheduleForDiary(scheduleId)
         }
+    }
+
+    fun setHasDiary(hasDiary: Boolean) {
+        _diarySchedule.value?.hasDiary = hasDiary
+        _diarySchedule.value = _diarySchedule.value
     }
 
     // 개인 기록 개별 조회
@@ -66,6 +71,7 @@ class PersonalDiaryViewModel @Inject constructor(
 
             initDiaryState() // 초기 상태 저장
             deleteImageIds.clear()
+            checkForChanges()
         }
     }
 
