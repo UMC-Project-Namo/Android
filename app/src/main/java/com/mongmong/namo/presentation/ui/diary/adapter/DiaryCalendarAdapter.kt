@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mongmong.namo.R
 import com.mongmong.namo.databinding.ItemDiaryCalendarDateBinding
+import com.mongmong.namo.domain.model.CalendarDate
 import com.mongmong.namo.domain.model.CalendarDay
+import com.mongmong.namo.domain.model.DateType
 import com.mongmong.namo.presentation.utils.DiaryDateConverter.toYearMonth
 
 class DiaryCalendarAdapter(
@@ -18,14 +20,14 @@ class DiaryCalendarAdapter(
     private val listener: OnCalendarDayClickListener
 ) : RecyclerView.Adapter<DiaryCalendarAdapter.ViewHolder>() {
 
-    private var diaryDates: MutableMap<String, Set<String>> = mutableMapOf() // "yyyy-MM": [기록된 날짜들]
+    private var diaryDates: MutableMap<String, Set<CalendarDate>> = mutableMapOf() // "yyyy-MM": [기록된 날짜들]
     private var isOpeningBottomSheet: Boolean = false
 
-    fun updateDiaryDates(yearMonth: String, diaryDates: Set<String>) {
+    fun updateDiaryDates(yearMonth: String, diaryDates: Set<CalendarDate>) {
         this.diaryDates[yearMonth] = diaryDates
 
         items.forEachIndexed { index, calendarDay ->
-            if (calendarDay.toYearMonth() == yearMonth && diaryDates.contains(calendarDay.date.toString())) {
+            if (calendarDay.toYearMonth() == yearMonth && diaryDates.any { it.date == calendarDay.date.toString() }) {
                 notifyItemChanged(index)
             }
         }
@@ -46,7 +48,7 @@ class DiaryCalendarAdapter(
         // 화면에 보이는 아이템들에 대해서는 애니메이션 적용
         for (i in firstVisibleItemPosition..lastVisibleItemPosition) {
             val viewHolder = recyclerView.findViewHolderForAdapterPosition(i) as? ViewHolder
-            viewHolder?.animateHeightChange(isOpened)
+            viewHolder?.updateItemWithAnimate(isOpened)
         }
 
         // 화면에 보이지 않는 아이템들은 높이 변경을 직접 적용하도록 notify
@@ -81,13 +83,28 @@ class DiaryCalendarAdapter(
         fun bind(calendarDay: CalendarDay) {
             binding.calendarDay = calendarDay
 
-            val hasDiary = diaryDates[calendarDay.toYearMonth()]?.contains(calendarDay.date.toString()) ?: false
-            binding.diaryCalendarHasDiaryIndicatorIv.visibility = if (hasDiary) View.VISIBLE else View.GONE
+            val dateType = diaryDates[calendarDay.toYearMonth()]?.find { it.date == calendarDay.date.toString() }?.type
+            binding.diaryCalendarHasDiaryIndicatorIv.visibility = if (dateType != null) View.VISIBLE else View.GONE
+
+            // 타입에 따른 tint 설정
+            val color = when (dateType) {
+                DateType.PERSONAL, DateType.BIRTH -> R.color.text_placeholder
+                DateType.MEETING -> R.color.main
+                else -> null
+            }
+
+            color?.let {
+                binding.diaryCalendarHasDiaryIndicatorIv.setColorFilter(
+                    binding.root.context.getColor(it),
+                    android.graphics.PorterDuff.Mode.SRC_IN
+                )
+            }
 
             binding.root.setOnClickListener {
                 listener.onCalendarDayClick(calendarDay)
             }
         }
+
 
         fun updateItem(isOpening: Boolean) {
             val height = dpToPx(if (isOpening) OPEN_HEIGHT else CLOSE_HEIGHT, binding.root.context)
@@ -96,11 +113,11 @@ class DiaryCalendarAdapter(
             }
             binding.root.requestLayout()
 
-            val indicatorImage = if (isOpening) R.drawable.ic_calendar else R.drawable.img_mongi_default
+            val indicatorImage = if (isOpening) R.drawable.ic_archive_diary_small else R.drawable.ic_archive_diary
             binding.diaryCalendarHasDiaryIndicatorIv.setImageResource(indicatorImage)
         }
 
-        fun animateHeightChange(isOpening: Boolean) {
+        fun updateItemWithAnimate(isOpening: Boolean) {
             val fromHeight = binding.root.height
             val toHeight = dpToPx(if (isOpening) OPEN_HEIGHT else CLOSE_HEIGHT, binding.root.context)
 
@@ -113,7 +130,7 @@ class DiaryCalendarAdapter(
             valueAnimator.duration = ANIMATION_DURATION
             valueAnimator.start()
 
-            val indicatorImage = if (isOpening) R.drawable.ic_calendar else R.drawable.img_mongi_default
+            val indicatorImage = if (isOpening) R.drawable.ic_archive_diary_small else R.drawable.ic_archive_diary
             binding.diaryCalendarHasDiaryIndicatorIv.setImageResource(indicatorImage)
         }
     }

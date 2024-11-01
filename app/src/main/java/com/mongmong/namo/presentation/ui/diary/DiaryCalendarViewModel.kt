@@ -31,8 +31,8 @@ class DiaryCalendarViewModel @Inject constructor(
     private val _selectedDate = MutableLiveData<CalendarDay>()
     val selectedDate: LiveData<CalendarDay> = _selectedDate
 
-    private val _calendarDiaryResult = MutableLiveData<CalendarDiaryDate>()
-    val calendarDiaryResult: LiveData<CalendarDiaryDate> = _calendarDiaryResult
+    private val _calendarDiary = MutableLiveData<CalendarDiaryDate>()
+    val calendarDiary: LiveData<CalendarDiaryDate> = _calendarDiary
 
     private val _isReturnBtnVisible = MutableLiveData<Boolean>(false)
     val isReturnBtnVisible: LiveData<Boolean> = _isReturnBtnVisible
@@ -57,15 +57,15 @@ class DiaryCalendarViewModel @Inject constructor(
         _dateTitle.value = dateFormat.format(calendar.time)
     }
 
-    fun getCalendarDiary(yearMonth: String) {
+    fun getCalendarDiaryData(yearMonth: String) {
         viewModelScope.launch {
-            _calendarDiaryResult.postValue(repository.getCalendarDiary(yearMonth))
+            _calendarDiary.value = repository.getCalendarDiary(yearMonth)
         }
     }
 
     fun getDiaryByDate(date: CalendarDay) {
         viewModelScope.launch {
-            _diariesByDate.postValue(repository.getDiaryByDate(date.toDateString()))
+            _diariesByDate.value = repository.getDiaryByDate(date.toDateString())
         }
     }
 }

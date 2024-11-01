@@ -21,6 +21,7 @@ import java.util.Calendar
 import com.google.android.material.snackbar.Snackbar
 import com.mongmong.namo.domain.model.CalendarDay
 import com.mongmong.namo.presentation.config.Constants.START_YEAR
+import com.mongmong.namo.presentation.ui.community.moim.diary.MoimDiaryDetailActivity
 import com.mongmong.namo.presentation.ui.diary.adapter.MoimDiaryRVAdapter
 import com.mongmong.namo.presentation.ui.diary.adapter.PersonalDiaryRVAdapter
 import com.mongmong.namo.presentation.utils.CalendarUtils.Companion.dpToPx
@@ -74,7 +75,7 @@ class DiaryCalendarFragment :
                 .putExtra("scheduleId", scheduleId))
         })
         moimDiaryAdapter = MoimDiaryRVAdapter(onItemClick = { scheduleId ->
-            startActivity(Intent(requireContext(), PersonalDiaryDetailActivity::class.java)
+            startActivity(Intent(requireContext(), MoimDiaryDetailActivity::class.java)
                 .putExtra("scheduleId", scheduleId))
         })
 
@@ -156,7 +157,7 @@ class DiaryCalendarFragment :
             // 이미 요청한 적 없는 월인 경우 서버에 요청
             if (!fetchedMonths.contains(yearMonth)) {
                 fetchedMonths.add(yearMonth) // 이미 요청한 월은 다시 요청하지 않음
-                viewModel.getCalendarDiary(yearMonth)
+                viewModel.getCalendarDiaryData(yearMonth)
             }
         }
     }
@@ -191,7 +192,7 @@ class DiaryCalendarFragment :
     }
 
     private fun initObserve() {
-        viewModel.calendarDiaryResult.observe(viewLifecycleOwner) { calendarDiaryResult ->
+        viewModel.calendarDiary.observe(viewLifecycleOwner) { calendarDiaryResult ->
             val yearMonth = "${calendarDiaryResult.year}-${String.format("%02d", calendarDiaryResult.month)}"
             val diaryDates = calendarDiaryResult.dates.toSet()
 

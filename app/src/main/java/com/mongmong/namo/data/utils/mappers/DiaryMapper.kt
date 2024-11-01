@@ -6,8 +6,10 @@ import com.mongmong.namo.data.dto.GetDiaryCollectionResult
 import com.mongmong.namo.data.dto.GetDiaryResult
 import com.mongmong.namo.data.dto.GetMoimPaymentResult
 import com.mongmong.namo.data.dto.GetScheduleForDiaryResult
+import com.mongmong.namo.domain.model.CalendarDate
 import com.mongmong.namo.domain.model.CalendarDiaryDate
 import com.mongmong.namo.domain.model.CategoryInfo
+import com.mongmong.namo.domain.model.DateType
 import com.mongmong.namo.domain.model.Diary
 import com.mongmong.namo.domain.model.DiaryDetail
 import com.mongmong.namo.domain.model.DiaryImage
@@ -92,12 +94,17 @@ object DiaryMapper {
     }
 
     fun GetCalendarDiaryResult.toModel(): CalendarDiaryDate {
+        val personalDates = this.diaryDateForPersonal.map { CalendarDate(date = it, type = DateType.PERSONAL) }
+        val meetingDates = this.diaryDateForMeeting.map { CalendarDate(date = it, type = DateType.MEETING) }
+        val birthDates = this.diaryDateForBirthday.map { CalendarDate(date = it, type = DateType.BIRTH) }
+
         return CalendarDiaryDate(
-            dates = this.dates,
             year = this.year,
-            month = this.month
+            month = this.month,
+            dates = personalDates + meetingDates + birthDates // 세 리스트를 합쳐서 dates에 추가
         )
     }
+
 
     fun GetDiaryByDateResult.toModel(): Diary {
         return Diary(

@@ -27,9 +27,8 @@
             app:layout_constraintTop_toTopOf="parent"/>
         <ImageView
             android:id="@+id/diary_calendar_has_diary_indicator_iv"
-            android:src="@drawable/img_mongi_default"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:visibility="gone"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="13dp"
