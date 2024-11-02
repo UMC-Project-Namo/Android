@@ -30,7 +30,7 @@ import com.mongmong.namo.presentation.utils.DiaryDateConverter.toYearMonth
 @AndroidEntryPoint
 class DiaryCalendarFragment :
     BaseFragment<FragmentDiaryCalendarBinding>(R.layout.fragment_diary_calendar),
-    DiaryCalendarAdapter.OnCalendarDayClickListener {
+    DiaryCalendarAdapter.OnCalendarListener {
 
     private val viewModel: DiaryCalendarViewModel by viewModels()
     private lateinit var calendarAdapter: DiaryCalendarAdapter

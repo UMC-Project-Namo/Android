@@ -125,7 +125,6 @@ object BindingAdapters {
 
         if (editText.text.toString() != formattedText) {
             editText.setText(formattedText)
-            editText.setSelection(formattedText.length)  // 커서를 텍스트 끝으로 이동
         }
     }
 

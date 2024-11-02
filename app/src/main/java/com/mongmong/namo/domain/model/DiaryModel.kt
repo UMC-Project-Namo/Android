@@ -134,8 +134,14 @@ data class CalendarDay(
         return "${year}-${monthString}-${dayString}"
     }
 
-    fun isSameDate(otherDate: CalendarDay): Boolean {
-        return this.year == otherDate.year && this.month == otherDate.month && this.date == otherDate.date
+    fun isSameDate(otherDate: CalendarDay?): Boolean {
+        return when {
+            otherDate == null -> false
+            this.date != otherDate.date -> false
+            this.month != otherDate.month -> false
+            this.year != otherDate.year -> false
+            else -> true
+        }
     }
 
     val displayDate: String
