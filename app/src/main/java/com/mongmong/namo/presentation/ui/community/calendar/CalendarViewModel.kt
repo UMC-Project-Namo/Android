@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mongmong.namo.domain.model.Category
+import com.mongmong.namo.domain.model.CalendarColorInfo
 import com.mongmong.namo.domain.model.CommunityCommonSchedule
 import com.mongmong.namo.domain.model.Friend
 import com.mongmong.namo.domain.model.FriendSchedule
@@ -52,18 +52,8 @@ class CalendarViewModel @Inject constructor (
     var isParticipantScheduleEmpty: LiveData<Boolean> = _isParticipantScheduleEmpty
 
     var moimSchedule = MoimScheduleDetail()
-
-    // 임시 친구 데이터
     lateinit var friend: Friend
-    var friendCategoryList: List<Category>
-
-    init {
-        friendCategoryList = listOf(
-            Category(name = "일정", colorId = 4),
-            Category(name = "약속", colorId = 3),
-            Category(name = "피자", colorId = 8),
-        )
-    }
+    var friendCategoryList: List<CalendarColorInfo> = emptyList()
 
     var isShowDailyBottomSheet: Boolean = false
 
@@ -91,6 +81,13 @@ class CalendarViewModel @Inject constructor (
                 startDate = _monthDateList.first(), // 캘린더에 표시되는 첫번쨰 날짜
                 endDate = _monthDateList.last() // 캘린더에 표시되는 마지막 날짜
             )
+        }
+    }
+
+    /** 친구 카테고리 조회 */
+    fun getFriendCategories() {
+        viewModelScope.launch {
+            friendCategoryList = friendRepository.getFriendCategoryList(friend.userid)
         }
     }
 

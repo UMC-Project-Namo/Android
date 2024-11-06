@@ -37,7 +37,11 @@ data class ScheduleCategoryInfo(
 data class CalendarColorInfo(
     val colorId: Int,
     val name: String
-)
+) {
+    fun getCategoryColorInfo(): CalendarColorInfo {
+        return CalendarColorInfo(this.colorId, this.name)
+    }
+}
 
 data class CommunityCommonSchedule(
     val scheduleId: Long = 0L,

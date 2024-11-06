@@ -2,12 +2,12 @@ package com.mongmong.namo.data.datasource.friend
 
 import android.util.Log
 import com.mongmong.namo.data.dto.FriendBaseResponse
+import com.mongmong.namo.data.dto.GetFriendCategoryResponse
 import com.mongmong.namo.data.dto.GetFriendListResponse
 import com.mongmong.namo.data.dto.GetFriendListResult
 import com.mongmong.namo.data.dto.GetFriendRequestResponse
 import com.mongmong.namo.data.dto.GetFriendRequestResult
 import com.mongmong.namo.data.dto.GetFriendScheduleResponse
-import com.mongmong.namo.data.dto.GetMonthScheduleResponse
 import com.mongmong.namo.data.remote.FriendApiService
 import com.mongmong.namo.presentation.utils.ScheduleDateConverter
 import kotlinx.coroutines.Dispatchers
@@ -57,6 +57,26 @@ class RemoteFriendDataSource @Inject constructor(
             }
         }
         return scheduleResponse
+    }
+
+    // 친구 캘린더 카테고리 조회
+    suspend fun getFriendCategories(
+        userId: Long
+    ): GetFriendCategoryResponse {
+        var categoryResponse = GetFriendCategoryResponse(result = emptyList())
+        withContext(Dispatchers.IO) {
+            runCatching {
+                friendApiService.getFriendCategories(
+                    userId = userId
+                )
+            }.onSuccess {
+                Log.d("RemoteFriendDataSource", "getFriendCategories Success $it")
+                categoryResponse = it
+            }.onFailure {
+                Log.d("RemoteFriendDataSource", "getFriendCategories Success $it")
+            }
+        }
+        return categoryResponse
     }
 
     /** 친구 요청 */

@@ -4,13 +4,11 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import com.mongmong.namo.domain.model.CommunityCommonSchedule
-import com.mongmong.namo.domain.model.MoimCalendarSchedule
 import com.mongmong.namo.presentation.config.CategoryColor
 import com.mongmong.namo.presentation.ui.home.calendar.data.StartEnd
 import com.mongmong.namo.presentation.utils.CalendarUtils.Companion.DAYS_PER_WEEK
 import com.mongmong.namo.presentation.utils.CustomCalendarView
 import com.mongmong.namo.presentation.utils.ScheduleDateConverter.parseLocalDateTimeToDateTime
-import org.joda.time.DateTime
 import org.joda.time.Days
 
 class CommunityCalendarView(context: Context, attrs: AttributeSet) :

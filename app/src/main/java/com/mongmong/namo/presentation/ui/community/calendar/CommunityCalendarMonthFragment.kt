@@ -114,6 +114,7 @@ class CommunityCalendarMonthFragment : BaseFragment<FragmentCommunityCalendarMon
         viewModel.setMonthDayList(binding.communityCalendarMonthView.days)
         if (viewModel.isFriendCalendar) {
             viewModel.getFriendCalendarSchedules() // 친구 캘린더 일정 조회 API 호출
+            viewModel.getFriendCategories() // 친구 카테고리 조회 API 호출
         } else {
             viewModel.getMoimCalendarSchedules() // 모임 캘린더 일정 조회 API 호출
         }

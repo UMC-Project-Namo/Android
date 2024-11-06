@@ -1,6 +1,7 @@
 package com.mongmong.namo.domain.repositories
 
 import com.mongmong.namo.data.dto.FriendBaseResponse
+import com.mongmong.namo.domain.model.CalendarColorInfo
 import com.mongmong.namo.domain.model.Friend
 import com.mongmong.namo.domain.model.FriendRequest
 import com.mongmong.namo.domain.model.FriendSchedule
@@ -14,6 +15,10 @@ interface FriendRepository {
         endDate: DateTime,
         userId: Long
     ): List<FriendSchedule>
+
+    suspend fun getFriendCategoryList(
+        userId: Long
+    ): List<CalendarColorInfo>
 
     suspend fun getFriendRequests(): List<FriendRequest>
 

@@ -32,11 +32,20 @@ data class FriendDTO(
     var favoriteColorId: Int = 0
 )
 
+/** 친구 일정 카테고리 조회 */
+data class GetFriendCategoryResponse(
+    val result: List<FriendCategoryDTO>
+): BaseResponse()
+
+data class FriendCategoryDTO(
+    val colorId: Int = 1,
+    val categoryName: String = ""
+)
 
 /** 친구 요청 목록 조회 */
 data class GetFriendRequestResponse(
     val result: GetFriendRequestResult
-)
+): BaseResponse()
 
 data class GetFriendRequestResult(
     var friendRequestDTO: List<FriendRequestDTO> = emptyList(),

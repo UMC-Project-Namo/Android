@@ -1,8 +1,10 @@
 package com.mongmong.namo.data.utils.mappers
 
+import com.mongmong.namo.data.dto.FriendCategoryDTO
 import com.mongmong.namo.data.dto.FriendDTO
 import com.mongmong.namo.data.dto.FriendRequestDTO
 import com.mongmong.namo.data.dto.GetFriendScheduleResult
+import com.mongmong.namo.domain.model.CalendarColorInfo
 import com.mongmong.namo.domain.model.Friend
 import com.mongmong.namo.domain.model.FriendRequest
 import com.mongmong.namo.domain.model.FriendSchedule
@@ -38,7 +40,13 @@ object FriendMapper {
         )
     }
 
-    // DTO -> Model
+    fun FriendCategoryDTO.toModel(): CalendarColorInfo {
+        return CalendarColorInfo(
+            colorId = this.colorId,
+            name = this.categoryName
+        )
+    }
+
     fun FriendRequestDTO.toModel(): FriendRequest {
         return FriendRequest(
             userId = this.memberId,

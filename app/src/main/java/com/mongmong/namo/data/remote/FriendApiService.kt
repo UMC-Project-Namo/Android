@@ -1,10 +1,10 @@
 package com.mongmong.namo.data.remote
 
 import com.mongmong.namo.data.dto.FriendBaseResponse
+import com.mongmong.namo.data.dto.GetFriendCategoryResponse
 import com.mongmong.namo.data.dto.GetFriendListResponse
 import com.mongmong.namo.data.dto.GetFriendRequestResponse
 import com.mongmong.namo.data.dto.GetFriendScheduleResponse
-import com.mongmong.namo.data.dto.GetMonthScheduleResponse
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -27,6 +27,12 @@ interface FriendApiService {
         @Query("endDate") endDate: String,
         @Query("memberId") userId: Long
     ): GetFriendScheduleResponse
+
+    // 친구 캘린더 카테고리 조회
+    @GET("friends/{friendId}/categories")
+    suspend fun getFriendCategories(
+        @Path("friendId") userId: Long
+    ): GetFriendCategoryResponse
 
     /** 친구 요청 */
     // 친구 요청 목록 조회

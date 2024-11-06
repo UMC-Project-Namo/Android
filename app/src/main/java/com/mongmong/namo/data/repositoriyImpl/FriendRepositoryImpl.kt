@@ -3,6 +3,8 @@ package com.mongmong.namo.data.repositoriyImpl
 import com.mongmong.namo.data.datasource.friend.RemoteFriendDataSource
 import com.mongmong.namo.data.dto.FriendBaseResponse
 import com.mongmong.namo.data.utils.mappers.FriendMapper.toModel
+import com.mongmong.namo.domain.model.CalendarColorInfo
+import com.mongmong.namo.domain.model.CategoryInfo
 import com.mongmong.namo.domain.model.Friend
 import com.mongmong.namo.domain.model.FriendRequest
 import com.mongmong.namo.domain.model.FriendSchedule
@@ -26,6 +28,12 @@ class FriendRepositoryImpl @Inject constructor(
     ): List<FriendSchedule> {
         return remoteFriendDataSource.getFriendMonthSchedules(startDate, endDate, userId).result.map {
             it.toModel()
+        }
+    }
+
+    override suspend fun getFriendCategoryList(userId: Long): List<CalendarColorInfo> {
+        return remoteFriendDataSource.getFriendCategories(userId).result.map { category ->
+            category.toModel()
         }
     }
 
