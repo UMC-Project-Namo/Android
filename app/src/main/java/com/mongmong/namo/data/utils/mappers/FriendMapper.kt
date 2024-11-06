@@ -2,8 +2,12 @@ package com.mongmong.namo.data.utils.mappers
 
 import com.mongmong.namo.data.dto.FriendDTO
 import com.mongmong.namo.data.dto.FriendRequestDTO
+import com.mongmong.namo.data.dto.GetFriendScheduleResult
 import com.mongmong.namo.domain.model.Friend
 import com.mongmong.namo.domain.model.FriendRequest
+import com.mongmong.namo.domain.model.FriendSchedule
+import com.mongmong.namo.domain.model.ScheduleCategoryInfo
+import com.mongmong.namo.presentation.utils.ScheduleDateConverter
 
 object FriendMapper {
     fun FriendDTO.toModel(): Friend {
@@ -17,6 +21,20 @@ object FriendMapper {
             birth = this.birthDay,
             favoriteColorId = this.favoriteColorId,
             tag = this.tag
+        )
+    }
+
+    fun GetFriendScheduleResult.toModel(): FriendSchedule {
+        return FriendSchedule(
+            scheduleId = this.scheduleId,
+            title = this.title,
+            startDate = ScheduleDateConverter.parseServerDateToLocalDateTime(this.startDate),
+            endDate = ScheduleDateConverter.parseServerDateToLocalDateTime(this.endDate),
+            categoryInfo = ScheduleCategoryInfo(
+                this.categoryInfo.categoryId,
+                this.categoryInfo.colorId,
+                this.categoryInfo.name
+            )
         )
     }
 

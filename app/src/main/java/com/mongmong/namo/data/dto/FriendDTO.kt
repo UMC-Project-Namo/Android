@@ -1,6 +1,8 @@
 package com.mongmong.namo.data.dto
 
 import com.mongmong.namo.presentation.config.BaseResponse
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class FriendBaseResponse(
     val result: String = ""
@@ -52,4 +54,18 @@ data class FriendRequestDTO(
     var bio: String = "",
     var birth: String = "",
     var favoriteColorId: Int = 0
+)
+
+/** 친구의 일정 조회 */
+data class GetFriendScheduleResponse(
+    val result: List<GetFriendScheduleResult>
+)
+
+data class GetFriendScheduleResult(
+    var scheduleId: Long = 0L,
+    var title: String = "",
+    var categoryInfo: ScheduleCategoryInfo,
+    var startDate: String = LocalDateTime.now().toString(),
+    var endDate: String = LocalDateTime.now().toString(),
+    var scheduleType: Int = 0
 )

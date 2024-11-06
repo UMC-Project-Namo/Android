@@ -3,6 +3,7 @@ package com.mongmong.namo.presentation.ui.community.calendar
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import com.mongmong.namo.domain.model.CommunityCommonSchedule
 import com.mongmong.namo.domain.model.MoimCalendarSchedule
 import com.mongmong.namo.presentation.config.CategoryColor
 import com.mongmong.namo.presentation.ui.home.calendar.data.StartEnd
@@ -15,7 +16,8 @@ import org.joda.time.Days
 class CommunityCalendarView(context: Context, attrs: AttributeSet) :
     CustomCalendarView(context, attrs) {
 
-    private val scheduleList = mutableListOf<MoimCalendarSchedule>()
+    private var isFriendCalendar: Boolean = false
+    private val scheduleList = mutableListOf<CommunityCommonSchedule>()
 
     override fun drawSchedules(canvas: Canvas) {
         if (cellHeight - eventTop > _eventHeight * 4) {
@@ -64,7 +66,7 @@ class CommunityCalendarView(context: Context, attrs: AttributeSet) :
         }
     }
 
-    private fun drawScheduleRect(canvas: Canvas, schedule: MoimCalendarSchedule, order: Int, splitSchedule: StartEnd) {
+    private fun drawScheduleRect(canvas: Canvas, schedule: CommunityCommonSchedule, order: Int, splitSchedule: StartEnd) {
         rect = setRect(order, splitSchedule.startIdx, splitSchedule.endIdx)
         val path = Path().apply {
             addRoundRect(rect, corners, Path.Direction.CW)
@@ -76,7 +78,7 @@ class CommunityCalendarView(context: Context, attrs: AttributeSet) :
         drawScheduleText(canvas, textToDraw, splitSchedule.startIdx, rect)
     }
 
-    private fun drawScheduleLine(canvas: Canvas, schedule: MoimCalendarSchedule, order: Int, splitSchedule: StartEnd) {
+    private fun drawScheduleLine(canvas: Canvas, schedule: CommunityCommonSchedule, order: Int, splitSchedule: StartEnd) {
         rect = setLineRect(order, splitSchedule.startIdx, splitSchedule.endIdx)
         val path = Path().apply {
             addRoundRect(rect, corners, Path.Direction.CW)
@@ -132,8 +134,12 @@ class CommunityCalendarView(context: Context, attrs: AttributeSet) :
         )
     }
 
-    fun setScheduleList(events: List<MoimCalendarSchedule>) {
-        val sortedEvents = events.sortedWith(compareByDescending<MoimCalendarSchedule> {
+    fun setCalendarType(isFriendCalendar: Boolean) {
+        this.isFriendCalendar = isFriendCalendar
+    }
+
+    fun setScheduleList(events: List<CommunityCommonSchedule>) {
+        val sortedEvents = events.sortedWith(compareByDescending<CommunityCommonSchedule> {
             Days.daysBetween(it.startDate, it.endDate)
         }.thenBy {
             it.startDate
@@ -145,8 +151,9 @@ class CommunityCalendarView(context: Context, attrs: AttributeSet) :
         invalidate()
     }
 
-    private fun setBgPaintColor(schedule: MoimCalendarSchedule) {
-        val hexColor = CategoryColor.convertPaletteIdToHexColor(schedule.participants[0].colorId)
+    private fun setBgPaintColor(schedule: CommunityCommonSchedule) {
+        val colorId = if (isFriendCalendar) schedule.categoryInfo!!.colorId else schedule.participants?.get(0)!!.colorId
+        val hexColor = CategoryColor.convertPaletteIdToHexColor(colorId)
         bgPaint.color = Color.parseColor(hexColor)
     }
 }

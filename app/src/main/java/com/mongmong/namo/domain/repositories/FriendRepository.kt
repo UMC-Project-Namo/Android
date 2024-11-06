@@ -3,9 +3,17 @@ package com.mongmong.namo.domain.repositories
 import com.mongmong.namo.data.dto.FriendBaseResponse
 import com.mongmong.namo.domain.model.Friend
 import com.mongmong.namo.domain.model.FriendRequest
+import com.mongmong.namo.domain.model.FriendSchedule
+import org.joda.time.DateTime
 
 interface FriendRepository {
     suspend fun getFiendList(): List<Friend>
+
+    suspend fun getFriendCalendar(
+        startDate: DateTime,
+        endDate: DateTime,
+        userId: Long
+    ): List<FriendSchedule>
 
     suspend fun getFriendRequests(): List<FriendRequest>
 

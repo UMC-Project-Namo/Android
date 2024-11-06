@@ -1,5 +1,6 @@
 package com.mongmong.namo.domain.model
 
+import org.joda.time.LocalDateTime
 import java.io.Serializable
 
 data class Friend(
@@ -26,6 +27,25 @@ data class Friend(
     }
 }
 
+data class FriendSchedule(
+    val scheduleId: Long = 0L,
+    val title: String = "",
+    val startDate: LocalDateTime = LocalDateTime.now(),
+    val endDate: LocalDateTime = LocalDateTime.now(),
+    val categoryInfo: ScheduleCategoryInfo
+) {
+    fun convertToCommunityModel(): CommunityCommonSchedule {
+        return CommunityCommonSchedule(
+            scheduleId = this.scheduleId,
+            title = this.title,
+            startDate = this.startDate,
+            endDate = this.endDate,
+            participants = null,
+            categoryInfo = this.categoryInfo,
+            type = ScheduleType.PERSONAL
+        )
+    }
+}
 
 data class FriendRequest(
     var userId: Long = 0L,

@@ -5,7 +5,9 @@ import com.mongmong.namo.data.dto.FriendBaseResponse
 import com.mongmong.namo.data.utils.mappers.FriendMapper.toModel
 import com.mongmong.namo.domain.model.Friend
 import com.mongmong.namo.domain.model.FriendRequest
+import com.mongmong.namo.domain.model.FriendSchedule
 import com.mongmong.namo.domain.repositories.FriendRepository
+import org.joda.time.DateTime
 import javax.inject.Inject
 
 class FriendRepositoryImpl @Inject constructor(
@@ -14,6 +16,16 @@ class FriendRepositoryImpl @Inject constructor(
     override suspend fun getFiendList(): List<Friend> {
         return remoteFriendDataSource.getFriends().result.friendList.map { friend ->
             friend.toModel()
+        }
+    }
+
+    override suspend fun getFriendCalendar(
+        startDate: DateTime,
+        endDate: DateTime,
+        userId: Long
+    ): List<FriendSchedule> {
+        return remoteFriendDataSource.getFriendMonthSchedules(startDate, endDate, userId).result.map {
+            it.toModel()
         }
     }
 

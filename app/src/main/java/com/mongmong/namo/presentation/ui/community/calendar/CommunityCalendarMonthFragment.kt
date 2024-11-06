@@ -5,8 +5,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mongmong.namo.R
 import com.mongmong.namo.databinding.FragmentCommunityCalendarMonthBinding
-import com.mongmong.namo.domain.model.MoimCalendarSchedule
+import com.mongmong.namo.domain.model.CommunityCommonSchedule
+import com.mongmong.namo.domain.model.Schedule
 import com.mongmong.namo.domain.model.SchedulePeriod
+import com.mongmong.namo.domain.model.ScheduleType
 import com.mongmong.namo.presentation.config.BaseFragment
 import com.mongmong.namo.presentation.ui.community.CommunityCalendarActivity
 import com.mongmong.namo.presentation.ui.community.calendar.adapter.ParticipantDailyScheduleRVAdapter
@@ -110,7 +112,11 @@ class CommunityCalendarMonthFragment : BaseFragment<FragmentCommunityCalendarMon
     // 캘린더에 표시할 월별 일정 조회
     private fun setMonthCalendarSchedule() {
         viewModel.setMonthDayList(binding.communityCalendarMonthView.days)
-        viewModel.getMoimCalendarSchedules() // 모임 캘린더 일정 조회 API 호출
+        if (viewModel.isFriendCalendar) {
+            viewModel.getFriendCalendarSchedules() // 친구 캘린더 일정 조회 API 호출
+        } else {
+            viewModel.getMoimCalendarSchedules() // 모임 캘린더 일정 조회 API 호출
+        }
     }
 
     // 일정 상세보기
@@ -118,28 +124,34 @@ class CommunityCalendarMonthFragment : BaseFragment<FragmentCommunityCalendarMon
         binding.communityCalendarDailyScrollSv.scrollTo(0,0)
         // 일정 아이템 표시
         if (viewModel.isMoimScheduleExist.value == true) {
-            setMoimSchedule(viewModel.getDailySchedules(true).first()) // 해당 모임 일정
+            setMoimSchedule(viewModel.getDailySchedules(ScheduleType.MOIM).first()) // 해당 모임 일정
         }
-        dailyFriendScheduleAdapter.addSchedules(arrayListOf()) // 친구 일정
-        dailyParticipantScheduleAdapter.addPersonal(viewModel.getDailySchedules(false)) // 모임 참석자 일정
+        dailyFriendScheduleAdapter.addSchedules(viewModel.getDailySchedules(ScheduleType.PERSONAL).map { it.convertToSchedule() } as ArrayList<Schedule>) // 친구 일정
+        dailyParticipantScheduleAdapter.addPersonal(viewModel.getDailySchedules(ScheduleType.MOIM)) // 모임 참석자 일정
     }
 
     private fun initObserve() {
-        viewModel.moimScheduleList.observe(viewLifecycleOwner) {
-            if (it != null) {
-                // 달력의 일정 표시
-                drawMonthCalendar(it)
+        viewModel.moimScheduleList.observe(viewLifecycleOwner) { scheduleList ->
+            if (scheduleList != null) {
+                drawMonthCalendar(scheduleList.map { it.convertToCommunityModel() }) // 달력의 일정 표시
+            }
+        }
+
+        viewModel.friendScheduleList.observe(viewLifecycleOwner) { scheduleList ->
+            if (scheduleList != null) {
+                drawMonthCalendar(scheduleList.map { it.convertToCommunityModel() }) // 달력의 일정 표시
             }
         }
     }
 
-    private fun setMoimSchedule(dailySchedule: MoimCalendarSchedule) {
+    private fun setMoimSchedule(dailySchedule: CommunityCommonSchedule) {
         binding.communityCalendarDailyMoimScheduleTitleTv.text = dailySchedule.title
         binding.communityCalendarDailyMoimScheduleTimeTv.text = ScheduleTimeConverter(viewModel.getClickedDate())
             .getScheduleTimeText(SchedulePeriod(dailySchedule.startDate, dailySchedule.endDate))
     }
 
-    private fun drawMonthCalendar(scheduleList: List<MoimCalendarSchedule>) {
+    private fun drawMonthCalendar(scheduleList: List<CommunityCommonSchedule>) {
+        binding.communityCalendarMonthView.setCalendarType(viewModel.isFriendCalendar)
         binding.communityCalendarMonthView.setScheduleList(scheduleList)
 
         if (CommunityCalendarActivity.currentFragment == null) {

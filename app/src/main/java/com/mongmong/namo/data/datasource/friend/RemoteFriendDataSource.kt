@@ -6,9 +6,13 @@ import com.mongmong.namo.data.dto.GetFriendListResponse
 import com.mongmong.namo.data.dto.GetFriendListResult
 import com.mongmong.namo.data.dto.GetFriendRequestResponse
 import com.mongmong.namo.data.dto.GetFriendRequestResult
+import com.mongmong.namo.data.dto.GetFriendScheduleResponse
+import com.mongmong.namo.data.dto.GetMonthScheduleResponse
 import com.mongmong.namo.data.remote.FriendApiService
+import com.mongmong.namo.presentation.utils.ScheduleDateConverter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.joda.time.DateTime
 import javax.inject.Inject
 
 class RemoteFriendDataSource @Inject constructor(
@@ -29,6 +33,30 @@ class RemoteFriendDataSource @Inject constructor(
             }
         }
         return friendResponse
+    }
+
+    // 친구 캘린더 조회
+    suspend fun getFriendMonthSchedules(
+        startDate: DateTime,
+        endDate: DateTime,
+        userId: Long
+    ): GetFriendScheduleResponse {
+        var scheduleResponse = GetFriendScheduleResponse(result = emptyList())
+        withContext(Dispatchers.IO) {
+            runCatching {
+                friendApiService.getFriendMonthSchedules(
+                    startDate = ScheduleDateConverter.parseDateTimeToServerData(startDate),
+                    endDate = ScheduleDateConverter.parseDateTimeToServerData(endDate),
+                    userId = userId
+                )
+            }.onSuccess {
+                Log.d("RemoteFriendDataSource", "getMonthSchedules Success $it")
+                scheduleResponse = it
+            }.onFailure {
+                Log.d("RemoteFriendDataSource", "getMonthSchedules Success $it")
+            }
+        }
+        return scheduleResponse
     }
 
     /** 친구 요청 */
