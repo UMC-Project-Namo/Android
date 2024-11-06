@@ -2,6 +2,8 @@ package com.mongmong.namo.presentation.ui.diary
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.util.DisplayMetrics
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
@@ -11,6 +13,7 @@ import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.mongmong.namo.R
 import com.mongmong.namo.databinding.FragmentDiaryCalendarBinding
@@ -26,6 +29,11 @@ import com.mongmong.namo.presentation.ui.diary.adapter.MoimDiaryRVAdapter
 import com.mongmong.namo.presentation.ui.diary.adapter.PersonalDiaryRVAdapter
 import com.mongmong.namo.presentation.utils.CalendarUtils.Companion.dpToPx
 import com.mongmong.namo.presentation.utils.DiaryDateConverter.toYearMonth
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DiaryCalendarFragment :
@@ -92,20 +100,52 @@ class DiaryCalendarFragment :
 
     private fun initClickListener() {
         binding.diaryCalendarReturnBtn.setOnClickListener {
-            binding.diaryCalendarRv.smoothScrollToPosition(calendarAdapter.itemCount - 1)
+            val scroller = object : LinearSmoothScroller(binding.diaryCalendarRv.context) {
+                override fun getVerticalSnapPreference(): Int { return SNAP_TO_END }
+                override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float { return 0.01f }
+            }
+            scroller.targetPosition = calendarAdapter.itemCount - 1
+            binding.diaryCalendarRv.layoutManager?.startSmoothScroll(scroller)
         }
     }
 
     private fun setupScrollListener() {
+        var scrollJob: Job? = null // 코루틴 Job 변수로 스크롤을 제어
+
         binding.diaryCalendarRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            private var isScrollingFast = false
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    // 스크롤이 멈췄을 때만 API 호출
+                    scrollJob?.cancel() // 기존 Job 취소
+                    scrollJob = CoroutineScope(Dispatchers.Main).launch {
+                        delay(200)
+                        setDiaryIndicator(recyclerView)
+                    }
+                    isScrollingFast = false // 스크롤 멈추면 속도 상태 초기화
+                }
+            }
+
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 checkFirstDay(recyclerView)
-                setDiaryIndicator(recyclerView)
                 updateReturnBtnVisible()
+                // 스크롤 속도가 빠른지 감지
+                isScrollingFast = dy > recyclerView.height / 3
+                if (!isScrollingFast) {
+                    if (scrollJob == null || scrollJob?.isActive == false) {
+                        scrollJob = CoroutineScope(Dispatchers.Main).launch {
+                            delay(300)
+                            setDiaryIndicator(recyclerView)
+                        }
+                    }
+                }
             }
         })
     }
+
+
 
     private fun updateReturnBtnVisible() {
         val layoutManager = binding.diaryCalendarRv.layoutManager as GridLayoutManager
@@ -154,9 +194,9 @@ class DiaryCalendarFragment :
         if (calendarDay != null) {
             val yearMonth = calendarDay.toYearMonth()
 
-            // 이미 요청한 적 없는 월인 경우 서버에 요청
+            // 조회한 적 없는 달인 경우 서버에 요청
             if (!fetchedMonths.contains(yearMonth)) {
-                fetchedMonths.add(yearMonth) // 이미 요청한 월은 다시 요청하지 않음
+                fetchedMonths.add(yearMonth)
                 viewModel.getCalendarDiaryData(yearMonth)
             }
         }
