@@ -4,11 +4,11 @@ import com.mongmong.namo.data.datasource.friend.RemoteFriendDataSource
 import com.mongmong.namo.data.dto.FriendBaseResponse
 import com.mongmong.namo.data.utils.mappers.FriendMapper.toModel
 import com.mongmong.namo.domain.model.CalendarColorInfo
-import com.mongmong.namo.domain.model.CategoryInfo
 import com.mongmong.namo.domain.model.Friend
 import com.mongmong.namo.domain.model.FriendRequest
 import com.mongmong.namo.domain.model.FriendSchedule
 import com.mongmong.namo.domain.repositories.FriendRepository
+import com.mongmong.namo.presentation.config.BaseResponse
 import org.joda.time.DateTime
 import javax.inject.Inject
 
@@ -35,6 +35,10 @@ class FriendRepositoryImpl @Inject constructor(
         return remoteFriendDataSource.getFriendCategories(userId).result.map { category ->
             category.toModel()
         }
+    }
+
+    override suspend fun deleteFriend(userId: Long): BaseResponse {
+        return remoteFriendDataSource.deleteFriend(userId)
     }
 
     override suspend fun getFriendRequests(): List<FriendRequest> {

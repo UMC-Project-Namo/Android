@@ -10,17 +10,22 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import com.mongmong.namo.databinding.DialogFriendInfoBinding
 import com.mongmong.namo.domain.model.Friend
 import com.mongmong.namo.domain.model.FriendRequest
 import com.mongmong.namo.presentation.ui.community.CommunityCalendarActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FriendInfoDialog(
     private val friendInfo: Friend?,
     private val friendRequestInfo: FriendRequest?,
     private val isFriendRequestMode: Boolean, // 친구 요청 화면인지, 친구 리스트 화면인지 판단
 ) : DialogFragment() {
+
     private lateinit var binding: DialogFriendInfoBinding
+    private val viewModel: FriendViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,6 +46,7 @@ class FriendInfoDialog(
         }
 
         initClickListeners()
+        initObserve()
         return binding.root
     }
 
@@ -61,8 +67,7 @@ class FriendInfoDialog(
 
         // 친구 리스트 - 삭제 버튼 클릭
         binding.friendInfoDeleteBtn.setOnClickListener {
-            //TODO: 친구 삭제 진행
-            Toast.makeText(requireContext(), "삭제 버튼 클릭", Toast.LENGTH_SHORT).show()
+            viewModel.deleteFriend(friendInfo!!.userid)
         }
 
         // 친구 요청 - 수락 버튼 클릭
@@ -75,6 +80,12 @@ class FriendInfoDialog(
         binding.friendInfoRequestDenyBtn.setOnClickListener {
             //TODO: 친구 요청 거절
             Toast.makeText(requireContext(), "친구 요청 거절", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun initObserve() {
+        viewModel.isComplete.observe(viewLifecycleOwner) { isComplete ->
+            if (isComplete) dismiss()
         }
     }
 }

@@ -5,6 +5,8 @@ import com.mongmong.namo.data.dto.GetFriendCategoryResponse
 import com.mongmong.namo.data.dto.GetFriendListResponse
 import com.mongmong.namo.data.dto.GetFriendRequestResponse
 import com.mongmong.namo.data.dto.GetFriendScheduleResponse
+import com.mongmong.namo.presentation.config.BaseResponse
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -33,6 +35,12 @@ interface FriendApiService {
     suspend fun getFriendCategories(
         @Path("friendId") userId: Long
     ): GetFriendCategoryResponse
+
+    // 친구 삭제
+    @DELETE("friends/{friendId}")
+    suspend fun deleteFriend(
+        @Path("friendId") userId: Long
+    ): BaseResponse
 
     /** 친구 요청 */
     // 친구 요청 목록 조회

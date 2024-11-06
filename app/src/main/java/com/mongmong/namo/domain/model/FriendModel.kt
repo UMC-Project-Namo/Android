@@ -1,6 +1,5 @@
 package com.mongmong.namo.domain.model
 
-import com.mongmong.namo.presentation.config.BaseResponse
 import org.joda.time.LocalDateTime
 import java.io.Serializable
 

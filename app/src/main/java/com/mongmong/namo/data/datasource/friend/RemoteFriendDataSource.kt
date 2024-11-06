@@ -9,6 +9,7 @@ import com.mongmong.namo.data.dto.GetFriendRequestResponse
 import com.mongmong.namo.data.dto.GetFriendRequestResult
 import com.mongmong.namo.data.dto.GetFriendScheduleResponse
 import com.mongmong.namo.data.remote.FriendApiService
+import com.mongmong.namo.presentation.config.BaseResponse
 import com.mongmong.namo.presentation.utils.ScheduleDateConverter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -77,6 +78,26 @@ class RemoteFriendDataSource @Inject constructor(
             }
         }
         return categoryResponse
+    }
+
+    // 친구 삭제
+    suspend fun deleteFriend(
+        userId: Long
+    ): BaseResponse {
+        var friendResponse = BaseResponse()
+        withContext(Dispatchers.IO) {
+            runCatching {
+                friendApiService.deleteFriend(
+                    userId = userId
+                )
+            }.onSuccess {
+                Log.d("RemoteFriendDataSource", "deleteFriend Success $it")
+                friendResponse = it
+            }.onFailure {
+                Log.d("RemoteFriendDataSource", "deleteFriend Success $it")
+            }
+        }
+        return friendResponse
     }
 
     /** 친구 요청 */

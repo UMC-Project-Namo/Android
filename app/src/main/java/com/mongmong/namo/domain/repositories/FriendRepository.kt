@@ -5,6 +5,7 @@ import com.mongmong.namo.domain.model.CalendarColorInfo
 import com.mongmong.namo.domain.model.Friend
 import com.mongmong.namo.domain.model.FriendRequest
 import com.mongmong.namo.domain.model.FriendSchedule
+import com.mongmong.namo.presentation.config.BaseResponse
 import org.joda.time.DateTime
 
 interface FriendRepository {
@@ -19,6 +20,10 @@ interface FriendRepository {
     suspend fun getFriendCategoryList(
         userId: Long
     ): List<CalendarColorInfo>
+
+    suspend fun deleteFriend(
+        userId: Long
+    ): BaseResponse
 
     suspend fun getFriendRequests(): List<FriendRequest>
 

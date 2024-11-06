@@ -22,6 +22,12 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         initObserve()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.getFriends() // 친구 목록 조회
+    }
+
     private fun initClickListeners() {
         // + 버튼
         binding.friendAddFloatingBtn.setOnClickListener {

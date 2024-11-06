@@ -17,14 +17,24 @@ class FriendViewModel @Inject constructor(
     private val _friendList = MutableLiveData<List<Friend>>(emptyList())
     val friendList: LiveData<List<Friend>> = _friendList
 
+    private val _isComplete = MutableLiveData<Boolean>()
+    val isComplete: LiveData<Boolean> = _isComplete
+
     init {
         getFriends()
     }
 
     /** 친구 목록 조회 */
-    fun getFriends() {
+     fun getFriends() {
         viewModelScope.launch {
             _friendList.value = repository.getFiendList()
+        }
+    }
+
+    /** 친구 삭제 */
+    fun deleteFriend(userId: Long) {
+        viewModelScope.launch {
+            _isComplete.value = repository.deleteFriend(userId).isSuccess
         }
     }
 }
