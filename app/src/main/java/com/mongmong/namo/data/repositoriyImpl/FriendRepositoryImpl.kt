@@ -26,8 +26,8 @@ class FriendRepositoryImpl @Inject constructor(
         endDate: DateTime,
         userId: Long
     ): List<FriendSchedule> {
-        return remoteFriendDataSource.getFriendMonthSchedules(startDate, endDate, userId).result.map {
-            it.toModel()
+        return remoteFriendDataSource.getFriendMonthSchedules(startDate, endDate, userId).result.map { schedule ->
+            schedule.toModel()
         }
     }
 
@@ -42,7 +42,7 @@ class FriendRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getFriendRequests(): List<FriendRequest> {
-        return remoteFriendDataSource.getFriendRequests().result.friendRequestDTO.map { friendRequest ->
+        return remoteFriendDataSource.getFriendRequests().result.friendRequests.map { friendRequest ->
             friendRequest.toModel()
         }
     }

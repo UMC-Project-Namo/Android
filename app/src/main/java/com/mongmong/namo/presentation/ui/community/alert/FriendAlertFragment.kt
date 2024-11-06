@@ -1,5 +1,6 @@
 package com.mongmong.namo.presentation.ui.community.alert
 
+import android.util.Log
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mongmong.namo.R
@@ -8,7 +9,6 @@ import com.mongmong.namo.presentation.config.BaseFragment
 import com.mongmong.namo.presentation.ui.community.alert.adapter.FriendAlertRVAdapter
 import com.mongmong.namo.presentation.ui.community.friend.FriendInfoDialog
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.lifecycle.HiltViewModel
 
 @AndroidEntryPoint
 class FriendAlertFragment : BaseFragment<FragmentFriendAlertBinding>(R.layout.fragment_friend_alert) {
@@ -46,10 +46,11 @@ class FriendAlertFragment : BaseFragment<FragmentFriendAlertBinding>(R.layout.fr
     }
 
     private fun initObserve() {
-        viewModel.friendRequestList.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
+        viewModel.friendRequestList.observe(viewLifecycleOwner) { friendRequestList ->
+            Log.d("FriendAlertFrag", "friendRequestList: $friendRequestList")
+            if (friendRequestList.isNotEmpty()) {
                 setAdapter()
-                friendAdapter.addRequest(it)
+                friendAdapter.addRequest(friendRequestList)
             }
         }
     }

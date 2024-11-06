@@ -32,6 +32,20 @@ data class FriendDTO(
     var favoriteColorId: Int = 0
 )
 
+/** 친구의 일정 조회 */
+data class GetFriendScheduleResponse(
+    val result: List<GetFriendScheduleResult>
+)
+
+data class GetFriendScheduleResult(
+    var scheduleId: Long = 0L,
+    var title: String = "",
+    var categoryInfo: ScheduleCategoryInfo,
+    var startDate: String = LocalDateTime.now().toString(),
+    var endDate: String = LocalDateTime.now().toString(),
+    var scheduleType: Int = 0
+)
+
 /** 친구 일정 카테고리 조회 */
 data class GetFriendCategoryResponse(
     val result: List<FriendCategoryDTO>
@@ -48,7 +62,7 @@ data class GetFriendRequestResponse(
 ): BaseResponse()
 
 data class GetFriendRequestResult(
-    var friendRequestDTO: List<FriendRequestDTO> = emptyList(),
+    var friendRequests: List<FriendRequestDTO> = emptyList(),
     var totalPage: Int = 0,
     var currentPage: Int = 0,
     var pageSize: Int = 0,
@@ -63,18 +77,4 @@ data class FriendRequestDTO(
     var bio: String = "",
     var birth: String = "",
     var favoriteColorId: Int = 0
-)
-
-/** 친구의 일정 조회 */
-data class GetFriendScheduleResponse(
-    val result: List<GetFriendScheduleResult>
-)
-
-data class GetFriendScheduleResult(
-    var scheduleId: Long = 0L,
-    var title: String = "",
-    var categoryInfo: ScheduleCategoryInfo,
-    var startDate: String = LocalDateTime.now().toString(),
-    var endDate: String = LocalDateTime.now().toString(),
-    var scheduleType: Int = 0
 )
