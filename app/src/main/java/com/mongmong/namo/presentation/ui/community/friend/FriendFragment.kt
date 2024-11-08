@@ -18,6 +18,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     override fun setup() {
         binding.viewModel = this@FriendFragment.viewModel
 
+        viewModel.getFriends()
         initClickListeners()
         initObserve()
     }

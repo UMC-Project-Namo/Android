@@ -20,10 +20,6 @@ class FriendViewModel @Inject constructor(
     private val _isComplete = MutableLiveData<Boolean>()
     val isComplete: LiveData<Boolean> = _isComplete
 
-    init {
-        getFriends()
-    }
-
     /** 친구 목록 조회 */
      fun getFriends() {
         viewModelScope.launch {
@@ -35,6 +31,13 @@ class FriendViewModel @Inject constructor(
     fun deleteFriend(userId: Long) {
         viewModelScope.launch {
             _isComplete.value = repository.deleteFriend(userId).isSuccess
+        }
+    }
+
+    /** 친구 신청 */
+    fun requestFriend(nicknameTag: String) {
+        viewModelScope.launch {
+            _isComplete.value = repository.doFriendRequest(nicknameTag).isSuccess
         }
     }
 }
