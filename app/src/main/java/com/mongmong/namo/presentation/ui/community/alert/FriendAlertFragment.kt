@@ -7,8 +7,11 @@ import com.mongmong.namo.databinding.FragmentFriendAlertBinding
 import com.mongmong.namo.presentation.config.BaseFragment
 import com.mongmong.namo.presentation.ui.community.alert.adapter.FriendAlertRVAdapter
 import com.mongmong.namo.presentation.ui.community.friend.FriendInfoDialog
+import com.mongmong.namo.presentation.ui.community.friend.OnFriendInfoChangedListener
+import dagger.hilt.android.AndroidEntryPoint
 
-class FriendAlertFragment : BaseFragment<FragmentFriendAlertBinding>(R.layout.fragment_friend_alert) {
+@AndroidEntryPoint
+class FriendAlertFragment : BaseFragment<FragmentFriendAlertBinding>(R.layout.fragment_friend_alert), OnFriendInfoChangedListener {
 
     private val viewModel: AlertViewModel by activityViewModels()
 
@@ -17,6 +20,7 @@ class FriendAlertFragment : BaseFragment<FragmentFriendAlertBinding>(R.layout.fr
     override fun setup() {
         binding.viewModel = this@FriendAlertFragment.viewModel
 
+        setAdapter()
         initObserve()
     }
 
@@ -29,25 +33,30 @@ class FriendAlertFragment : BaseFragment<FragmentFriendAlertBinding>(R.layout.fr
         friendAdapter.setItemClickListener(object : FriendAlertRVAdapter.MyItemClickListener {
             override fun onFriendInfoClick(position: Int) {
                 // 친구 정보 화면으로 이동
-                FriendInfoDialog(viewModel.friendRequestList.value!![position], true).show(parentFragmentManager, "FriendInfoDialog")
+                FriendInfoDialog(null, viewModel.friendRequestList.value!![position], true, this@FriendAlertFragment).show(parentFragmentManager, "FriendInfoDialog")
             }
 
             override fun onAcceptBtnClick(position: Int) {
-                //TODO: 요청 수락 진행
+                // 친구 요청 수락
+                viewModel.acceptFriendRequest(viewModel.friendRequestList.value!![position].friendRequestId)
             }
 
             override fun onDenyBtnClick(position: Int) {
-                //TODO: 요청 거절 진행
+                // 친구 요청 거절
+                viewModel.denyFriendRequest(viewModel.friendRequestList.value!![position].friendRequestId)
             }
         })
     }
 
     private fun initObserve() {
-        viewModel.friendRequestList.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
-                setAdapter()
-                friendAdapter.addRequest(it)
+        viewModel.friendRequestList.observe(viewLifecycleOwner) { friendRequestList ->
+            if (friendRequestList.isNotEmpty()) {
+                friendAdapter.addRequest(friendRequestList)
             }
         }
+    }
+
+    override fun onFriendInfoChanged() {
+        viewModel.getFriendRequests() // 친구 정보 업데이트
     }
 }

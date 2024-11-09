@@ -5,7 +5,7 @@
     <data>
         <variable
             name="friend"
-            type="com.mongmong.namo.domain.model.Friend"/>
+            type="com.mongmong.namo.domain.model.FriendRequest"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,8 +39,8 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     app:imageUrl="@{friend.profileUrl}"
-                    app:placeHolder="@{@drawable/img_mongi_default}"
-                    tools:src="@drawable/ic_app_logo_square"/>
+                    app:placeHolder="@{@drawable/img_default_profile}"
+                    tools:src="@drawable/img_default_profile"/>
             </androidx.cardview.widget.CardView>
 
             <LinearLayout

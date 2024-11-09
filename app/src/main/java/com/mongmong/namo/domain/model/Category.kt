@@ -25,8 +25,4 @@ data class Category(
             name = this.name
         )
     }
-
-    fun getCategoryColorInfo(): CalendarColorInfo {
-        return CalendarColorInfo(this.colorId, this.name)
-    }
 }

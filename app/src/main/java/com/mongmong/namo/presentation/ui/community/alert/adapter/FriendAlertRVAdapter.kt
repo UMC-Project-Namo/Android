@@ -6,10 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mongmong.namo.databinding.ItemFriendAlertBinding
 import com.mongmong.namo.domain.model.Friend
+import com.mongmong.namo.domain.model.FriendRequest
 
 class FriendAlertRVAdapter: RecyclerView.Adapter<FriendAlertRVAdapter.ViewHolder>(){
 
-    private var friendRequestList = emptyList<Friend>()
+    private var friendRequestList = emptyList<FriendRequest>()
     private lateinit var mItemClickListener: MyItemClickListener
 
     fun setItemClickListener(itemClickListener: MyItemClickListener) {
@@ -17,7 +18,7 @@ class FriendAlertRVAdapter: RecyclerView.Adapter<FriendAlertRVAdapter.ViewHolder
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun addRequest(friendList: List<Friend>) {
+    fun addRequest(friendList: List<FriendRequest>) {
         this.friendRequestList = friendList
         notifyDataSetChanged()
     }
@@ -57,9 +58,8 @@ class FriendAlertRVAdapter: RecyclerView.Adapter<FriendAlertRVAdapter.ViewHolder
     override fun getItemCount(): Int = friendRequestList.size
 
     inner class ViewHolder(val binding: ItemFriendAlertBinding) : RecyclerView.ViewHolder(binding.root) {
-        //TODO: 실제 친구 요청 데이터로 변경
-        fun bind(friend: Friend) {
-            binding.friend = friend
+        fun bind(request: FriendRequest) {
+            binding.friend = request
         }
     }
 }

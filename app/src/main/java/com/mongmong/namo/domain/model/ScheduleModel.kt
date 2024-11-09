@@ -37,7 +37,38 @@ data class ScheduleCategoryInfo(
 data class CalendarColorInfo(
     val colorId: Int,
     val name: String
-)
+) {
+    fun getCategoryColorInfo(): CalendarColorInfo {
+        return CalendarColorInfo(this.colorId, this.name)
+    }
+}
+
+data class CommunityCommonSchedule(
+    val scheduleId: Long = 0L,
+    val title: String = "",
+    val startDate: LocalDateTime = LocalDateTime.now(),
+    val endDate: LocalDateTime = LocalDateTime.now(),
+    val participants: List<MoimCalendarParticipant>? = emptyList(),
+    val categoryInfo: ScheduleCategoryInfo?,
+    val type: ScheduleType
+) {
+    fun getScheduleOwnerText(): String  {
+        return if (participants!!.size < 2) participants[0].nickname
+        else participants.size.toString() + "명"
+    }
+
+    fun convertToSchedule(): Schedule {
+        return Schedule(
+            scheduleId = this.scheduleId,
+            title = this.title,
+            period = SchedulePeriod(
+                this.startDate,
+                this.endDate
+            ),
+            categoryInfo = this.categoryInfo!!
+        )
+    }
+}
 
 enum class ScheduleType(val value: Int) {
     PERSONAL(0),

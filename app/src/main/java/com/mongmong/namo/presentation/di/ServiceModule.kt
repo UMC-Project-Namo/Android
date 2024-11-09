@@ -6,6 +6,7 @@ import com.mongmong.namo.data.remote.CategoryApiService
 import com.mongmong.namo.data.remote.DiaryApiService
 import com.mongmong.namo.data.remote.AuthApiService
 import com.mongmong.namo.data.remote.AwsS3ApiService
+import com.mongmong.namo.data.remote.FriendApiService
 import com.mongmong.namo.data.remote.ImageApiService
 import com.mongmong.namo.data.remote.ReissuanceApiService
 import com.mongmong.namo.data.remote.group.GroupApiService
@@ -87,6 +88,12 @@ object ServiceModule {
     @Singleton
     fun provideGroupDiaryService(@NetworkModule.BasicRetrofit retrofit: Retrofit): GroupDiaryApiService =
         retrofit.create(GroupDiaryApiService::class.java)
+
+    /** 친구 */
+    @Provides
+    @Singleton
+    fun provideFriendService(@NetworkModule.BasicRetrofit retrofit: Retrofit): FriendApiService =
+        retrofit.create(FriendApiService::class.java)
 
     /** 이미지 url  */
     @Provides

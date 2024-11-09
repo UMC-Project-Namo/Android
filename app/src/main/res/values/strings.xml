@@ -221,10 +221,12 @@
     <string name="friend_search_hint">닉네임 혹은 이름 입력</string>
     <string name="friend_empty">추가된 친구가 없습니다.\n친구와 함께 나모를 사용해보세요!</string>
     <string name="friend_info">친구 정보</string>
+    <string name="friend_new">새 친구</string>
     <string name="friend_request">친구 신청</string>
     <string name="calendar_info">캘린더 정보</string>
     <string name="friend_calendar_category_notice">친구가 공개 설정을 해둔 카테고리만 볼 수 있습니다.</string>
     <string name="nickname_plus_tag">닉네임+태그</string>
+    <string name="nickname_tag">%s\#%s</string>
     <string name="nickname_tag_hint">나모#0000</string>
     <string name="friend_favorite_color">좋아하는 색깔</string>
 

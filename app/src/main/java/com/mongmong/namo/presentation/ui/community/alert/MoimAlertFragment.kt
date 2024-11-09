@@ -6,7 +6,9 @@ import com.mongmong.namo.R
 import com.mongmong.namo.databinding.FragmentMoimAlertBinding
 import com.mongmong.namo.presentation.config.BaseFragment
 import com.mongmong.namo.presentation.ui.community.alert.adapter.MoimAlertRVAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MoimAlertFragment : BaseFragment<FragmentMoimAlertBinding>(R.layout.fragment_moim_alert) {
 
     private val viewModel: AlertViewModel by activityViewModels()

@@ -48,9 +48,16 @@ data class MoimCalendarSchedule(
     val participants: List<MoimCalendarParticipant> = emptyList(),
     val isCurMoim: Boolean = false
 ) {
-    fun getScheduleOwnerText(): String  {
-        return if (participants.size < 2) participants[0].nickname
-        else participants.size.toString() + "명"
+    fun convertToCommunityModel(): CommunityCommonSchedule {
+        return CommunityCommonSchedule(
+            scheduleId = this.scheduleId,
+            title = this.title,
+            startDate = this.startDate,
+            endDate = this.endDate,
+            participants = this.participants,
+            categoryInfo = null,
+            type = if (isCurMoim) ScheduleType.MOIM else ScheduleType.PERSONAL
+        )
     }
 }
 

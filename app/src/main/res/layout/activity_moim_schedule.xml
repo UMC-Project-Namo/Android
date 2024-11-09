@@ -150,7 +150,7 @@
                                 android:layout_height="match_parent"
                                 android:scaleType="centerCrop"
                                 android:background="@{viewModel.moimSchedule.moimId == 0L ? @drawable/ic_group_coverimg_placeholder : @drawable/bg_transparent}"
-                                app:placeHolder="@{viewModel.moimSchedule.moimId == 0L ? @drawable/bg_transparent : @drawable/img_mongi_default}"
+                                app:placeHolder="@{viewModel.moimSchedule.moimId == 0L ? @drawable/bg_transparent : @drawable/img_default_moim}"
                                 app:imageUrl="@{viewModel.moimSchedule.coverImg}"/>
                         </androidx.cardview.widget.CardView>
 

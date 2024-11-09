@@ -8,17 +8,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import com.mongmong.namo.databinding.DialogFriendInfoBinding
 import com.mongmong.namo.domain.model.Friend
+import com.mongmong.namo.domain.model.FriendRequest
 import com.mongmong.namo.presentation.ui.community.CommunityCalendarActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+interface OnFriendInfoChangedListener {
+    fun onFriendInfoChanged()
+}
+
+@AndroidEntryPoint
 class FriendInfoDialog(
-    private val friendInfo: Friend,
+    private val friendInfo: Friend?,
+    private val friendRequestInfo: FriendRequest?,
     private val isFriendRequestMode: Boolean, // 친구 요청 화면인지, 친구 리스트 화면인지 판단
+    private val listener: OnFriendInfoChangedListener
 ) : DialogFragment() {
+
     private lateinit var binding: DialogFriendInfoBinding
+    private val viewModel: FriendViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,12 +41,16 @@ class FriendInfoDialog(
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))  // 배경 투명하게
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)  // dialog 모서리 둥글게
 
+        val info = friendInfo?.convertToFriendInfo() ?: friendRequestInfo!!.convertToFriendInfo()
+
         binding.apply {
-            friend = friendInfo
+            friendInfo = info
+            isFavorite = this@FriendInfoDialog.friendInfo?.isFavorite ?: false
             isFriendRequestMode = this@FriendInfoDialog.isFriendRequestMode
         }
 
         initClickListeners()
+        initObserve()
         return binding.root
     }
 
@@ -43,6 +58,12 @@ class FriendInfoDialog(
         // 닫기 버튼 클릭
         binding.friendInfoCloseTv.setOnClickListener {
             dismiss()
+        }
+
+        // 즐겨찾기 버튼 클릭
+        binding.friendInfoFavoriteIv.setOnClickListener {
+            viewModel.toggleFriendFavoriteState(friendInfo!!.userid)
+            binding.isFavorite = !binding.isFavorite!! // 즐겨찾기 여부 전환
         }
 
         // 친구 리스트 - 일정 보기 버튼 클릭
@@ -56,20 +77,26 @@ class FriendInfoDialog(
 
         // 친구 리스트 - 삭제 버튼 클릭
         binding.friendInfoDeleteBtn.setOnClickListener {
-            //TODO: 친구 삭제 진행
-            Toast.makeText(requireContext(), "삭제 버튼 클릭", Toast.LENGTH_SHORT).show()
+            viewModel.deleteFriend(friendInfo!!.userid)
         }
 
         // 친구 요청 - 수락 버튼 클릭
         binding.friendInfoRequestAcceptBtn.setOnClickListener {
-            //TODO: 친구 요청 수락
-            Toast.makeText(requireContext(), "친구 요청 수락", Toast.LENGTH_SHORT).show()
+            viewModel.acceptFriendRequest(friendRequestInfo!!.friendRequestId)
         }
 
         // 친구 요청 - 거절 버튼 클릭
         binding.friendInfoRequestDenyBtn.setOnClickListener {
-            //TODO: 친구 요청 거절
-            Toast.makeText(requireContext(), "친구 요청 거절", Toast.LENGTH_SHORT).show()
+            viewModel.denyFriendRequest(friendRequestInfo!!.friendRequestId)
+        }
+    }
+
+    private fun initObserve() {
+        viewModel.isComplete.observe(viewLifecycleOwner) { isComplete ->
+            if (isComplete) {
+                listener.onFriendInfoChanged() // 데이터 변동 존재
+                dismiss()
+            }
         }
     }
 }

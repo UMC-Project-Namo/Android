@@ -33,8 +33,8 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 app:imageUrl="@{moim.coverImg}"
-                app:placeHolder="@{@drawable/img_mongi_default}"
-                tools:src="@drawable/img_mongi_default"/>
+                app:placeHolder="@{@drawable/img_default_moim}"
+                tools:src="@drawable/img_default_moim"/>
 
             <LinearLayout
                 android:id="@+id/item_moim_alert_content_layout"
