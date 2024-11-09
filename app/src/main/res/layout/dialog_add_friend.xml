@@ -53,7 +53,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="6"
-                    android:text="새 친구"
+                    android:text="@string/friend_new"
                     android:textAlignment="center"
                     style="@style/content_bold" />
 
@@ -89,6 +89,7 @@
                     android:layout_marginStart="34dp"
                     android:layout_weight="1"
                     android:hint="@string/nickname_tag_hint"
+                    android:singleLine="true"
                     android:textColorHint="@color/text_placeholder"
                     android:backgroundTint="@color/text_placeholder"
                     android:text="@{friend.name}"
