@@ -77,17 +77,28 @@
                 app:layout_constraintTop_toTopOf="@+id/item_personal_diary_date_tv"
                 tools:text="일정" />
 
-            <TextView
-                android:id="@+id/item_personal_diary_title_tv"
-                style="@style/content_bold"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="@{diary.title}"
-                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="@+id/item_personal_diary_date_tv"
-                app:layout_constraintTop_toBottomOf="@id/item_personal_diary_date_tv"
-                tools:text="나모는 몽몽 울어" />
+                app:layout_constraintTop_toBottomOf="@id/item_personal_diary_date_tv">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_birthday"
+                    android:visibility="@{diary.scheduleType == 2 ? View.VISIBLE : View.GONE}"
+                    android:layout_marginEnd="4dp"
+                    android:layout_gravity="center"/>
+                <TextView
+                    android:id="@+id/item_personal_diary_title_tv"
+                    style="@style/content_bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{diary.title}"
+                    android:textColor="@color/black"
+                    tools:text="나모는 몽몽 울어" />
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

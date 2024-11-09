@@ -55,10 +55,8 @@ class PersonalDiaryDetailActivity
 
     private fun setCreateOrEdit() {
         if (viewModel.diarySchedule.value?.hasDiary == false) {
-            Log.d("setCreateOrEdit", "dd")
             viewModel.setNewDiary()
         } else {  // 기록 있을 때, 수정
-            Log.d("setCreateOrEdit", "dd2")
             viewModel.getDiaryData()
         }
     }
@@ -129,6 +127,7 @@ class PersonalDiaryDetailActivity
             if (response.isSuccess) {
                 Toast.makeText(this, "변경사항이 적용되었습니다", Toast.LENGTH_SHORT).show()
                 viewModel.getDiaryData()
+                viewModel.setHasDiary(true)
             } else {
                 Toast.makeText(this, "${response.message}", Toast.LENGTH_SHORT).show()
             }

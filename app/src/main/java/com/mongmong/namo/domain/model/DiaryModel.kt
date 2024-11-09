@@ -134,8 +134,14 @@ data class CalendarDay(
         return "${year}-${monthString}-${dayString}"
     }
 
-    fun isSameDate(otherDate: CalendarDay): Boolean {
-        return this.year == otherDate.year && this.month == otherDate.month && this.date == otherDate.date
+    fun isSameDate(otherDate: CalendarDay?): Boolean {
+        return when {
+            otherDate == null -> false
+            this.date != otherDate.date -> false
+            this.month != otherDate.month -> false
+            this.year != otherDate.year -> false
+            else -> true
+        }
     }
 
     val displayDate: String
@@ -151,11 +157,15 @@ data class CalendarDay(
 }
 
 data class CalendarDiaryDate(
-    val dates: List<String>,
     val month: Int,
-    val year: Int
+    val year: Int,
+    val dates: List<CalendarDate> = emptyList()  // 날짜와 타입을 포함한 리스트
 )
 
+data class CalendarDate(
+    val date: String,
+    val type: ScheduleType
+)
 
 data class MoimPayment(
     val moimPaymentParticipants: List<MoimPaymentParticipant>,

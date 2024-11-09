@@ -7,9 +7,11 @@ data class GetCalendarDiaryResponse(
 ): BaseResponse()
 
 data class GetCalendarDiaryResult(
-    val dates: List<String> = emptyList(),
+    val year: Int = 1970,
     val month: Int = 1,
-    val year: Int = 1970
+    val diaryDateForPersonal: List<String> = emptyList(),
+    val diaryDateForMeeting: List<String> = emptyList(),
+    val diaryDateForBirthday: List<String> = emptyList()
 )
 
 data class GetDiaryByDateResponse(
