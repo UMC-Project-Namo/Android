@@ -164,15 +164,8 @@ data class CalendarDiaryDate(
 
 data class CalendarDate(
     val date: String,
-    val type: DateType
+    val type: ScheduleType
 )
-
-// 날짜 타입을 나타내는 enum 클래스
-enum class DateType {
-    PERSONAL,
-    MEETING,
-    BIRTH
-}
 
 data class MoimPayment(
     val moimPaymentParticipants: List<MoimPaymentParticipant>,

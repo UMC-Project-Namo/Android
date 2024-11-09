@@ -9,7 +9,7 @@ import com.mongmong.namo.data.dto.GetScheduleForDiaryResult
 import com.mongmong.namo.domain.model.CalendarDate
 import com.mongmong.namo.domain.model.CalendarDiaryDate
 import com.mongmong.namo.domain.model.CategoryInfo
-import com.mongmong.namo.domain.model.DateType
+import com.mongmong.namo.domain.model.ScheduleType
 import com.mongmong.namo.domain.model.Diary
 import com.mongmong.namo.domain.model.DiaryDetail
 import com.mongmong.namo.domain.model.DiaryImage
@@ -94,9 +94,9 @@ object DiaryMapper {
     }
 
     fun GetCalendarDiaryResult.toModel(): CalendarDiaryDate {
-        val personalDates = this.diaryDateForPersonal.map { CalendarDate(date = it, type = DateType.PERSONAL) }
-        val meetingDates = this.diaryDateForMeeting.map { CalendarDate(date = it, type = DateType.MEETING) }
-        val birthDates = this.diaryDateForBirthday.map { CalendarDate(date = it, type = DateType.BIRTH) }
+        val personalDates = this.diaryDateForPersonal.map { CalendarDate(date = it, type = ScheduleType.PERSONAL) }
+        val meetingDates = this.diaryDateForMeeting.map { CalendarDate(date = it, type = ScheduleType.MOIM) }
+        val birthDates = this.diaryDateForBirthday.map { CalendarDate(date = it, type = ScheduleType.BIRTHDAY) }
 
         return CalendarDiaryDate(
             year = this.year,

@@ -13,7 +13,7 @@ import com.mongmong.namo.R
 import com.mongmong.namo.databinding.ItemDiaryCalendarDateBinding
 import com.mongmong.namo.domain.model.CalendarDate
 import com.mongmong.namo.domain.model.CalendarDay
-import com.mongmong.namo.domain.model.DateType
+import com.mongmong.namo.domain.model.ScheduleType
 import com.mongmong.namo.presentation.utils.DiaryDateConverter.toYearMonth
 
 class DiaryCalendarAdapter(
@@ -86,8 +86,8 @@ class DiaryCalendarAdapter(
             binding.diaryCalendarHasDiaryIndicatorIv.visibility = if (dateType != null) View.VISIBLE else View.GONE
 
             val color = when (dateType) {
-                DateType.PERSONAL, DateType.BIRTH -> R.color.text_placeholder
-                DateType.MEETING -> R.color.main
+                ScheduleType.PERSONAL, ScheduleType.BIRTHDAY -> R.color.text_placeholder
+                ScheduleType.MOIM -> R.color.main
                 else -> null
             }
 
