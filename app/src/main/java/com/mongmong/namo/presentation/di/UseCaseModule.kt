@@ -11,6 +11,7 @@ import com.mongmong.namo.domain.usecases.DenyFriendRequestUseCase
 import com.mongmong.namo.domain.usecases.FindCategoryUseCase
 import com.mongmong.namo.domain.usecases.GetCategoriesUseCase
 import com.mongmong.namo.domain.usecases.GetActivitiesUseCase
+import com.mongmong.namo.domain.usecases.GetFriendsUseCase
 import com.mongmong.namo.domain.usecases.UploadImageToS3UseCase
 import dagger.Module
 import dagger.Provides
@@ -41,6 +42,10 @@ object UseCaseModule {
     @Provides
     fun provideGetActivitiesUseCase(activityRepository: ActivityRepository): GetActivitiesUseCase =
         GetActivitiesUseCase(activityRepository)
+
+    @Provides
+    fun provideGetFriendsUseCase(friendRepository: FriendRepository): GetFriendsUseCase =
+        GetFriendsUseCase(friendRepository)
 
     @Provides
     fun provideAcceptFriendRequestUseCase(friendRepository: FriendRepository): AcceptFriendRequestUseCase =

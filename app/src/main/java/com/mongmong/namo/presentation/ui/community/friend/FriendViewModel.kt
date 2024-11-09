@@ -8,6 +8,7 @@ import com.mongmong.namo.domain.model.Friend
 import com.mongmong.namo.domain.repositories.FriendRepository
 import com.mongmong.namo.domain.usecases.AcceptFriendRequestUseCase
 import com.mongmong.namo.domain.usecases.DenyFriendRequestUseCase
+import com.mongmong.namo.domain.usecases.GetFriendsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,6 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FriendViewModel @Inject constructor(
     private val repository: FriendRepository,
+    private val getFriendsUseCase: GetFriendsUseCase,
     private val acceptFriendRequestUseCase: AcceptFriendRequestUseCase,
     private val denyFriendRequestUseCase: DenyFriendRequestUseCase
 ): ViewModel() {
@@ -27,7 +29,7 @@ class FriendViewModel @Inject constructor(
     /** 친구 목록 조회 */
      fun getFriends() {
         viewModelScope.launch {
-            _friendList.value = repository.getFiendList()
+            _friendList.value = getFriendsUseCase.execute()
         }
     }
 
