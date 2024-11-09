@@ -45,7 +45,8 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         }
         friendAdapter.setItemClickListener(object : FriendRVAdapter.MyItemClickListener {
             override fun onFavoriteButtonClick(position: Int) {
-                //TODO: 즐겨찾기 진행
+                // 즐겨찾기 상태 변경
+                viewModel.toggleFriendFavoriteState(viewModel.friendList.value!![position].userid)
             }
 
             override fun onItemClick(position: Int) {

@@ -55,6 +55,11 @@ class FriendInfoDialog(
             dismiss()
         }
 
+        // 즐겨찾기 버튼 클릭
+        binding.friendInfoFavoriteIv.setOnClickListener {
+            viewModel.toggleFriendFavoriteState(friendInfo!!.userid)
+        }
+
         // 친구 리스트 - 일정 보기 버튼 클릭
         binding.friendInfoScheduleBtn.setOnClickListener {
             // 친구 일정 캘린더로 이동

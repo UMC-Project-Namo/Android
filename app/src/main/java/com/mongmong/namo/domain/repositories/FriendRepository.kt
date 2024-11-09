@@ -25,6 +25,10 @@ interface FriendRepository {
         userId: Long
     ): BaseResponse
 
+    suspend fun toggleFriendFavoriteState(
+        userId: Long
+    ): BaseResponse
+
     suspend fun getFriendRequests(): List<FriendRequest>
 
     suspend fun doFriendRequest(

@@ -42,6 +42,12 @@ interface FriendApiService {
         @Path("friendId") userId: Long
     ): BaseResponse
 
+    // 친구 즐겨찾기 등록/해제
+    @PATCH("friends/{friendId}/toggle-favorite")
+    suspend fun toggleFriendFavoriteState(
+        @Path("friendId") userId: Long
+    ): BaseResponse
+
     /** 친구 요청 */
     // 친구 요청 목록 조회
     @GET("friends/requests")

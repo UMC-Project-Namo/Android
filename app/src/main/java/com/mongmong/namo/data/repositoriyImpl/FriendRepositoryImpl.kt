@@ -41,6 +41,10 @@ class FriendRepositoryImpl @Inject constructor(
         return remoteFriendDataSource.deleteFriend(userId)
     }
 
+    override suspend fun toggleFriendFavoriteState(userId: Long): BaseResponse {
+        return remoteFriendDataSource.toggleFriendFavoriteState(userId)
+    }
+
     override suspend fun getFriendRequests(): List<FriendRequest> {
         return remoteFriendDataSource.getFriendRequests().result.friendRequests.map { friendRequest ->
             friendRequest.toModel()

@@ -100,6 +100,26 @@ class RemoteFriendDataSource @Inject constructor(
         return friendResponse
     }
 
+    // 친구 즐겨찾기 등록/해제
+    suspend fun toggleFriendFavoriteState(
+        userId: Long
+    ): BaseResponse {
+        var friendResponse = BaseResponse()
+        withContext(Dispatchers.IO) {
+            runCatching {
+                friendApiService.toggleFriendFavoriteState(
+                    userId = userId
+                )
+            }.onSuccess {
+                Log.d("RemoteFriendDataSource", "toggleFriendFavoriteState Success $it")
+                friendResponse = it
+            }.onFailure {
+                Log.d("RemoteFriendDataSource", "toggleFriendFavoriteState Success $it")
+            }
+        }
+        return friendResponse
+    }
+
     /** 친구 요청 */
     // 친구 요청 목록 조회
     suspend fun getFriendRequests(): GetFriendRequestResponse {

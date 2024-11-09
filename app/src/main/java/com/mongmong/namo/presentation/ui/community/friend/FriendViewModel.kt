@@ -38,6 +38,14 @@ class FriendViewModel @Inject constructor(
         }
     }
 
+    /** 친구 즐겨찾기 여부 변경 */
+    fun toggleFriendFavoriteState(userId: Long) {
+        viewModelScope.launch {
+            _isComplete.value = repository.toggleFriendFavoriteState(userId).isSuccess
+            if (_isComplete.value == true) getFriends()
+        }
+    }
+
     /** 친구 신청 */
     fun requestFriend(nicknameTag: String) {
         viewModelScope.launch {
