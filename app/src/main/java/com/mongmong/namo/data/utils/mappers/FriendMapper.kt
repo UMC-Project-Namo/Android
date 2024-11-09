@@ -50,6 +50,7 @@ object FriendMapper {
     fun FriendRequestDTO.toModel(): FriendRequest {
         return FriendRequest(
             userId = this.memberId,
+            friendRequestId = this.friendRequestId,
             profileUrl = this.profileImage,
             nickname = this.nickname,
             tag = this.tag,

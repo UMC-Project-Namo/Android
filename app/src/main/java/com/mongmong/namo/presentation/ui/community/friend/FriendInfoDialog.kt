@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.mongmong.namo.databinding.DialogFriendInfoBinding
@@ -72,14 +71,12 @@ class FriendInfoDialog(
 
         // 친구 요청 - 수락 버튼 클릭
         binding.friendInfoRequestAcceptBtn.setOnClickListener {
-            //TODO: 친구 요청 수락
-            Toast.makeText(requireContext(), "친구 요청 수락", Toast.LENGTH_SHORT).show()
+            viewModel.acceptFriendRequest(friendRequestInfo!!.friendRequestId)
         }
 
         // 친구 요청 - 거절 버튼 클릭
         binding.friendInfoRequestDenyBtn.setOnClickListener {
-            //TODO: 친구 요청 거절
-            Toast.makeText(requireContext(), "친구 요청 거절", Toast.LENGTH_SHORT).show()
+            viewModel.denyFriendRequest(friendRequestInfo!!.friendRequestId)
         }
     }
 

@@ -1,7 +1,6 @@
 package com.mongmong.namo.data.dto
 
 import com.mongmong.namo.presentation.config.BaseResponse
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class FriendBaseResponse(
@@ -71,6 +70,7 @@ data class GetFriendRequestResult(
 
 data class FriendRequestDTO(
     var memberId: Long = 0L,
+    var friendRequestId: Long = 0L,
     var profileImage: String = "",
     var nickname: String = "",
     var tag: String = "",

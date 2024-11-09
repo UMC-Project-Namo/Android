@@ -23,6 +23,12 @@ class FriendAlertFragment : BaseFragment<FragmentFriendAlertBinding>(R.layout.fr
         initObserve()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.getFriendRequests()
+    }
+
     private fun setAdapter() {
         friendAdapter = FriendAlertRVAdapter()
         binding.friendAlertListRv.apply {
@@ -36,11 +42,13 @@ class FriendAlertFragment : BaseFragment<FragmentFriendAlertBinding>(R.layout.fr
             }
 
             override fun onAcceptBtnClick(position: Int) {
-                //TODO: 요청 수락 진행
+                // 친구 요청 수락
+                viewModel.acceptFriendRequest(viewModel.friendRequestList.value!![position].friendRequestId)
             }
 
             override fun onDenyBtnClick(position: Int) {
-                //TODO: 요청 거절 진행
+                // 친구 요청 거절
+                viewModel.denyFriendRequest(viewModel.friendRequestList.value!![position].friendRequestId)
             }
         })
     }
