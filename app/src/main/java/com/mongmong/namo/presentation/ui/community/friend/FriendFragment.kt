@@ -1,5 +1,6 @@
 package com.mongmong.namo.presentation.ui.community.friend
 
+import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mongmong.namo.R
@@ -9,7 +10,7 @@ import com.mongmong.namo.presentation.ui.community.friend.adapter.FriendRVAdapte
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_friend) {
+class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_friend), OnFriendInfoChangedListener {
 
     private val viewModel: FriendViewModel by viewModels()
 
@@ -19,6 +20,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         binding.viewModel = this@FriendFragment.viewModel
 
         viewModel.getFriends()
+        setAdapter()
         initClickListeners()
         initObserve()
     }
@@ -51,17 +53,24 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
 
             override fun onItemClick(position: Int) {
                 // 친구 정보 화면으로 이동
-                FriendInfoDialog(viewModel.friendList.value!![position], null, false).show(parentFragmentManager, "FriendInfoDialog")
+                FriendInfoDialog(viewModel.friendList.value!![position], null, false, this@FriendFragment).show(parentFragmentManager, "FriendInfoDialog")
             }
         })
     }
 
     private fun initObserve() {
-        viewModel.friendList.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
-                setAdapter()
-                friendAdapter.addFriend(it)
+        viewModel.friendList.observe(viewLifecycleOwner) { friendList ->
+            if (friendList.isNotEmpty()) {
+                friendAdapter.addFriend(friendList)
             }
         }
+
+        viewModel.isComplete.observe(viewLifecycleOwner) { isComplete ->
+            if (isComplete) viewModel.getFriends()
+        }
+    }
+
+    override fun onFriendInfoChanged() {
+        viewModel.getFriends() // 친구 목록 업데이트
     }
 }

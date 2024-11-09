@@ -16,11 +16,16 @@ import com.mongmong.namo.domain.model.FriendRequest
 import com.mongmong.namo.presentation.ui.community.CommunityCalendarActivity
 import dagger.hilt.android.AndroidEntryPoint
 
+interface OnFriendInfoChangedListener {
+    fun onFriendInfoChanged()
+}
+
 @AndroidEntryPoint
 class FriendInfoDialog(
     private val friendInfo: Friend?,
     private val friendRequestInfo: FriendRequest?,
     private val isFriendRequestMode: Boolean, // 친구 요청 화면인지, 친구 리스트 화면인지 판단
+    private val listener: OnFriendInfoChangedListener
 ) : DialogFragment() {
 
     private lateinit var binding: DialogFriendInfoBinding
@@ -58,6 +63,7 @@ class FriendInfoDialog(
         // 즐겨찾기 버튼 클릭
         binding.friendInfoFavoriteIv.setOnClickListener {
             viewModel.toggleFriendFavoriteState(friendInfo!!.userid)
+            binding.isFavorite = !binding.isFavorite!! // 즐겨찾기 여부 전환
         }
 
         // 친구 리스트 - 일정 보기 버튼 클릭
@@ -87,7 +93,10 @@ class FriendInfoDialog(
 
     private fun initObserve() {
         viewModel.isComplete.observe(viewLifecycleOwner) { isComplete ->
-            if (isComplete) dismiss()
+            if (isComplete) {
+                listener.onFriendInfoChanged() // 데이터 변동 존재
+                dismiss()
+            }
         }
     }
 }

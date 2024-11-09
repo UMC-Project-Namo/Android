@@ -1,6 +1,5 @@
 package com.mongmong.namo.presentation.ui.community.alert
 
-import android.util.Log
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mongmong.namo.R
@@ -8,10 +7,11 @@ import com.mongmong.namo.databinding.FragmentFriendAlertBinding
 import com.mongmong.namo.presentation.config.BaseFragment
 import com.mongmong.namo.presentation.ui.community.alert.adapter.FriendAlertRVAdapter
 import com.mongmong.namo.presentation.ui.community.friend.FriendInfoDialog
+import com.mongmong.namo.presentation.ui.community.friend.OnFriendInfoChangedListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FriendAlertFragment : BaseFragment<FragmentFriendAlertBinding>(R.layout.fragment_friend_alert) {
+class FriendAlertFragment : BaseFragment<FragmentFriendAlertBinding>(R.layout.fragment_friend_alert), OnFriendInfoChangedListener {
 
     private val viewModel: AlertViewModel by activityViewModels()
 
@@ -20,13 +20,8 @@ class FriendAlertFragment : BaseFragment<FragmentFriendAlertBinding>(R.layout.fr
     override fun setup() {
         binding.viewModel = this@FriendAlertFragment.viewModel
 
+        setAdapter()
         initObserve()
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        viewModel.getFriendRequests()
     }
 
     private fun setAdapter() {
@@ -38,7 +33,7 @@ class FriendAlertFragment : BaseFragment<FragmentFriendAlertBinding>(R.layout.fr
         friendAdapter.setItemClickListener(object : FriendAlertRVAdapter.MyItemClickListener {
             override fun onFriendInfoClick(position: Int) {
                 // 친구 정보 화면으로 이동
-                FriendInfoDialog(null, viewModel.friendRequestList.value!![position], true).show(parentFragmentManager, "FriendInfoDialog")
+                FriendInfoDialog(null, viewModel.friendRequestList.value!![position], true, this@FriendAlertFragment).show(parentFragmentManager, "FriendInfoDialog")
             }
 
             override fun onAcceptBtnClick(position: Int) {
@@ -55,11 +50,13 @@ class FriendAlertFragment : BaseFragment<FragmentFriendAlertBinding>(R.layout.fr
 
     private fun initObserve() {
         viewModel.friendRequestList.observe(viewLifecycleOwner) { friendRequestList ->
-            Log.d("FriendAlertFrag", "friendRequestList: $friendRequestList")
             if (friendRequestList.isNotEmpty()) {
-                setAdapter()
                 friendAdapter.addRequest(friendRequestList)
             }
         }
+    }
+
+    override fun onFriendInfoChanged() {
+        viewModel.getFriendRequests() // 친구 정보 업데이트
     }
 }

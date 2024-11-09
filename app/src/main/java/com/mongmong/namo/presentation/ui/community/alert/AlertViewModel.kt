@@ -51,6 +51,7 @@ class AlertViewModel @Inject constructor(
     fun acceptFriendRequest(requestId: Long) {
         viewModelScope.launch {
             _isComplete.value = acceptFriendRequestUseCase.execute(requestId).isSuccess
+            if (_isComplete.value == true) getFriendRequests()
         }
     }
 
@@ -58,6 +59,7 @@ class AlertViewModel @Inject constructor(
     fun denyFriendRequest(requestId: Long) {
         viewModelScope.launch {
             _isComplete.value = denyFriendRequestUseCase.execute(requestId).isSuccess
+            if (_isComplete.value == true) getFriendRequests()
         }
     }
 }

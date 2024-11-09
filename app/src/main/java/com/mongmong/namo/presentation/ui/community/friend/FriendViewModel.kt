@@ -42,7 +42,6 @@ class FriendViewModel @Inject constructor(
     fun toggleFriendFavoriteState(userId: Long) {
         viewModelScope.launch {
             _isComplete.value = repository.toggleFriendFavoriteState(userId).isSuccess
-            if (_isComplete.value == true) getFriends()
         }
     }
 
