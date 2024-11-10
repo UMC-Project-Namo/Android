@@ -2,7 +2,6 @@ package com.mongmong.namo.presentation.ui.diary
 
 
 import android.view.MotionEvent
-import androidx.activity.viewModels
 import com.mongmong.namo.R
 import com.mongmong.namo.databinding.ActivityDiaryBinding
 import com.mongmong.namo.presentation.config.BaseActivity
@@ -33,7 +32,7 @@ class DiaryActivity : BaseActivity<ActivityDiaryBinding>(R.layout.activity_diary
 
     private fun showDiaryCollectFragment() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, DiaryCollectionFragment())
+            .replace(R.id.fragment_container, DiaryArchiveFragment())
             .commit()
 
         binding.diaryCalendarBtn.setImageResource(R.drawable.ic_calendar)

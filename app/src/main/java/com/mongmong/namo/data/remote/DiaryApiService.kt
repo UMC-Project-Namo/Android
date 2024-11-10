@@ -1,12 +1,9 @@
 package com.mongmong.namo.data.remote
 
-import com.mongmong.namo.data.dto.DiaryResponse
 import com.mongmong.namo.data.dto.EditDiaryRequest
-import com.mongmong.namo.data.dto.GetActivitiesResponse
-import com.mongmong.namo.data.dto.GetActivityPaymentResponse
 import com.mongmong.namo.data.dto.GetCalendarDiaryResponse
 import com.mongmong.namo.data.dto.GetDiaryByDateResponse
-import com.mongmong.namo.data.dto.GetDiaryCollectionResponse
+import com.mongmong.namo.data.dto.GetDiaryArchiveResponse
 import com.mongmong.namo.data.dto.GetDiaryResponse
 import com.mongmong.namo.data.dto.GetMoimPaymentResponse
 import com.mongmong.namo.data.dto.GetScheduleForDiaryResponse
@@ -18,11 +15,11 @@ interface DiaryApiService {
     /** 기록 */
     // 기록 보관함 조회
     @GET("diaries/archive")
-    suspend fun getDiaryCollection(
+    suspend fun getDiaryArchive(
         @Query("filterType") filterType: String?,
         @Query("keyword") keyword: String?,
         @Query("page") page: Int,
-    ): GetDiaryCollectionResponse
+    ): GetDiaryArchiveResponse
 
     // 기록 일정 정보 조회
     @GET("schedules/{scheduleId}")

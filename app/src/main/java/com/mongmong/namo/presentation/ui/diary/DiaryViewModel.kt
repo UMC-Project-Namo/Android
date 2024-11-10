@@ -41,7 +41,7 @@ class DiaryViewModel @Inject constructor(
     /** 일기 리스트 조회 **/
     fun getDiaryPaging(): Flow<PagingData<Diary>> {
         Log.d("getDiaryPaging", "filterType: ${_filter.value} keyword: ${keyword.value}")
-        return repository.getDiaryCollectionPagingSource(filter.value?.request, keyword.value)
+        return repository.getDiaryArchivePagingSource(filter.value?.request, keyword.value)
             .cachedIn(viewModelScope)
             .map { it.insertHeaderLogic() }
     }

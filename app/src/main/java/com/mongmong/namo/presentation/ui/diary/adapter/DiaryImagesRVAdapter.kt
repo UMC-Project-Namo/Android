@@ -8,7 +8,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import com.mongmong.namo.databinding.ItemDiaryCollectionImageBinding
+import com.mongmong.namo.databinding.ItemDiaryArchiveImageBinding
 import com.mongmong.namo.domain.model.DiaryImage
 
 class DiaryImagesRVAdapter(
@@ -17,7 +17,7 @@ class DiaryImagesRVAdapter(
 ) : RecyclerView.Adapter<DiaryImagesRVAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val binding: ItemDiaryCollectionImageBinding = ItemDiaryCollectionImageBinding.inflate(
+        val binding: ItemDiaryArchiveImageBinding = ItemDiaryArchiveImageBinding.inflate(
             LayoutInflater.from(viewGroup.context),
             viewGroup,
             false
@@ -36,7 +36,7 @@ class DiaryImagesRVAdapter(
 
     override fun getItemCount(): Int = imgList.size
 
-    inner class ViewHolder(val binding: ItemDiaryCollectionImageBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding: ItemDiaryArchiveImageBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: DiaryImage) {
             Glide.with(binding.imageIv.context)
                 .load(item.imageUrl)
@@ -44,7 +44,6 @@ class DiaryImagesRVAdapter(
                 .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.DATA))
                 .into(binding.imageIv)
         }
-
     }
 }
 

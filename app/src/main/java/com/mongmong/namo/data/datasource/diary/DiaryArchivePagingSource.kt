@@ -3,22 +3,20 @@ package com.mongmong.namo.data.datasource.diary
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.mongmong.namo.data.dto.GetDiaryCollectionResponse
-import com.mongmong.namo.data.dto.GetDiaryCollectionResult
+import com.mongmong.namo.data.dto.GetDiaryArchiveResult
 import com.mongmong.namo.data.remote.DiaryApiService
 import com.mongmong.namo.data.remote.NetworkChecker
-import com.mongmong.namo.domain.model.Diary
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class DiaryCollectionPagingSource(
+class DiaryArchivePagingSource(
     private val apiService: DiaryApiService,
     private val filterType: String?,
     private val keyword: String?,
     private val networkChecker: NetworkChecker
-) : PagingSource<Int, GetDiaryCollectionResult>() {
+) : PagingSource<Int, GetDiaryArchiveResult>() {
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, GetDiaryCollectionResult> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, GetDiaryArchiveResult> {
         return try {
             if(!networkChecker.isOnline()){
                 Log.d("dd", "network")
@@ -28,20 +26,20 @@ class DiaryCollectionPagingSource(
 
             val page = params.key ?: 1// 다음 페이지 번호, 초기 값은 0
 
-            var apiResult = listOf<GetDiaryCollectionResult>()
+            var apiResult = listOf<GetDiaryArchiveResult>()
 
             withContext(Dispatchers.IO) {
                 runCatching {
-                    apiService.getDiaryCollection(filterType, keyword, page)
+                    apiService.getDiaryArchive(filterType, keyword, page)
                 }.onSuccess { response ->
-                    Log.d("DiaryCollectionPagingSource load success", "${params.key} : $response")
-                    val diaries = mutableListOf<GetDiaryCollectionResult>()
+                    Log.d("DiaryArchivePagingSource load success", "${params.key} : $response")
+                    val diaries = mutableListOf<GetDiaryArchiveResult>()
                     response.result.forEach {
                         diaries.add(it)
                     }
                     apiResult = diaries
                 }.onFailure {
-                    Log.d("DiaryCollectionPagingSource load fail", "${params.key} : $it")
+                    Log.d("DiaryArchivePagingSource load fail", "${params.key} : $it")
                 }
 
             }
@@ -58,7 +56,7 @@ class DiaryCollectionPagingSource(
     }
 
 
-    override fun getRefreshKey(state: PagingState<Int, GetDiaryCollectionResult>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, GetDiaryArchiveResult>): Int? {
         // Refresh 키 정의 (예시에서는 null 반환하여 새로고침 키 없음을 의미)
         return null
     }

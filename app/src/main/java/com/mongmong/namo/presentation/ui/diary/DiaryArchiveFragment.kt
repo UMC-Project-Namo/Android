@@ -9,7 +9,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mongmong.namo.R
-import com.mongmong.namo.databinding.FragmentDiaryCollectionBinding
+import com.mongmong.namo.databinding.FragmentDiaryArchiveBinding
 import com.mongmong.namo.domain.model.Diary
 import com.mongmong.namo.presentation.config.BaseFragment
 import com.mongmong.namo.presentation.state.FilterType
@@ -22,11 +22,11 @@ import org.joda.time.format.DateTimeFormat
 import java.util.ArrayList
 
 @AndroidEntryPoint
-class DiaryCollectionFragment: BaseFragment<FragmentDiaryCollectionBinding>(R.layout.fragment_diary_collection) {
+class DiaryArchiveFragment: BaseFragment<FragmentDiaryArchiveBinding>(R.layout.fragment_diary_archive) {
     private val viewModel: DiaryViewModel by viewModels()
 
     private fun initClickListener() {
-        binding.diaryCollectionFilter.setOnClickListener {
+        binding.diaryArchiveFilter.setOnClickListener {
             DiaryFilterDialog(viewModel.filter.value).apply {
                 setOnFilterSelectedListener(object : DiaryFilterDialog.OnFilterSelectedListener {
                     override fun onFilterSelected(filter: FilterType) {
@@ -35,7 +35,7 @@ class DiaryCollectionFragment: BaseFragment<FragmentDiaryCollectionBinding>(R.la
                 })
             }.show(parentFragmentManager, "FilterDialog")
         }
-        binding.diaryCollectionFilterSearchBtn.setOnClickListener {
+        binding.diaryArchiveFilterSearchBtn.setOnClickListener {
             getDiaries()
         }
     }
@@ -71,7 +71,7 @@ class DiaryCollectionFragment: BaseFragment<FragmentDiaryCollectionBinding>(R.la
     }
 
     private fun setRecyclerView(adapter: RecyclerView.Adapter<*>) {
-        binding.diaryCollectionRv.apply {
+        binding.diaryArchiveRv.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             this.adapter = adapter
         }
