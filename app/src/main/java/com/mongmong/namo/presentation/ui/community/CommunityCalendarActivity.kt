@@ -3,7 +3,6 @@ package com.mongmong.namo.presentation.ui.community
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
-import com.google.gson.Gson
 import com.mongmong.namo.R
 import com.mongmong.namo.databinding.ActivityCommunityCalendarBinding
 import com.mongmong.namo.domain.model.Friend

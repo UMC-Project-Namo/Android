@@ -3,20 +3,68 @@ package com.mongmong.namo.presentation.ui.community.friend
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.mongmong.namo.domain.model.Friend
+import com.mongmong.namo.domain.repositories.FriendRepository
+import com.mongmong.namo.domain.usecases.AcceptFriendRequestUseCase
+import com.mongmong.namo.domain.usecases.DenyFriendRequestUseCase
+import com.mongmong.namo.domain.usecases.GetFriendsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FriendViewModel: ViewModel() {
+@HiltViewModel
+class FriendViewModel @Inject constructor(
+    private val repository: FriendRepository,
+    private val getFriendsUseCase: GetFriendsUseCase,
+    private val acceptFriendRequestUseCase: AcceptFriendRequestUseCase,
+    private val denyFriendRequestUseCase: DenyFriendRequestUseCase
+): ViewModel() {
     private val _friendList = MutableLiveData<List<Friend>>(emptyList())
     val friendList: LiveData<List<Friend>> = _friendList
 
-    val friend = Friend(
-        0, "https://github.com/nahy-512/nahy-512/assets/101113025/3fb8e968-e482-4aff-9334-60c41014a80f",
-        "코코아", "#1111", "한줄 소개입니다", "김나현", "1월 25일", true
-    )
+    private val _isComplete = MutableLiveData<Boolean>()
+    val isComplete: LiveData<Boolean> = _isComplete
 
-    init {
-        _friendList.value = listOf(
-            friend
-        )
+    /** 친구 목록 조회 */
+     fun getFriends() {
+        viewModelScope.launch {
+            _friendList.value = getFriendsUseCase.execute()
+        }
+    }
+
+    /** 친구 삭제 */
+    fun deleteFriend(userId: Long) {
+        viewModelScope.launch {
+            _isComplete.value = repository.deleteFriend(userId).isSuccess
+        }
+    }
+
+    /** 친구 즐겨찾기 여부 변경 */
+    fun toggleFriendFavoriteState(userId: Long) {
+        viewModelScope.launch {
+            _isComplete.value = repository.toggleFriendFavoriteState(userId).isSuccess
+        }
+    }
+
+    /** 친구 신청 */
+    fun requestFriend(nicknameTag: String) {
+        viewModelScope.launch {
+            _isComplete.value = repository.doFriendRequest(nicknameTag).isSuccess
+        }
+    }
+
+    /** 친구 요청 수락 */
+    fun acceptFriendRequest(requestId: Long) {
+        viewModelScope.launch {
+            _isComplete.value = acceptFriendRequestUseCase.execute(requestId).isSuccess
+        }
+    }
+
+    /** 친구 요청 거절 */
+    fun denyFriendRequest(requestId: Long) {
+        viewModelScope.launch {
+            _isComplete.value = denyFriendRequestUseCase.execute(requestId).isSuccess
+        }
     }
 }

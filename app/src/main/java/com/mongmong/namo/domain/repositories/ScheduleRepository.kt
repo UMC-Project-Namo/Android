@@ -29,7 +29,6 @@ interface ScheduleRepository {
 
     // 모임
     suspend fun editMoimScheduleCategory(category: PatchMoimScheduleCategoryRequestBody): Boolean
-
     suspend fun editMoimScheduleAlert(alert: PatchMoimScheduleAlarmRequestBody): Boolean
 
 

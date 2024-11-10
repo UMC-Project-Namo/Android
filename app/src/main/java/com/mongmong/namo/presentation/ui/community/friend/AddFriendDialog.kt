@@ -7,12 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import com.mongmong.namo.databinding.DialogAddFriendBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddFriendDialog : DialogFragment() {
     private lateinit var binding: DialogAddFriendBinding
+    private val viewModel: FriendViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,6 +27,7 @@ class AddFriendDialog : DialogFragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))  // 배경 투명하게
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)  // dialog 모서리 둥글게
 
+        initObserve()
         initClickListeners()
         return binding.root
     }
@@ -36,8 +40,13 @@ class AddFriendDialog : DialogFragment() {
 
         // 친구 추가 버튼
         binding.addFriendRequestBtn.setOnClickListener {
-            //TODO: 친구 신청 진행
-            Toast.makeText(requireContext(), "친구 신청 버튼 클릭", Toast.LENGTH_SHORT).show()
+            viewModel.requestFriend(binding.addFriendNicknameTagEt.text.toString())
+        }
+    }
+
+    private fun initObserve() {
+        viewModel.isComplete.observe(viewLifecycleOwner) { isComplete ->
+            if (isComplete) dismiss()
         }
     }
 }
