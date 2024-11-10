@@ -6,7 +6,6 @@ import com.mongmong.namo.data.datasource.category.RemoteCategoryDataSource
 import com.mongmong.namo.data.datasource.diary.ActivityDataSource
 import com.mongmong.namo.data.datasource.schedule.RemoteScheduleDataSource
 import com.mongmong.namo.data.datasource.diary.RemoteDiaryDataSource
-import com.mongmong.namo.data.datasource.group.GroupDataSource
 import com.mongmong.namo.data.datasource.s3.ImageDataSource
 import com.mongmong.namo.data.datasource.terms.RemoteTermDataSource
 import com.mongmong.namo.data.remote.NetworkChecker
@@ -16,7 +15,6 @@ import com.mongmong.namo.data.repositoriyImpl.AuthRepositoryImpl
 import com.mongmong.namo.data.repositoriyImpl.ImageRepositoryImpl
 import com.mongmong.namo.data.repositoriyImpl.CategoryRepositoryImpl
 import com.mongmong.namo.data.repositoriyImpl.DiaryRepositoryImpl
-import com.mongmong.namo.data.repositoriyImpl.GroupRepositoryImpl
 import com.mongmong.namo.data.repositoriyImpl.ScheduleRepositoryImpl
 import com.mongmong.namo.data.repositoriyImpl.TermRepositoryImpl
 import com.mongmong.namo.domain.repositories.ActivityRepository
@@ -24,7 +22,6 @@ import com.mongmong.namo.domain.repositories.AuthRepository
 import com.mongmong.namo.domain.repositories.ImageRepository
 import com.mongmong.namo.domain.repositories.CategoryRepository
 import com.mongmong.namo.domain.repositories.DiaryRepository
-import com.mongmong.namo.domain.repositories.GroupRepository
 import com.mongmong.namo.domain.repositories.ScheduleRepository
 import com.mongmong.namo.domain.repositories.TermRepository
 import dagger.Module
@@ -79,14 +76,6 @@ object RepositoryModule {
         remoteCategoryDataSource: RemoteCategoryDataSource,
         networkChecker: NetworkChecker
     ): CategoryRepository = CategoryRepositoryImpl(remoteCategoryDataSource, networkChecker)
-
-    /** 그룹 */
-    @Provides
-    fun provideGroupRepository(
-        groupDataSource: GroupDataSource
-    ): GroupRepository = GroupRepositoryImpl(
-        groupDataSource
-    )
 
     /** s3 관련 */
     @Provides

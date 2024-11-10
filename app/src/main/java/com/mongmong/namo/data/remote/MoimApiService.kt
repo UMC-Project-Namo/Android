@@ -1,4 +1,4 @@
-package com.mongmong.namo.data.remote.group
+package com.mongmong.namo.data.remote
 
 import com.mongmong.namo.data.dto.EditMoimScheduleProfileRequestBody
 import com.mongmong.namo.data.dto.EditMoimScheduleRequestBody
@@ -17,7 +17,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface GroupScheduleApiService {
+interface MoimApiService {
     // 모임 일정 목록 조회
     @GET("schedules/meeting")
     suspend fun getMoimCalendarSchedule(): GetMoimResponse

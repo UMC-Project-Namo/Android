@@ -1,4 +1,4 @@
-package com.mongmong.namo.data.local.entity.custom
+package com.mongmong.namo.domain.model
 
 data class Palette(
     var name: String,

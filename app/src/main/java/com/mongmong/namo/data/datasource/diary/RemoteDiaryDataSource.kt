@@ -1,15 +1,8 @@
 package com.mongmong.namo.data.datasource.diary
 
-import android.content.Context
 import android.util.Log
-import com.mongmong.namo.data.dto.CategoryInfo
 import com.mongmong.namo.data.dto.DiaryRequestImage
-import com.mongmong.namo.data.dto.DiaryResponse
 import com.mongmong.namo.data.dto.EditDiaryRequest
-import com.mongmong.namo.data.dto.GetActivitiesResponse
-import com.mongmong.namo.data.dto.GetActivitiesResult
-import com.mongmong.namo.data.dto.GetActivityPaymentResponse
-import com.mongmong.namo.data.dto.GetActivityPaymentResult
 import com.mongmong.namo.data.dto.GetCalendarDiaryResponse
 import com.mongmong.namo.data.dto.GetCalendarDiaryResult
 import com.mongmong.namo.data.dto.GetDiaryByDateResponse
@@ -19,16 +12,11 @@ import com.mongmong.namo.data.dto.GetMoimPaymentResponse
 import com.mongmong.namo.data.dto.GetMoimPaymentResult
 import com.mongmong.namo.data.dto.GetScheduleForDiaryResponse
 import com.mongmong.namo.data.dto.GetScheduleForDiaryResult
-import com.mongmong.namo.data.dto.LocationInfo
 import com.mongmong.namo.data.dto.PostDiaryRequest
 import com.mongmong.namo.data.remote.DiaryApiService
-import com.mongmong.namo.data.remote.group.GroupDiaryApiService
-import com.mongmong.namo.data.utils.RequestConverter.convertTextRequest
-import com.mongmong.namo.data.utils.RequestConverter.imageToMultipart
 import com.mongmong.namo.domain.model.DiaryBaseResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.MultipartBody
 import javax.inject.Inject
 
 class RemoteDiaryDataSource @Inject constructor(
