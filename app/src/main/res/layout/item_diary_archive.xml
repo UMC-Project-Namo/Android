@@ -14,7 +14,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/item_diary_collection_root_cl"
+        android:id="@+id/item_diary_archive_root_cl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -24,19 +24,19 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <View
-            android:id="@+id/item_diary_collection_category_iv"
+            android:id="@+id/item_diary_archive_category_iv"
             android:layout_width="10dp"
             android:layout_height="0dp"
             android:layout_marginStart="25dp"
             android:background="@drawable/bg_diary_category_color_view"
             android:backgroundTint="@{CategoryColor.convertPaletteIdToColorStateList(diary.categoryInfo.colorId)}"
             android:elevation="4dp"
-            app:layout_constraintBottom_toBottomOf="@id/item_diary_collection_content_cl"
+            app:layout_constraintBottom_toBottomOf="@id/item_diary_archive_content_cl"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/item_diary_collection_content_cl" />
+            app:layout_constraintTop_toTopOf="@id/item_diary_archive_content_cl" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/item_diary_collection_content_cl"
+            android:id="@+id/item_diary_archive_content_cl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
@@ -48,11 +48,11 @@
             android:paddingEnd="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/item_diary_collection_category_iv"
+            app:layout_constraintStart_toEndOf="@id/item_diary_archive_category_iv"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/item_diary_collection_title_tv"
+                android:id="@+id/item_diary_archive_title_tv"
                 style="@style/content_bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/item_diary_collection_participant_tv"
+                android:id="@+id/item_diary_archive_participant_tv"
                 style="@style/subtext_12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -72,9 +72,9 @@
                 android:paddingVertical="8dp"
                 android:paddingStart="12dp"
                 android:text="@{String.valueOf(diary.participantInfo.count)}"
-                app:layout_constraintBottom_toBottomOf="@id/item_diary_collection_title_tv"
+                app:layout_constraintBottom_toBottomOf="@id/item_diary_archive_title_tv"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/item_diary_collection_title_tv" />
+                app:layout_constraintTop_toTopOf="@id/item_diary_archive_title_tv" />
 
             <TextView
                 android:id="@+id/textView"
@@ -83,9 +83,9 @@
                 android:layout_height="wrap_content"
                 android:text="약속"
                 android:textColor="@color/text_disable"
-                app:layout_constraintBottom_toBottomOf="@+id/item_diary_collection_participant_tv"
-                app:layout_constraintEnd_toStartOf="@+id/item_diary_collection_participant_tv"
-                app:layout_constraintTop_toTopOf="@+id/item_diary_collection_participant_tv" />
+                app:layout_constraintBottom_toBottomOf="@+id/item_diary_archive_participant_tv"
+                app:layout_constraintEnd_toStartOf="@+id/item_diary_archive_participant_tv"
+                app:layout_constraintTop_toTopOf="@+id/item_diary_archive_participant_tv" />
 
             <TextView
                 style="@style/subtext_12"
@@ -94,9 +94,9 @@
                 android:layout_marginEnd="12dp"
                 android:text='@{DiaryDateConverter.toTime(diary.startDate)}'
                 android:textColor="@color/text_disable"
-                app:layout_constraintBottom_toBottomOf="@+id/item_diary_collection_participant_tv"
+                app:layout_constraintBottom_toBottomOf="@+id/item_diary_archive_participant_tv"
                 app:layout_constraintEnd_toStartOf="@+id/textView"
-                app:layout_constraintTop_toTopOf="@+id/item_diary_collection_participant_tv" />
+                app:layout_constraintTop_toTopOf="@+id/item_diary_archive_participant_tv" />
 
             <TextView
                 android:id="@+id/item_diary_content_tv"
@@ -109,7 +109,7 @@
                 android:maxLines="4"
                 android:text="@{diary.diarySummary.content}"
                 android:visibility="@{diary.diarySummary.content.length() == 0 || diary.diarySummary.content == null ? View.GONE : View.VISIBLE}"
-                app:layout_constraintTop_toBottomOf="@+id/item_diary_collection_title_tv" />
+                app:layout_constraintTop_toBottomOf="@+id/item_diary_archive_title_tv" />
 
             <TextView
                 android:id="@+id/view_more"
@@ -130,9 +130,9 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/item_diary_content_tv"
-                app:layout_constraintStart_toStartOf="@+id/item_diary_collection_title_tv"
+                app:layout_constraintStart_toStartOf="@+id/item_diary_archive_title_tv"
                 app:layout_constraintTop_toBottomOf="@id/view_more"
-                tools:listitem="@layout/item_diary_collection_image" />
+                tools:listitem="@layout/item_diary_archive_image" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

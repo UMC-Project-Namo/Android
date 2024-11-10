@@ -5,7 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.mongmong.namo.data.datasource.diary.DiaryCollectionPagingSource
+import com.mongmong.namo.data.datasource.diary.DiaryArchivePagingSource
 import com.mongmong.namo.data.datasource.diary.RemoteDiaryDataSource
 import com.mongmong.namo.data.remote.DiaryApiService
 import com.mongmong.namo.data.remote.NetworkChecker
@@ -29,7 +29,7 @@ class DiaryRepositoryImpl @Inject constructor(
 
     /** 기록 */
     // 기록 보관함 리스트 조회
-    override fun getDiaryCollectionPagingSource(
+    override fun getDiaryArchivePagingSource(
         filterType: String?,
         keyword: String?
     ): Flow<PagingData<Diary>> {
@@ -39,7 +39,7 @@ class DiaryRepositoryImpl @Inject constructor(
                 enablePlaceholders = false
             ),
             pagingSourceFactory = {
-                DiaryCollectionPagingSource(apiService, filterType, keyword, networkChecker)
+                DiaryArchivePagingSource(apiService, filterType, keyword, networkChecker)
             }
         ).flow.map { pagingData ->
             pagingData.map { it.toModel() } // DTO를 도메인 모델로 변환

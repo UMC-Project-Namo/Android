@@ -2,7 +2,7 @@ package com.mongmong.namo.data.utils.mappers
 
 import com.mongmong.namo.data.dto.GetCalendarDiaryResult
 import com.mongmong.namo.data.dto.GetDiaryByDateResult
-import com.mongmong.namo.data.dto.GetDiaryCollectionResult
+import com.mongmong.namo.data.dto.GetDiaryArchiveResult
 import com.mongmong.namo.data.dto.GetDiaryResult
 import com.mongmong.namo.data.dto.GetMoimPaymentResult
 import com.mongmong.namo.data.dto.GetScheduleForDiaryResult
@@ -23,7 +23,7 @@ import com.mongmong.namo.domain.model.ScheduleForDiaryLocation
 
 object DiaryMapper {
     // 매퍼 함수 (DTO -> 도메인 모델 변환)
-    fun GetDiaryCollectionResult.toModel(): Diary {
+    fun GetDiaryArchiveResult.toModel(): Diary {
         return Diary(
             categoryInfo = CategoryInfo(
                 name = this.categoryInfo.name,
