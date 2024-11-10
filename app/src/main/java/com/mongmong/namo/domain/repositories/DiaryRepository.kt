@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 interface DiaryRepository {
     /** 기록 */
     // 기록 보관함 조회
-    fun getDiaryCollectionPagingSource(
+    fun getDiaryArchivePagingSource(
         filterType: String?,
         keyword: String?,
     ): Flow<PagingData<Diary>>

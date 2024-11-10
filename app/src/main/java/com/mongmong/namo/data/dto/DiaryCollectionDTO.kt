@@ -2,11 +2,11 @@ package com.mongmong.namo.data.dto
 
 import com.mongmong.namo.presentation.config.BaseResponse
 
-data class GetDiaryCollectionResponse(
-    val result: List<GetDiaryCollectionResult>
+data class GetDiaryArchiveResponse(
+    val result: List<GetDiaryArchiveResult>
 ): BaseResponse()
 
-data class GetDiaryCollectionResult(
+data class GetDiaryArchiveResult(
     val categoryInfo: CategoryInfo,
     val diarySummary: DiarySummary,
     val scheduleStartDate: String,
@@ -15,7 +15,7 @@ data class GetDiaryCollectionResult(
     val scheduleType: Int,
     val title: String,
     val isHeader: Boolean = false,
-    val participantInfo: DiaryCollectionParticipant
+    val participantInfo: DiaryArchiveParticipant
 )
 
 data class CategoryInfo(
@@ -23,7 +23,7 @@ data class CategoryInfo(
     val colorId: Int
 )
 
-data class DiaryCollectionParticipant(
+data class DiaryArchiveParticipant(
     val participantsCount: Int,
     val participantsNames: String?,
 )
