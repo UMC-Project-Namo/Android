@@ -100,6 +100,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/diary_collection_filter_keyword_et"
-            tools:listitem="@layout/item_diary_collection"/>
+            tools:listitem="@layout/item_diary_archive"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

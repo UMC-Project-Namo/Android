@@ -22,7 +22,7 @@ import org.joda.time.format.DateTimeFormat
 import java.util.ArrayList
 
 @AndroidEntryPoint
-class DiaryCollectionFragment: BaseFragment<FragmentDiaryCollectionBinding>(R.layout.fragment_diary_collection) {
+class DiaryArchiveFragment: BaseFragment<FragmentDiaryCollectionBinding>(R.layout.fragment_diary_collection) {
     private val viewModel: DiaryViewModel by viewModels()
 
     private fun initClickListener() {

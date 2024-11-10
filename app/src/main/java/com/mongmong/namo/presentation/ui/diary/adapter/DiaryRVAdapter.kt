@@ -8,7 +8,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mongmong.namo.databinding.ItemDiaryCollectionBinding
+import com.mongmong.namo.databinding.ItemDiaryArchiveBinding
 import com.mongmong.namo.databinding.ItemDiaryHeaderBinding
 import com.mongmong.namo.domain.model.Diary
 import com.mongmong.namo.domain.model.DiaryImage
@@ -45,7 +45,7 @@ class DiaryRVAdapter(
                 ItemDiaryHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             )
             ITEM_VIEW_TYPE_ITEM -> DiaryContentViewHolder(
-                ItemDiaryCollectionBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+                ItemDiaryArchiveBinding.inflate(LayoutInflater.from(parent.context), parent, false),
                 imageClickListener,
                 detailClickListener
             )
@@ -68,7 +68,7 @@ class DiaryRVAdapter(
     }
 
     inner class DiaryContentViewHolder(
-        private val binding: ItemDiaryCollectionBinding,
+        private val binding: ItemDiaryArchiveBinding,
         private val imageClickListener: (List<DiaryImage>) -> Unit,
         private val detailClickListener: ((Diary) -> Unit)?,
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -87,7 +87,7 @@ class DiaryRVAdapter(
                 }
             }
 
-            binding.itemDiaryCollectionParticipantTv.setOnClickListener {
+            binding.itemDiaryArchiveParticipantTv.setOnClickListener {
                 participantClickListener(item.participantInfo.count, item.participantInfo.names)
             }
 
