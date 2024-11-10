@@ -18,9 +18,9 @@ import com.mongmong.namo.domain.model.MoimPaymentParticipant
 import com.mongmong.namo.domain.model.ScheduleForDiary
 import com.mongmong.namo.domain.repositories.ActivityRepository
 import com.mongmong.namo.domain.repositories.DiaryRepository
-import com.mongmong.namo.domain.usecases.AddMoimDiaryUseCase
-import com.mongmong.namo.domain.usecases.EditMoimDiaryUseCase
-import com.mongmong.namo.domain.usecases.GetActivitiesUseCase
+import com.mongmong.namo.domain.usecases.diary.AddMoimDiaryUseCase
+import com.mongmong.namo.domain.usecases.diary.EditMoimDiaryUseCase
+import com.mongmong.namo.domain.usecases.activity.GetActivitiesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow

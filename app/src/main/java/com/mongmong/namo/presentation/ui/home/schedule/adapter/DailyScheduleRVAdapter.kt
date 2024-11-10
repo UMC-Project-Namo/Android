@@ -4,15 +4,15 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mongmong.namo.domain.model.Category
+import com.mongmong.namo.domain.model.CategoryModel
 import com.mongmong.namo.databinding.ItemSchedulePreviewBinding
 import com.mongmong.namo.domain.model.Schedule
-import com.mongmong.namo.presentation.utils.ScheduleTimeConverter
+import com.mongmong.namo.presentation.utils.converter.ScheduleTimeConverter
 import org.joda.time.DateTime
 
 class DailyScheduleRVAdapter : RecyclerView.Adapter<DailyScheduleRVAdapter.ViewHolder>() {
     private val scheduleList = ArrayList<Schedule>()
-    private val categoryList = ArrayList<Category>()
+    private val categoryList = ArrayList<CategoryModel>()
 
     private lateinit var scheduleClickListener : PersonalScheduleClickListener
     private lateinit var timeConverter: ScheduleTimeConverter
@@ -55,7 +55,7 @@ class DailyScheduleRVAdapter : RecyclerView.Adapter<DailyScheduleRVAdapter.ViewH
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setCategoryList(categoryList : List<Category>) {
+    fun setCategoryList(categoryList : List<CategoryModel>) {
         this.categoryList.clear()
         this.categoryList.addAll(categoryList)
 

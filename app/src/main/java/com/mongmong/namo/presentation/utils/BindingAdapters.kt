@@ -3,7 +3,6 @@ package com.mongmong.namo.presentation.utils
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -16,8 +15,7 @@ import androidx.lifecycle.LiveData
 import com.bumptech.glide.Glide
 import com.mongmong.namo.R
 import com.mongmong.namo.domain.model.ActivityParticipant
-import com.mongmong.namo.domain.model.ParticipantInfo
-import com.mongmong.namo.presentation.config.CategoryColor
+import com.mongmong.namo.presentation.enums.CategoryColor
 import java.math.BigDecimal
 import java.text.NumberFormat
 import java.util.Locale

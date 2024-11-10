@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mongmong.namo.databinding.ItemPaletteBinding
-import com.mongmong.namo.data.local.entity.custom.Palette
+import com.mongmong.namo.domain.model.Palette
 
 class PaletteRVAdapter(val context: Context) :  RecyclerView.Adapter<PaletteRVAdapter.ViewHolder>(){
     lateinit var items: ArrayList<Palette>

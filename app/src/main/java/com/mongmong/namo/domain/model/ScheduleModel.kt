@@ -1,6 +1,6 @@
 package com.mongmong.namo.domain.model
 
-import com.mongmong.namo.presentation.utils.PickerConverter.getDefaultDate
+import com.mongmong.namo.presentation.utils.converter.PickerConverter.getDefaultDate
 import org.joda.time.LocalDateTime
 import java.io.Serializable
 

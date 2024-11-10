@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.mongmong.namo.presentation.state.FilterType"/>
+        <import type="com.mongmong.namo.presentation.enums.FilterType"/>
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.mongmong.namo.presentation.ui.diary.DiaryViewModel" />
+            type="com.mongmong.namo.presentation.ui.home.diary.DiaryViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

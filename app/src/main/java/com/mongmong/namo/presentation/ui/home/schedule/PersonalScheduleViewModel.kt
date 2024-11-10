@@ -7,15 +7,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kakao.vectormap.LatLng
-import com.mongmong.namo.domain.model.Category
+import com.mongmong.namo.domain.model.CategoryModel
 import com.mongmong.namo.domain.model.Schedule
 import com.mongmong.namo.data.dto.PatchMoimScheduleAlarmRequestBody
 import com.mongmong.namo.data.dto.PatchMoimScheduleCategoryRequestBody
 import com.mongmong.namo.domain.model.Location
 import com.mongmong.namo.domain.model.SchedulePeriod
 import com.mongmong.namo.domain.repositories.ScheduleRepository
-import com.mongmong.namo.domain.usecases.FindCategoryUseCase
-import com.mongmong.namo.domain.usecases.GetCategoriesUseCase
+import com.mongmong.namo.domain.usecases.category.FindCategoryUseCase
+import com.mongmong.namo.domain.usecases.category.GetCategoriesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
@@ -37,11 +37,11 @@ class PersonalScheduleViewModel @Inject constructor(
     private val _isComplete = MutableLiveData<Boolean>()
     val isComplete: LiveData<Boolean> = _isComplete
 
-    private val _category = MutableLiveData<Category>()
-    var category: LiveData<Category> = _category
+    private val _category = MutableLiveData<CategoryModel>()
+    var category: LiveData<CategoryModel> = _category
 
-    private val _categoryList = MutableLiveData<List<Category>>(emptyList())
-    val categoryList: LiveData<List<Category>> = _categoryList
+    private val _categoryList = MutableLiveData<List<CategoryModel>>(emptyList())
+    val categoryList: LiveData<List<CategoryModel>> = _categoryList
 
     private val _prevClickedPicker = MutableLiveData<TextView?>()
     var prevClickedPicker: LiveData<TextView?> = _prevClickedPicker
@@ -253,7 +253,7 @@ class PersonalScheduleViewModel @Inject constructor(
         )
     }
 
-    fun updateCategory(category: Category) {
+    fun updateCategory(category: CategoryModel) {
         _category.value = category
         setCategory()
     }

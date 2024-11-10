@@ -34,17 +34,17 @@ import com.mongmong.namo.presentation.ui.MainActivity.Companion.ORIGIN_ACTIVITY_
 import com.mongmong.namo.R
 import com.mongmong.namo.databinding.ActivityMoimScheduleBinding
 import com.mongmong.namo.presentation.config.BaseActivity
-import com.mongmong.namo.presentation.state.SuccessType
+import com.mongmong.namo.presentation.enums.SuccessType
 import com.mongmong.namo.presentation.ui.MainActivity
 import com.mongmong.namo.presentation.ui.community.CommunityCalendarActivity
 import com.mongmong.namo.presentation.ui.community.moim.diary.MoimDiaryDetailActivity
 import com.mongmong.namo.presentation.ui.community.moim.MoimFragment.Companion.MOIM_EDIT_KEY
 import com.mongmong.namo.presentation.ui.community.moim.schedule.adapter.MoimParticipantRVAdapter
 import com.mongmong.namo.presentation.ui.home.schedule.map.MapActivity
-import com.mongmong.namo.presentation.utils.ConfirmDialog
-import com.mongmong.namo.presentation.utils.ConfirmDialog.ConfirmDialogInterface
+import com.mongmong.namo.presentation.ui.common.ConfirmDialog
+import com.mongmong.namo.presentation.ui.common.ConfirmDialog.ConfirmDialogInterface
 import com.mongmong.namo.presentation.utils.PermissionChecker.hasImagePermission
-import com.mongmong.namo.presentation.utils.PickerConverter.setSelectedTime
+import com.mongmong.namo.presentation.utils.converter.PickerConverter.setSelectedTime
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.NullPointerException
 

@@ -9,7 +9,7 @@ import com.mongmong.namo.domain.model.Friend
 import com.mongmong.namo.domain.model.FriendRequest
 import com.mongmong.namo.domain.model.FriendSchedule
 import com.mongmong.namo.domain.model.ScheduleCategoryInfo
-import com.mongmong.namo.presentation.utils.ScheduleDateConverter
+import com.mongmong.namo.presentation.utils.converter.ScheduleDateConverter
 
 object FriendMapper {
     fun FriendDTO.toModel(): Friend {

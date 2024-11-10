@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.mongmong.namo.presentation.config.CategoryColor"/>
+        <import type="com.mongmong.namo.presentation.enums.CategoryColor"/>
         <variable
             name="category"
-            type="com.mongmong.namo.domain.model.Category" />
+            type="com.mongmong.namo.domain.model.CategoryModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

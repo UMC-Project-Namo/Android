@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.mongmong.namo.presentation.utils.ScheduleDateConverter"/>
+        <import type="com.mongmong.namo.presentation.utils.converter.ScheduleDateConverter"/>
         <import type="android.view.View"/>
         <variable
             name="viewModel"

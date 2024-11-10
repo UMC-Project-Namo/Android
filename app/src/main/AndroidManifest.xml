@@ -36,7 +36,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.ui.diary.DiaryImageDetailActivity"
+            android:name=".presentation.ui.home.diary.DiaryImageDetailActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.ui.onBoarding.OnBoardingActivity"
@@ -76,17 +76,17 @@
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".presentation.ui.category.CategoryActivity"
+            android:name=".presentation.ui.home.category.CategoryActivity"
             android:theme="@style/Theme.Transparent" />
         <activity
-            android:name=".presentation.ui.category.CategoryEditActivity"
+            android:name=".presentation.ui.home.category.CategoryEditActivity"
             android:theme="@style/Theme.Transparent" />
         <activity
             android:name=".presentation.ui.home.schedule.ScheduleActivity"
             android:exported="false"
             android:theme="@style/SlideAnimation" />
         <activity
-            android:name=".presentation.ui.diary.DiaryActivity"
+            android:name=".presentation.ui.home.diary.DiaryActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.ui.community.CommunityCalendarActivity"
@@ -100,7 +100,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".presentation.ui.diary.PersonalDiaryDetailActivity"
+            android:name=".presentation.ui.home.diary.PersonalDiaryDetailActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".presentation.ui.community.alert.CommunityAlertActivity"/>

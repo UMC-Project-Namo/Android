@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mongmong.namo.domain.model.FriendRequest
 import com.mongmong.namo.domain.model.Moim
-import com.mongmong.namo.domain.model.group.GroupMember
+import com.mongmong.namo.domain.model.Participant
 import com.mongmong.namo.domain.repositories.FriendRepository
-import com.mongmong.namo.domain.usecases.AcceptFriendRequestUseCase
-import com.mongmong.namo.domain.usecases.DenyFriendRequestUseCase
+import com.mongmong.namo.domain.usecases.friend.AcceptFriendRequestUseCase
+import com.mongmong.namo.domain.usecases.friend.DenyFriendRequestUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.joda.time.LocalDateTime
@@ -34,7 +34,8 @@ class AlertViewModel @Inject constructor(
         _moimRequestList.value = listOf(
             Moim(
                 1, LocalDateTime.now(), "", "나모 모임 일정", "강남역",
-                listOf(GroupMember(3, "코코아", 4)
+                listOf(
+                    Participant(participantId = 3, nickname = "코코아", colorId = 4)
             ))
         )
         getFriendRequests()

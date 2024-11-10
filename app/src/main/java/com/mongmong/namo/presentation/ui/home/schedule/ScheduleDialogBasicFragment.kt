@@ -32,8 +32,8 @@ import com.kakao.vectormap.label.LabelOptions
 import com.mongmong.namo.databinding.FragmentScheduleDialogBasicBinding
 import com.mongmong.namo.presentation.config.BaseFragment
 import com.mongmong.namo.presentation.ui.community.moim.diary.MoimDiaryDetailActivity
-import com.mongmong.namo.presentation.ui.diary.PersonalDiaryDetailActivity
-import com.mongmong.namo.presentation.utils.PickerConverter.setSelectedTime
+import com.mongmong.namo.presentation.ui.home.diary.PersonalDiaryDetailActivity
+import com.mongmong.namo.presentation.utils.converter.PickerConverter.setSelectedTime
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

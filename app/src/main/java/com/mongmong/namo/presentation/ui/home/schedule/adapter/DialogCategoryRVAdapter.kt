@@ -4,17 +4,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mongmong.namo.domain.model.Category
+import com.mongmong.namo.domain.model.CategoryModel
 import com.mongmong.namo.databinding.ItemDialogScheduleCategoryBinding
 
 class DialogCategoryRVAdapter(
-    private val categoryList: List<Category>
+    private val categoryList: List<CategoryModel>
 ) : RecyclerView.Adapter<DialogCategoryRVAdapter.ViewHolder>() {
 
     private var selectedId : Long = 0
 
     interface MyItemClickListener {
-        fun onSendId(category: Category)
+        fun onSendId(category: CategoryModel)
     }
 
     private lateinit var mItemClickListener : MyItemClickListener
@@ -28,7 +28,7 @@ class DialogCategoryRVAdapter(
     }
 
     inner class ViewHolder(val binding: ItemDialogScheduleCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(category : Category) {
+        fun bind(category : CategoryModel) {
             binding.category = category
             if (category.categoryId == selectedId) {
                 binding.categorySelectedIv.visibility = View.VISIBLE

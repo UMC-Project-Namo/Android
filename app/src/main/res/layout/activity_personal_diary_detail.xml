@@ -5,16 +5,16 @@
 
     <data>
 
-        <import type="com.mongmong.namo.presentation.utils.DiaryDateConverter" />
+        <import type="com.mongmong.namo.presentation.utils.converter.DiaryDateConverter" />
         <import type="android.view.View" />
-        <import type="com.mongmong.namo.presentation.config.CategoryColor" />
+        <import type="com.mongmong.namo.presentation.enums.CategoryColor" />
         <import type="android.text.TextUtils" />
         <variable
             name="paletteId"
             type="Integer" />
         <variable
             name="viewModel"
-            type="com.mongmong.namo.presentation.ui.diary.PersonalDiaryViewModel" />
+            type="com.mongmong.namo.presentation.ui.home.diary.PersonalDiaryViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

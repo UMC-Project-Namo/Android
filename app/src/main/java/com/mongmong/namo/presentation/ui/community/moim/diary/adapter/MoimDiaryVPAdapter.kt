@@ -14,7 +14,7 @@ import com.mongmong.namo.databinding.ItemMoimDiaryDiaryBinding
 import com.mongmong.namo.domain.model.Activity
 import com.mongmong.namo.domain.model.DiaryDetail
 import com.mongmong.namo.domain.model.DiaryImage
-import com.mongmong.namo.presentation.utils.DiaryDateConverter
+import com.mongmong.namo.presentation.utils.converter.DiaryDateConverter
 import java.util.Calendar
 import java.util.Date
 

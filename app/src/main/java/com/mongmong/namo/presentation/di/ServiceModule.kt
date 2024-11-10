@@ -9,9 +9,7 @@ import com.mongmong.namo.data.remote.AwsS3ApiService
 import com.mongmong.namo.data.remote.FriendApiService
 import com.mongmong.namo.data.remote.ImageApiService
 import com.mongmong.namo.data.remote.ReissuanceApiService
-import com.mongmong.namo.data.remote.group.GroupApiService
-import com.mongmong.namo.data.remote.group.GroupDiaryApiService
-import com.mongmong.namo.data.remote.group.GroupScheduleApiService
+import com.mongmong.namo.data.remote.MoimApiService
 import com.mongmong.namo.data.remote.ScheduleApiService
 import com.mongmong.namo.data.remote.TermApiService
 import com.mongmong.namo.presentation.ui.home.schedule.map.data.KakaoAPI
@@ -73,21 +71,11 @@ object ServiceModule {
     fun provideCategoryService(@NetworkModule.BasicRetrofit retrofit: Retrofit) : CategoryApiService =
         retrofit.create(CategoryApiService::class.java)
 
-    /** 그룹 **/
+    /** 모임 일정 */
     @Provides
     @Singleton
-    fun provideGroupService(@NetworkModule.BasicRetrofit retrofit: Retrofit): GroupApiService =
-        retrofit.create(GroupApiService::class.java)
-    // 모임 일정
-    @Provides
-    @Singleton
-    fun provideGroupScheduleService(@NetworkModule.BasicRetrofit retrofit: Retrofit): GroupScheduleApiService =
-        retrofit.create(GroupScheduleApiService::class.java)
-    // 모임 기록
-    @Provides
-    @Singleton
-    fun provideGroupDiaryService(@NetworkModule.BasicRetrofit retrofit: Retrofit): GroupDiaryApiService =
-        retrofit.create(GroupDiaryApiService::class.java)
+    fun provideMoimService(@NetworkModule.BasicRetrofit retrofit: Retrofit): MoimApiService =
+        retrofit.create(MoimApiService::class.java)
 
     /** 친구 */
     @Provides

@@ -13,8 +13,8 @@ import com.mongmong.namo.presentation.config.BaseFragment
 import com.mongmong.namo.presentation.ui.community.CommunityCalendarActivity
 import com.mongmong.namo.presentation.ui.community.calendar.adapter.ParticipantDailyScheduleRVAdapter
 import com.mongmong.namo.presentation.ui.home.schedule.adapter.DailyScheduleRVAdapter
-import com.mongmong.namo.presentation.utils.CustomCalendarView
-import com.mongmong.namo.presentation.utils.ScheduleTimeConverter
+import com.mongmong.namo.presentation.ui.common.CustomCalendarView
+import com.mongmong.namo.presentation.utils.converter.ScheduleTimeConverter
 import dagger.hilt.android.AndroidEntryPoint
 import org.joda.time.DateTime
 

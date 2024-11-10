@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mongmong.namo.databinding.ItemSchedulePreviewMoimBinding
 import com.mongmong.namo.domain.model.CommunityCommonSchedule
 import com.mongmong.namo.domain.model.SchedulePeriod
-import com.mongmong.namo.presentation.utils.ScheduleTimeConverter
+import com.mongmong.namo.presentation.utils.converter.ScheduleTimeConverter
 import org.joda.time.DateTime
 import org.joda.time.LocalDateTime
 

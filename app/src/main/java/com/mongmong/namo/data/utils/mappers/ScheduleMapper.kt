@@ -8,7 +8,7 @@ import com.mongmong.namo.domain.model.Location
 import com.mongmong.namo.domain.model.Schedule
 import com.mongmong.namo.domain.model.ScheduleCategoryInfo
 import com.mongmong.namo.domain.model.SchedulePeriod
-import com.mongmong.namo.presentation.utils.ScheduleDateConverter
+import com.mongmong.namo.presentation.utils.converter.ScheduleDateConverter
 import com.mongmong.namo.domain.model.ScheduleType
 
 object ScheduleMapper {

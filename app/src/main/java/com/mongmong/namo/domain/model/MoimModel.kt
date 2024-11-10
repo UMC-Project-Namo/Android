@@ -1,6 +1,5 @@
 package com.mongmong.namo.domain.model
 
-import com.mongmong.namo.domain.model.group.GroupMember
 import org.joda.time.LocalDateTime
 import java.io.Serializable
 
@@ -74,17 +73,17 @@ data class Moim(
     var coverImg: String = "",
     var title: String = "",
     var placeName: String = "",
-    val members: List<GroupMember> = emptyList()
+    val members: List<Participant> = emptyList()
 ): Serializable {
     fun getMemberNames(): String {
-        return members.joinToString { it.userName }
+        return members.joinToString { it.nickname }
     }
 
     fun getParticipantsColoInfo(): List<CalendarColorInfo> {
         return members.map { participant ->
             CalendarColorInfo(
-                colorId = participant.color,
-                name = participant.userName
+                colorId = participant.colorId,
+                name = participant.nickname
             )
         }
     }

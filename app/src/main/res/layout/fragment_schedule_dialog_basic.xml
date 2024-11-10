@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.mongmong.namo.presentation.utils.PickerConverter"/>
+        <import type="com.mongmong.namo.presentation.utils.converter.PickerConverter"/>
         <import type="android.view.View"/>
-        <import type="com.mongmong.namo.presentation.config.CategoryColor"/>
+        <import type="com.mongmong.namo.presentation.enums.CategoryColor"/>
         <import type="android.text.TextUtils"/>
         <variable
             name="viewModel"
@@ -447,7 +447,7 @@
             android:layout_marginTop="10dp"
             android:visibility="gone"/>
 
-        <com.mongmong.namo.presentation.utils.ImageTextView
+        <com.mongmong.namo.presentation.ui.common.CustomDrawableTextView
             android:id="@+id/dialog_schedule_record_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

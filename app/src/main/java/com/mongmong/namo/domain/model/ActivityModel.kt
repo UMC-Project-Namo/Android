@@ -1,6 +1,5 @@
 package com.mongmong.namo.domain.model
 
-import com.mongmong.namo.presentation.config.BaseResponse
 import java.math.BigDecimal
 
 data class Activity(

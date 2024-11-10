@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.mongmong.namo.R
 import com.mongmong.namo.domain.model.Schedule
@@ -20,10 +19,10 @@ import com.mongmong.namo.databinding.ActivityScheduleBinding
 import com.mongmong.namo.domain.model.SchedulePeriod
 import com.mongmong.namo.presentation.config.BaseActivity
 import com.mongmong.namo.presentation.ui.home.notify.PushNotificationReceiver
-import com.mongmong.namo.presentation.utils.ConfirmDialog
-import com.mongmong.namo.presentation.utils.ConfirmDialog.ConfirmDialogInterface
+import com.mongmong.namo.presentation.ui.common.ConfirmDialog
+import com.mongmong.namo.presentation.ui.common.ConfirmDialog.ConfirmDialogInterface
 import com.mongmong.namo.presentation.utils.LocalDateTimeAdapter
-import com.mongmong.namo.presentation.utils.PickerConverter
+import com.mongmong.namo.presentation.utils.converter.PickerConverter
 import dagger.hilt.android.AndroidEntryPoint
 import org.joda.time.DateTime
 import org.joda.time.LocalDateTime

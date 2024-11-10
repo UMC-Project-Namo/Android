@@ -7,10 +7,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mongmong.namo.R
 import com.mongmong.namo.presentation.ui.home.schedule.adapter.DialogCategoryRVAdapter
-import com.mongmong.namo.domain.model.Category
+import com.mongmong.namo.domain.model.CategoryModel
 import com.mongmong.namo.databinding.FragmentScheduleDialogCategoryBinding
 import com.mongmong.namo.presentation.config.BaseFragment
-import com.mongmong.namo.presentation.ui.category.CategoryActivity
+import com.mongmong.namo.presentation.ui.home.category.CategoryActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,12 +35,12 @@ class ScheduleDialogCategoryFragment
         }
     }
 
-    private fun setAdapter(categoryList: List<Category>) {
+    private fun setAdapter(categoryList: List<CategoryModel>) {
         categoryRVAdapter = DialogCategoryRVAdapter(categoryList)
         categoryRVAdapter.setSelectedId(viewModel.schedule.value!!.categoryInfo.categoryId)
         categoryRVAdapter.setMyItemClickListener(object: DialogCategoryRVAdapter.MyItemClickListener {
             // 아이템 클릭
-            override fun onSendId(category: Category) {
+            override fun onSendId(category: CategoryModel) {
                 // 카테고리 세팅
                 viewModel.updateCategory(category)
                 val action = ScheduleDialogCategoryFragmentDirections.actionScheduleDialogCategoryFragmentToScheduleDialogBasicFragment()

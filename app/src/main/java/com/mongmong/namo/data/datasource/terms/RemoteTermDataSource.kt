@@ -2,7 +2,7 @@ package com.mongmong.namo.data.datasource.terms
 
 import android.util.Log
 import com.mongmong.namo.data.remote.TermApiService
-import com.mongmong.namo.domain.model.TermBody
+import com.mongmong.namo.data.dto.TermBody
 import com.mongmong.namo.presentation.config.ApplicationClass.Companion.dsManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
