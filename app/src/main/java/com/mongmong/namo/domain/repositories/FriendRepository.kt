@@ -5,7 +5,7 @@ import com.mongmong.namo.domain.model.CalendarColorInfo
 import com.mongmong.namo.domain.model.Friend
 import com.mongmong.namo.domain.model.FriendRequest
 import com.mongmong.namo.domain.model.FriendSchedule
-import com.mongmong.namo.presentation.config.BaseResponse
+import com.mongmong.namo.data.utils.common.BaseResponse
 import org.joda.time.DateTime
 
 interface FriendRepository {

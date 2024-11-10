@@ -8,7 +8,7 @@ import com.mongmong.namo.data.dto.GetMoimResponse
 import com.mongmong.namo.data.dto.MoimBaseResponse
 import com.mongmong.namo.data.dto.MoimScheduleRequestBody
 import com.mongmong.namo.data.dto.PostMoimScheduleResponse
-import com.mongmong.namo.presentation.config.BaseResponse
+import com.mongmong.namo.data.utils.common.BaseResponse
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET

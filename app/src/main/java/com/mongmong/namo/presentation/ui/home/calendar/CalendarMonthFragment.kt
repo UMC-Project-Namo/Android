@@ -5,20 +5,19 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.mongmong.namo.R
-import com.mongmong.namo.domain.model.Category
+import com.mongmong.namo.domain.model.CategoryModel
 import com.mongmong.namo.databinding.FragmentCalendarMonthBinding
 import com.mongmong.namo.domain.model.Schedule
 import com.mongmong.namo.presentation.config.BaseFragment
-import com.mongmong.namo.presentation.ui.diary.PersonalDiaryDetailActivity
+import com.mongmong.namo.presentation.ui.home.diary.PersonalDiaryDetailActivity
 import com.mongmong.namo.presentation.ui.community.moim.diary.MoimDiaryDetailActivity
 import com.mongmong.namo.presentation.ui.home.HomeFragment
 import com.mongmong.namo.presentation.ui.home.schedule.adapter.DailyScheduleRVAdapter
 import com.mongmong.namo.presentation.ui.home.schedule.ScheduleActivity
 import com.mongmong.namo.presentation.ui.home.schedule.PersonalScheduleViewModel
-import com.mongmong.namo.presentation.utils.CustomCalendarView
+import com.mongmong.namo.presentation.ui.common.CustomCalendarView
 import com.mongmong.namo.presentation.utils.LocalDateTimeAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import org.joda.time.DateTime
@@ -168,7 +167,7 @@ class CalendarMonthFragment : BaseFragment<FragmentCalendarMonthBinding>(R.layou
         viewModel.getCategories()
     }
 
-    private fun setCategoryList(categoryList: List<Category>) {
+    private fun setCategoryList(categoryList: List<CategoryModel>) {
         binding.calendarMonthView.setCategoryList(categoryList)
         personalDailyScheduleAdapter.setCategoryList(categoryList)
         groupDailyScheduleAdapter.setCategoryList(categoryList)

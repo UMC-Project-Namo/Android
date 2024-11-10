@@ -9,9 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.mongmong.namo.databinding.ActivitySplashBinding
-import com.mongmong.namo.presentation.config.ApplicationClass
 import com.mongmong.namo.presentation.config.ApplicationClass.Companion.dsManager
-import com.mongmong.namo.presentation.ui.login.AuthViewModel
+import com.mongmong.namo.presentation.ui.auth.AuthViewModel
 import com.mongmong.namo.presentation.ui.onBoarding.OnBoardingActivity
 import com.mongmong.namo.presentation.utils.AppUpdateHelper
 import dagger.hilt.android.AndroidEntryPoint

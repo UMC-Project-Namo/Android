@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.mongmong.namo.presentation.ui.diary.DiaryCalendarViewModel" />
+            type="com.mongmong.namo.presentation.ui.home.diary.DiaryCalendarViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

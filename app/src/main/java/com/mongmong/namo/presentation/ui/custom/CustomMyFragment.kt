@@ -5,8 +5,8 @@ import com.mongmong.namo.R
 import com.mongmong.namo.domain.model.Palette
 import com.mongmong.namo.databinding.FragmentCustomMyBinding
 import com.mongmong.namo.presentation.config.BaseFragment
-import com.mongmong.namo.presentation.config.CategoryColor
-import com.mongmong.namo.presentation.config.PaletteType
+import com.mongmong.namo.presentation.enums.CategoryColor
+import com.mongmong.namo.presentation.enums.PaletteType
 import com.mongmong.namo.presentation.ui.custom.adapter.PaletteRVAdapter
 
 class CustomMyFragment : BaseFragment<FragmentCustomMyBinding>(R.layout.fragment_custom_my) {

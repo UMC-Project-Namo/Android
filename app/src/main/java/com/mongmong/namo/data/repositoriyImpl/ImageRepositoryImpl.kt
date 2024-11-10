@@ -3,10 +3,9 @@ package com.mongmong.namo.data.repositoriyImpl
 import android.content.Context
 import android.net.Uri
 import com.mongmong.namo.data.datasource.s3.ImageDataSource
-import com.mongmong.namo.data.utils.RequestConverter
-import com.mongmong.namo.data.utils.RequestConverter.getFileNameFromUri
+import com.mongmong.namo.data.utils.common.RequestConverter
+import com.mongmong.namo.data.utils.common.RequestConverter.getFileNameFromUri
 import com.mongmong.namo.domain.repositories.ImageRepository
-import okhttp3.RequestBody
 import javax.inject.Inject
 
 class ImageRepositoryImpl @Inject constructor(

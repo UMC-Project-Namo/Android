@@ -1,7 +1,7 @@
 package com.mongmong.namo.data.remote
 
 import com.mongmong.namo.data.dto.TermBody
-import com.mongmong.namo.presentation.config.BaseResponse
+import com.mongmong.namo.data.utils.common.BaseResponse
 import retrofit2.http.Body
 import retrofit2.http.POST
 

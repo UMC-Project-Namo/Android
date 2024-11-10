@@ -3,7 +3,7 @@ package com.mongmong.namo.domain.model
 import com.mongmong.namo.data.dto.CategoryRequestBody
 import java.io.Serializable
 
-data class Category(
+data class CategoryModel(
     var categoryId: Long = 0,
     var name: String = "",
     var colorId: Int = 0,

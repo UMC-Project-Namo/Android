@@ -1,7 +1,7 @@
 package com.mongmong.namo.data.dto
 
 import com.google.gson.annotations.SerializedName
-import com.mongmong.namo.presentation.config.BaseResponse
+import com.mongmong.namo.data.utils.common.BaseResponse
 
 data class TermResponse(
     val result: String // 기본 string

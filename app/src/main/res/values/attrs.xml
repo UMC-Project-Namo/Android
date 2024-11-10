@@ -17,7 +17,7 @@
         <attr name="eventLineHeight" format="dimension"/>
     </declare-styleable>
 
-    <declare-styleable name="ImageTextView">
+    <declare-styleable name="CustomDrawableTextView">
         <attr name="drawableStartSize" format="dimension|reference" />
         <attr name="drawableEndSize" format="dimension|reference" />
     </declare-styleable>

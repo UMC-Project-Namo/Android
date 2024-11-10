@@ -11,7 +11,7 @@ import com.mongmong.namo.presentation.config.BaseActivity
 import com.mongmong.namo.presentation.ui.community.calendar.adapter.CommunityCalendarAdapter
 import com.mongmong.namo.presentation.ui.community.calendar.CalendarInfoDialog
 import com.mongmong.namo.presentation.ui.community.calendar.CalendarViewModel
-import com.mongmong.namo.presentation.utils.SetMonthDialog
+import com.mongmong.namo.presentation.ui.common.SetMonthDialog
 import dagger.hilt.android.AndroidEntryPoint
 import org.joda.time.DateTime
 

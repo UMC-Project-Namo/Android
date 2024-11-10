@@ -16,7 +16,7 @@ import com.mongmong.namo.domain.model.MoimPreview
 import com.mongmong.namo.domain.model.MoimScheduleDetail
 import com.mongmong.namo.domain.model.Participant
 import com.mongmong.namo.domain.model.SchedulePeriod
-import com.mongmong.namo.presentation.utils.ScheduleDateConverter
+import com.mongmong.namo.presentation.utils.converter.ScheduleDateConverter
 
 object MoimMapper {
     // DTO -> Model

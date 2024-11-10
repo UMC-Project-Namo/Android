@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.mongmong.namo.presentation.ui.category.CategoryViewModel" />
+            type="com.mongmong.namo.presentation.ui.home.category.CategoryViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

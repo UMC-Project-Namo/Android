@@ -7,8 +7,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.mongmong.namo.R
 import com.mongmong.namo.databinding.FragmentHomeBinding
 import com.mongmong.namo.presentation.config.BaseFragment
-import com.mongmong.namo.presentation.ui.diary.DiaryActivity
-import com.mongmong.namo.presentation.utils.SetMonthDialog
+import com.mongmong.namo.presentation.ui.home.diary.DiaryActivity
+import com.mongmong.namo.presentation.ui.common.SetMonthDialog
 import com.mongmong.namo.presentation.ui.home.calendar.CalendarAdapter
 import org.joda.time.DateTime
 

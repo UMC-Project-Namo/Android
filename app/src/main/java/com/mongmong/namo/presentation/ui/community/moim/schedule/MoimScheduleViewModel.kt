@@ -14,8 +14,8 @@ import com.mongmong.namo.domain.model.SchedulePeriod
 import com.mongmong.namo.domain.repositories.ScheduleRepository
 import com.mongmong.namo.domain.usecases.image.UploadImageToS3UseCase
 import com.mongmong.namo.presentation.config.ApplicationClass.Companion.dsManager
-import com.mongmong.namo.presentation.state.SuccessState
-import com.mongmong.namo.presentation.state.SuccessType
+import com.mongmong.namo.presentation.enums.SuccessState
+import com.mongmong.namo.presentation.enums.SuccessType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch

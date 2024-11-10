@@ -23,7 +23,7 @@ import com.mongmong.namo.databinding.ActivityMoimDiaryDetailBinding
 import com.mongmong.namo.domain.model.DiaryImage
 import com.mongmong.namo.presentation.config.BaseActivity
 import com.mongmong.namo.presentation.ui.MainActivity.Companion.ORIGIN_ACTIVITY_INTENT_KEY
-import com.mongmong.namo.presentation.ui.diary.DiaryImageDetailActivity
+import com.mongmong.namo.presentation.ui.home.diary.DiaryImageDetailActivity
 import com.mongmong.namo.presentation.ui.community.moim.diary.adapter.MoimDiaryVPAdapter
 import com.mongmong.namo.presentation.ui.community.moim.diary.adapter.MoimDiaryParticipantsRVAdapter
 import com.mongmong.namo.presentation.ui.home.schedule.map.MapActivity
@@ -31,8 +31,8 @@ import com.mongmong.namo.presentation.ui.home.schedule.map.MapActivity.Companion
 import com.mongmong.namo.presentation.ui.home.schedule.map.MapActivity.Companion.PLACE_NAME_KEY
 import com.mongmong.namo.presentation.ui.home.schedule.map.MapActivity.Companion.PLACE_X_KEY
 import com.mongmong.namo.presentation.ui.home.schedule.map.MapActivity.Companion.PLACE_Y_KEY
-import com.mongmong.namo.presentation.utils.ConfirmDialog
-import com.mongmong.namo.presentation.utils.ConfirmDialog.ConfirmDialogInterface
+import com.mongmong.namo.presentation.ui.common.ConfirmDialog
+import com.mongmong.namo.presentation.ui.common.ConfirmDialog.ConfirmDialogInterface
 import com.mongmong.namo.presentation.utils.PermissionChecker
 import com.mongmong.namo.presentation.utils.hideKeyboardOnTouchOutside
 import dagger.hilt.android.AndroidEntryPoint

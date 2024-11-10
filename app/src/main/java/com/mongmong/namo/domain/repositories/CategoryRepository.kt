@@ -1,21 +1,21 @@
 package com.mongmong.namo.domain.repositories
 
-import com.mongmong.namo.domain.model.Category
+import com.mongmong.namo.domain.model.CategoryModel
 
 interface CategoryRepository {
-    suspend fun getCategories(): List<Category>
+    suspend fun getCategories(): List<CategoryModel>
 
-    suspend fun findCategoryById(categoryId: Long): Category
+    suspend fun findCategoryById(categoryId: Long): CategoryModel
 
     suspend fun addCategory(
-        category: Category
+        category: CategoryModel
     ): Boolean
 
     suspend fun editCategory(
-        category: Category
+        category: CategoryModel
     ): Boolean
 
     suspend fun deleteCategory(
-        category: Category
+        category: CategoryModel
     ): Boolean
 }

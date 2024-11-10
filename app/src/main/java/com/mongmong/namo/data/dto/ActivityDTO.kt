@@ -1,7 +1,6 @@
 package com.mongmong.namo.data.dto
 
-import com.google.gson.annotations.SerializedName
-import com.mongmong.namo.presentation.config.BaseResponse
+import com.mongmong.namo.data.utils.common.BaseResponse
 import java.math.BigDecimal
 
 data class GetActivitiesResponse(

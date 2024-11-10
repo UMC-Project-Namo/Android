@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.mongmong.namo.presentation.ui.login.LoginFragment"
+        android:name="com.mongmong.namo.presentation.ui.auth.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/termsFragment"
-        android:name="com.mongmong.namo.presentation.ui.login.TermsFragment"
+        android:name="com.mongmong.namo.presentation.ui.auth.TermsFragment"
         android:label="TermsFragment"
         tools:layout="@layout/fragment_terms"/>
 </navigation>

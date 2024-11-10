@@ -3,14 +3,13 @@ package com.mongmong.namo.presentation.ui.home.calendar
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import com.mongmong.namo.domain.model.Category
+import com.mongmong.namo.domain.model.CategoryModel
 import com.mongmong.namo.domain.model.Schedule
-import com.mongmong.namo.presentation.config.CategoryColor
+import com.mongmong.namo.presentation.enums.CategoryColor
 import com.mongmong.namo.presentation.ui.home.calendar.data.StartEnd
 import com.mongmong.namo.presentation.utils.CalendarUtils.Companion.DAYS_PER_WEEK
-import com.mongmong.namo.presentation.utils.CustomCalendarView
-import com.mongmong.namo.presentation.utils.ScheduleDateConverter
-import org.joda.time.DateTime
+import com.mongmong.namo.presentation.ui.common.CustomCalendarView
+import com.mongmong.namo.presentation.utils.converter.ScheduleDateConverter
 import org.joda.time.Days
 
 class PersonalCalendarView(context: Context, attrs: AttributeSet) :
@@ -146,7 +145,7 @@ class PersonalCalendarView(context: Context, attrs: AttributeSet) :
         invalidate()
     }
 
-    fun setCategoryList(category: List<Category>) {
+    fun setCategoryList(category: List<CategoryModel>) {
         categoryList.clear()
         categoryList.addAll(category)
     }

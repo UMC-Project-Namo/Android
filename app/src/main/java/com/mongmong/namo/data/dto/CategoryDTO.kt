@@ -1,8 +1,8 @@
 package com.mongmong.namo.data.dto
 
-import com.mongmong.namo.presentation.config.BaseResponse
+import com.mongmong.namo.data.utils.common.BaseResponse
 import com.google.gson.annotations.SerializedName
-import com.mongmong.namo.domain.model.Category
+import com.mongmong.namo.domain.model.CategoryModel
 
 /** 카테고리 생성 */
 class PostCategoryResponse (
@@ -45,8 +45,8 @@ class GetCategoryResult (
     val baseCategory: Boolean,
     val shared: Boolean
 ) {
-    fun convertToCategory(): Category {
-        return Category(
+    fun convertToCategory(): CategoryModel {
+        return CategoryModel(
             categoryId = this.categoryId,
             name = this.categoryName,
             colorId = this.colorId,
