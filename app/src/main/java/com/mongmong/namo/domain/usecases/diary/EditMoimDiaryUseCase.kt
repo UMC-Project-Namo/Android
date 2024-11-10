@@ -1,4 +1,4 @@
-package com.mongmong.namo.domain.usecases
+package com.mongmong.namo.domain.usecases.diary
 
 import android.net.Uri
 import android.util.Log
@@ -8,6 +8,7 @@ import com.mongmong.namo.domain.model.DiaryDetail
 import com.mongmong.namo.domain.model.DiaryImage
 import com.mongmong.namo.domain.repositories.ActivityRepository
 import com.mongmong.namo.domain.repositories.DiaryRepository
+import com.mongmong.namo.domain.usecases.image.UploadImageToS3UseCase
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject

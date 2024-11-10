@@ -1,7 +1,7 @@
 package com.mongmong.namo.data.repositoriyImpl
 
 import com.mongmong.namo.data.datasource.terms.RemoteTermDataSource
-import com.mongmong.namo.domain.model.TermBody
+import com.mongmong.namo.data.dto.TermBody
 import com.mongmong.namo.domain.repositories.TermRepository
 import javax.inject.Inject
 

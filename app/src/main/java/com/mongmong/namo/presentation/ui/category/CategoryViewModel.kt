@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mongmong.namo.domain.model.Category
 import com.mongmong.namo.domain.repositories.CategoryRepository
-import com.mongmong.namo.domain.usecases.GetCategoriesUseCase
+import com.mongmong.namo.domain.usecases.category.GetCategoriesUseCase
 import com.mongmong.namo.presentation.config.CategoryColor
 import com.mongmong.namo.presentation.state.RoomState
 import dagger.hilt.android.lifecycle.HiltViewModel

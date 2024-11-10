@@ -1,4 +1,4 @@
-package com.mongmong.namo.domain.model
+package com.mongmong.namo.data.dto
 
 import com.google.gson.annotations.SerializedName
 import com.mongmong.namo.presentation.config.BaseResponse

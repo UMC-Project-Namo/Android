@@ -14,8 +14,8 @@ import com.mongmong.namo.data.dto.PatchMoimScheduleCategoryRequestBody
 import com.mongmong.namo.domain.model.Location
 import com.mongmong.namo.domain.model.SchedulePeriod
 import com.mongmong.namo.domain.repositories.ScheduleRepository
-import com.mongmong.namo.domain.usecases.FindCategoryUseCase
-import com.mongmong.namo.domain.usecases.GetCategoriesUseCase
+import com.mongmong.namo.domain.usecases.category.FindCategoryUseCase
+import com.mongmong.namo.domain.usecases.category.GetCategoriesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime

@@ -1,4 +1,4 @@
-package com.mongmong.namo.domain.usecases
+package com.mongmong.namo.domain.usecases.image
 
 import android.net.Uri
 import com.mongmong.namo.domain.repositories.ImageRepository

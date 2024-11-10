@@ -12,7 +12,7 @@ import com.mongmong.namo.domain.model.MoimScheduleDetail
 import com.mongmong.namo.domain.model.Participant
 import com.mongmong.namo.domain.model.SchedulePeriod
 import com.mongmong.namo.domain.repositories.ScheduleRepository
-import com.mongmong.namo.domain.usecases.UploadImageToS3UseCase
+import com.mongmong.namo.domain.usecases.image.UploadImageToS3UseCase
 import com.mongmong.namo.presentation.config.ApplicationClass.Companion.dsManager
 import com.mongmong.namo.presentation.state.SuccessState
 import com.mongmong.namo.presentation.state.SuccessType

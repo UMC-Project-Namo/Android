@@ -1,4 +1,4 @@
-package com.mongmong.namo.domain.usecases
+package com.mongmong.namo.domain.usecases.friend
 
 import android.util.Log
 import com.mongmong.namo.domain.model.Friend

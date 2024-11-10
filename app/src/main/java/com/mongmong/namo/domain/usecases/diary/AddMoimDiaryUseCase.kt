@@ -1,9 +1,10 @@
-package com.mongmong.namo.domain.usecases
+package com.mongmong.namo.domain.usecases.diary
 
 import android.net.Uri
 import com.mongmong.namo.domain.model.DiaryBaseResponse
 import com.mongmong.namo.domain.model.DiaryDetail
 import com.mongmong.namo.domain.repositories.DiaryRepository
+import com.mongmong.namo.domain.usecases.image.UploadImageToS3UseCase
 import javax.inject.Inject
 
 class AddMoimDiaryUseCase @Inject constructor(

@@ -11,7 +11,7 @@ import com.mongmong.namo.domain.model.DiaryDetail
 import com.mongmong.namo.domain.model.DiaryImage
 import com.mongmong.namo.domain.model.ScheduleForDiary
 import com.mongmong.namo.domain.repositories.DiaryRepository
-import com.mongmong.namo.domain.usecases.UploadImageToS3UseCase
+import com.mongmong.namo.domain.usecases.image.UploadImageToS3UseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

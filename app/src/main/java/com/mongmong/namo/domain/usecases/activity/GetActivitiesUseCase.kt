@@ -1,8 +1,7 @@
-package com.mongmong.namo.domain.usecases
+package com.mongmong.namo.domain.usecases.activity
 
 import com.mongmong.namo.domain.model.Activity
 import com.mongmong.namo.domain.repositories.ActivityRepository
-import com.mongmong.namo.domain.repositories.DiaryRepository
 import javax.inject.Inject
 
 class GetActivitiesUseCase @Inject constructor(private val activityRepository: ActivityRepository) {
