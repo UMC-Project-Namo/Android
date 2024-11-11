@@ -227,7 +227,7 @@
                     android:layout_width="15dp"
                     android:layout_height="0dp"
                     android:background="@drawable/bg_diary_category_color_view"
-                    android:backgroundTint="@{CategoryColor.convertPaletteIdToColorStateList(viewModel.diarySchedule.categoryId)}"
+                    android:backgroundTint="@{CategoryColor.convertColorIdToColorStateList(viewModel.diarySchedule.categoryId)}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

@@ -151,7 +151,7 @@ class CommunityCalendarView(context: Context, attrs: AttributeSet) :
 
     private fun setBgPaintColor(schedule: CommunityCommonSchedule) {
         val colorId = if (isFriendCalendar) schedule.categoryInfo!!.colorId else schedule.participants?.get(0)!!.colorId
-        val hexColor = CategoryColor.convertPaletteIdToHexColor(colorId)
+        val hexColor = CategoryColor.convertColorIdToHexColor(colorId)
         bgPaint.color = Color.parseColor(hexColor)
     }
 }

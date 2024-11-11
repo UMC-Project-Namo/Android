@@ -20,7 +20,7 @@
             android:id="@+id/category_color_view"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:backgroundTint="@{CategoryColor.convertPaletteIdToColorStateList(category.colorId)}"
+            android:backgroundTint="@{CategoryColor.convertColorIdToColorStateList(category.colorId)}"
             android:background="@drawable/bg_circle"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"

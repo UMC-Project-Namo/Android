@@ -6,14 +6,13 @@ import com.mongmong.namo.domain.model.Palette
 import com.mongmong.namo.databinding.FragmentCustomMyBinding
 import com.mongmong.namo.presentation.config.BaseFragment
 import com.mongmong.namo.presentation.enums.CategoryColor
-import com.mongmong.namo.presentation.enums.PaletteType
 import com.mongmong.namo.presentation.ui.custom.adapter.PaletteRVAdapter
 
 class CustomMyFragment : BaseFragment<FragmentCustomMyBinding>(R.layout.fragment_custom_my) {
     override fun setup() {
         // 팔레트 페이지랑 동일한 데이터
         val paletteDatas = arrayListOf(
-            Palette("기본 팔레트", CategoryColor.findColorsByPaletteType(PaletteType.BASIC_PALETTE))
+            Palette("기본 팔레트", CategoryColor.getAllHexColors())
         )
 
         //어댑터 연결

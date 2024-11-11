@@ -3,59 +3,50 @@ package com.mongmong.namo.presentation.enums
 import android.content.res.ColorStateList
 import android.graphics.Color
 
-enum class PaletteType { DEFAULT_4, BASIC_PALETTE }
-
 /** 내부 색상 저장 용도 */
-enum class CategoryColor(val paletteType: PaletteType, val paletteId: Int, val hexColor: String) {
-    /** 기본 색상 */
-    SCHEDULE(PaletteType.DEFAULT_4, 1, "#DE8989"),
-    YELLOW(PaletteType.DEFAULT_4, 2, "#E1B000"),
-    BLUE(PaletteType.DEFAULT_4, 3, "#5C8596"),
-    MOIM(PaletteType.DEFAULT_4, 4, "#DA6022"),
-    /** 기본 팔레트 */
-    DEFAULT_PALETTE_COLOR1(PaletteType.BASIC_PALETTE, 5, "#EB5353"),
-    DEFAULT_PALETTE_COLOR2(PaletteType.BASIC_PALETTE, 6, "#EC9B3B"),
-    DEFAULT_PALETTE_COLOR3(PaletteType.BASIC_PALETTE, 7, "#FBCB0A"),
-    DEFAULT_PALETTE_COLOR4(PaletteType.BASIC_PALETTE, 8, "#96BB7C"),
-    DEFAULT_PALETTE_COLOR5(PaletteType.BASIC_PALETTE, 9, "#5A8F7B"),
-    DEFAULT_PALETTE_COLOR6(PaletteType.BASIC_PALETTE, 10, "#82C4C3"),
-    DEFAULT_PALETTE_COLOR7(PaletteType.BASIC_PALETTE, 11, "#187498"),
-    DEFAULT_PALETTE_COLOR8(PaletteType.BASIC_PALETTE, 12, "#8571BF"),
-    DEFAULT_PALETTE_COLOR9(PaletteType.BASIC_PALETTE, 13, "#E36488"),
-    DEFAULT_PALETTE_COLOR10(PaletteType.BASIC_PALETTE, 14, "#858585");
+enum class CategoryColor(val colorId: Int, val hexColor: String) {
+    NAMO_ORANGE(1, "#DA6022"),
+    NAMO_PINK(2, "#DE8989"),
+    NAMO_YELLOW(3, "#E1B000"),
+    NAMO_BLUE(4, "#5C8596"),
+    LIGHT_GRAY(5, "#DADADA"),
+    RED(6, "#EB5353"),
+    PINK(7, "#FFA192"),
+    ORANGE(8, "#EC9B3B"),
+    YELLOW(9, "#FFE70F"),
+    LIME(10, "#B3DF67"),
+    LIGHT_GREEN(11, "#78A756"),
+    GREEN(12, "#24794F"),
+    CYAN(13, "#5AE0BC"),
+    LIGHT_BLUE(14, "#45C1D4"),
+    BLUE(15, "#355080"),
+    LAVENDER(16, "#8571BF"),
+    PURPLE(17, "#833286"),
+    MAGENTA(18, "#FF70DE"),
+    DARK_GRAY(19, "#9C9C9C"),
+    BLACK(20, "#1D1D1D");
 
     companion object {
         // enum class의 모든 hexColor 반환
-        fun getAllColors(): ArrayList<String> {
+        fun getAllHexColors(): ArrayList<String> {
             return values().map { it.hexColor } as ArrayList<String>
         }
 
-        // PaletteType에 해당하는 리스트 반환
-        fun findPaletteByPaletteType(paletteType: PaletteType): ArrayList<CategoryColor> {
-            return values().filter { it.paletteType == paletteType } as ArrayList<CategoryColor>
+        // colorId로 CategoryColor 찾기
+        fun findCategoryColorByColorId(paletteId: Int): CategoryColor { //
+            return values().find { it.colorId == paletteId } ?: NAMO_ORANGE // 못 찾으면 기본 색상으로
         }
 
-        // 팔레트의 hexColor만 반환하기
-        fun findColorsByPaletteType(paletteType: PaletteType): ArrayList<String> {
-            return findPaletteByPaletteType(paletteType).map { it.hexColor } as ArrayList<String>
-        }
-
-        // paletteId로 CategoryColor 찾기
-        fun findCategoryColorByPaletteId(paletteId: Int): CategoryColor { //
-            return values().find { it.paletteId == paletteId } ?: SCHEDULE // 못 찾으면 기본 색상으로
-        }
-
-        // paletteId로 hexColor를 반환
-        fun convertPaletteIdToHexColor(paletteId: Int): String {
-            return findCategoryColorByPaletteId(paletteId).hexColor
+        // colorId로 hexColor를 반환
+        fun convertColorIdToHexColor(paletteId: Int): String {
+            return findCategoryColorByColorId(paletteId).hexColor
         }
 
         // 카테고리 색상뷰 배경색 바꾸기 용도
         @JvmStatic
-        fun convertPaletteIdToColorStateList(paletteId: Int) : ColorStateList {
-            return ColorStateList.valueOf(convertHexToInt(convertPaletteIdToHexColor(paletteId)))
+        fun convertColorIdToColorStateList(paletteId: Int) : ColorStateList {
+            return ColorStateList.valueOf(convertHexToInt(convertColorIdToHexColor(paletteId)))
         }
-
 
         private fun convertHexToInt(hexColor: String): Int {
             return Color.parseColor(hexColor)

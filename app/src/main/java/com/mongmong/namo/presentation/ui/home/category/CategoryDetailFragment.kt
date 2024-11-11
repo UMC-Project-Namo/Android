@@ -48,7 +48,7 @@ class CategoryDetailFragment(private val isEditMode: Boolean)
         initObservers()
 
         if (viewModel.color.value == null) {
-            initPaletteColorRv(CategoryColor.SCHEDULE)
+            initPaletteColorRv(CategoryColor.NAMO_ORANGE)
         } else {
             initPaletteColorRv(viewModel.color.value!!)
         }
@@ -170,7 +170,7 @@ class CategoryDetailFragment(private val isEditMode: Boolean)
                     checkList[j].visibility = View.GONE
                 }
                 // 팔레트 내의 색상도 모두 선택 해제
-                initPaletteColorRv(CategoryColor.SCHEDULE)
+                initPaletteColorRv(CategoryColor.NAMO_ORANGE)
                 if (viewModel.selectedPalettePosition.value != null) {
                     paletteAdapter.notifyItemChanged(viewModel.selectedPalettePosition.value!!)
                 }
