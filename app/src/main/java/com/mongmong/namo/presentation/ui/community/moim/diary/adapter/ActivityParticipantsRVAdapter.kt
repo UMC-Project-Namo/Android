@@ -55,9 +55,11 @@ class ActivityParticipantsRVAdapter(
                 if (binding.itemActivityParticipantsCheckbox.isChecked) {
                     selectedParticipants.add(participant)
                 } else {
-                    selectedParticipants.remove(participant)
+                    // participantId를 기준으로 항목을 제거합니다.
+                    selectedParticipants.removeAll { it.participantId == participant.participantId }
                 }
             }
+
         }
     }
 }

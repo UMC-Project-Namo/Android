@@ -74,13 +74,17 @@ class ActivityParticipantsDialog(private val position: Int) : DialogFragment() {
 
             // 추가된 참가자
             val participantsToAdd = selectedParticipants
-                .filterNot { originalParticipants.contains(it) }
-                .map { it.participantId }
+                .filterNot { selected ->
+                    originalParticipants.any { it.participantId == selected.participantId }
+                }.map { it.participantId }
 
             // 삭제된 참가자
             val participantsToRemove = originalParticipants
-                .filterNot { selectedParticipants.contains(it) }
-                .map { it.participantId }
+                .filterNot { original ->
+                    selectedParticipants.any { it.participantId == original.participantId }
+                }.map { it.participantId }
+
+            Log.d("activityPaymentSaveTv", "${originalParticipants.map { it.participantId }}, ${selectedParticipants.map { it.participantId }} \n ${participantsToAdd}, ${participantsToRemove}")
 
             if (activity.activityId == 0L) { // 새로운 활동인 경우
                 viewModel.updateActivityParticipants(position, selectedParticipants)
