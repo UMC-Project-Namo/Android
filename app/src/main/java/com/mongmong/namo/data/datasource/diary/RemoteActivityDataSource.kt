@@ -13,7 +13,7 @@ import com.mongmong.namo.data.remote.ActivityApiService
 import com.mongmong.namo.data.utils.common.ErrorHandler.handleError
 import com.mongmong.namo.data.utils.mappers.ActivityMapper.toDTO
 import com.mongmong.namo.domain.model.Activity
-import com.mongmong.namo.domain.model.ActionResponse
+import com.mongmong.namo.domain.model.BaseResponse
 import com.mongmong.namo.domain.model.ActivityPayment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -59,8 +59,8 @@ class RemoteActivityDataSource @Inject constructor(
     suspend fun addActivity(
         scheduleId: Long,
         activity: Activity
-    ): ActionResponse {
-        var response = ActionResponse()
+    ): BaseResponse {
+        var response = BaseResponse()
         withContext(Dispatchers.IO) {
             runCatching {
                 apiService.addActivity(scheduleId,
@@ -91,8 +91,8 @@ class RemoteActivityDataSource @Inject constructor(
         activityId: Long,
         activity: Activity,
         deleteImages: List<Long>
-    ): ActionResponse {
-        var response = ActionResponse()
+    ): BaseResponse {
+        var response = BaseResponse()
         withContext(Dispatchers.IO) {
             runCatching {
                 apiService.editActivity(
@@ -121,8 +121,8 @@ class RemoteActivityDataSource @Inject constructor(
     suspend fun editActivityTag(
         activityId: Long,
         tag: String
-    ): ActionResponse {
-        var response = ActionResponse()
+    ): BaseResponse {
+        var response = BaseResponse()
         withContext(Dispatchers.IO) {
             runCatching {
                 apiService.editActivityTag(activityId = activityId, tag = tag)
@@ -142,8 +142,8 @@ class RemoteActivityDataSource @Inject constructor(
     suspend fun editActivityPayment(
         activityId: Long,
         payment: ActivityPayment
-    ): ActionResponse {
-        var response = ActionResponse()
+    ): BaseResponse {
+        var response = BaseResponse()
 
         withContext(Dispatchers.IO) {
             runCatching {
@@ -173,8 +173,8 @@ class RemoteActivityDataSource @Inject constructor(
         activityId: Long,
         participantsToAdd: List<Long>,
         participantsToRemove: List<Long>
-    ): ActionResponse {
-        var response = ActionResponse()
+    ): BaseResponse {
+        var response = BaseResponse()
         withContext(Dispatchers.IO) {
             runCatching {
                 apiService.editActivityParticipants(
@@ -196,8 +196,8 @@ class RemoteActivityDataSource @Inject constructor(
     }
 
     // 활동 삭제
-    suspend fun deleteActivity(activityId: Long): ActionResponse {
-        var response = ActionResponse()
+    suspend fun deleteActivity(activityId: Long): BaseResponse {
+        var response = BaseResponse()
         withContext(Dispatchers.IO) {
             runCatching {
                 apiService.deleteActivity(activityId)

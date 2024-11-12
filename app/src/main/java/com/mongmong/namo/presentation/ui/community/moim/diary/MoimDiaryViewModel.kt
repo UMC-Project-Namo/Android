@@ -12,7 +12,7 @@ import com.mongmong.namo.domain.model.ActivityParticipant
 import com.mongmong.namo.domain.model.DiaryDetail
 import com.mongmong.namo.domain.model.DiaryImage
 import com.mongmong.namo.domain.model.ActivityPayment
-import com.mongmong.namo.domain.model.ActionResponse
+import com.mongmong.namo.domain.model.BaseResponse
 import com.mongmong.namo.domain.model.MoimPayment
 import com.mongmong.namo.domain.model.MoimPaymentParticipant
 import com.mongmong.namo.domain.model.ScheduleForDiary
@@ -51,20 +51,20 @@ class MoimDiaryViewModel @Inject constructor(
     private val _moimPayment = MutableLiveData<MoimPayment>()
     val moimPayment: LiveData<MoimPayment> = _moimPayment
 
-    private val _addDiaryResult = MutableLiveData<ActionResponse>()
-    val addDiaryResult: LiveData<ActionResponse> = _addDiaryResult
+    private val _addDiaryResult = MutableLiveData<BaseResponse>()
+    val addDiaryResult: LiveData<BaseResponse> = _addDiaryResult
 
-    private val _editDiaryResult = MutableLiveData<ActionResponse>()
-    val editDiaryResult: LiveData<ActionResponse> = _editDiaryResult
+    private val _editDiaryResult = MutableLiveData<BaseResponse>()
+    val editDiaryResult: LiveData<BaseResponse> = _editDiaryResult
 
-    private val _deleteDiaryResult = MutableLiveData<ActionResponse>()
-    val deleteDiaryResult: LiveData<ActionResponse> = _deleteDiaryResult
+    private val _deleteDiaryResult = MutableLiveData<BaseResponse>()
+    val deleteDiaryResult: LiveData<BaseResponse> = _deleteDiaryResult
 
-    private val _editActivityParticipantsResult = MutableSharedFlow<ActionResponse>()
-    val editActivityParticipantsResult: SharedFlow<ActionResponse> = _editActivityParticipantsResult
+    private val _editActivityParticipantsResult = MutableSharedFlow<BaseResponse>()
+    val editActivityParticipantsResult: SharedFlow<BaseResponse> = _editActivityParticipantsResult
 
-    private val _editActivityPaymentResult = MutableSharedFlow<ActionResponse?>()
-    val editActivityPaymentResult: SharedFlow<ActionResponse?> = _editActivityPaymentResult
+    private val _editActivityPaymentResult = MutableSharedFlow<BaseResponse?>()
+    val editActivityPaymentResult: SharedFlow<BaseResponse?> = _editActivityPaymentResult
 
     private val _isActivityAdded = MutableLiveData<Boolean>(false)
     val isActivityAdded: LiveData<Boolean> = _isActivityAdded

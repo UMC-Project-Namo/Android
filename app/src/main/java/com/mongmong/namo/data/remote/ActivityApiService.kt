@@ -6,7 +6,7 @@ import com.mongmong.namo.data.dto.PatchActivityParticipantsRequest
 import com.mongmong.namo.data.dto.PatchActivityPaymentRequest
 import com.mongmong.namo.data.dto.PatchActivityRequest
 import com.mongmong.namo.data.dto.PostActivityRequest
-import com.mongmong.namo.domain.model.ActionResponse
+import com.mongmong.namo.domain.model.BaseResponse
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -34,39 +34,39 @@ interface ActivityApiService {
     suspend fun addActivity(
         @Path("scheduleId") scheduleId: Long,
         @Body request: PostActivityRequest
-    ): ActionResponse
+    ): BaseResponse
 
     // 모임 활동 태그 수정
     @PATCH("activities/{activityId}/tag")
     suspend fun editActivityTag(
         @Path("activityId") activityId: Long,
         @Query("tag") tag: String
-    ): ActionResponse
+    ): BaseResponse
 
     // 모임 활동 정산 수정
     @PATCH("activities/{activityId}/settlement")
     suspend fun editActivityPayment(
         @Path("activityId") activityId: Long,
         @Body request: PatchActivityPaymentRequest
-    ): ActionResponse
+    ): BaseResponse
 
     // 모임 활동 참여자 수정
     @PATCH("activities/{activityId}/participants")
     suspend fun editActivityParticipants(
         @Path("activityId") activityId: Long,
         @Body request: PatchActivityParticipantsRequest
-    ): ActionResponse
+    ): BaseResponse
 
     // 모임 활동 수정
     @PATCH("activities/{activityId}/content")
     suspend fun editActivity(
         @Path("activityId") activityId: Long,
         @Body request: PatchActivityRequest
-    ): ActionResponse
+    ): BaseResponse
 
     // 모임 활동 삭제
     @DELETE("activities/{activityId}")
     suspend fun deleteActivity(
         @Path("activityId") activityId: Long
-    ): ActionResponse
+    ): BaseResponse
 }

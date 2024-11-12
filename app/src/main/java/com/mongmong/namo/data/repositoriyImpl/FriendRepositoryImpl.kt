@@ -8,7 +8,7 @@ import com.mongmong.namo.domain.model.Friend
 import com.mongmong.namo.domain.model.FriendRequest
 import com.mongmong.namo.domain.model.FriendSchedule
 import com.mongmong.namo.domain.repositories.FriendRepository
-import com.mongmong.namo.data.utils.common.BaseResponse
+import com.mongmong.namo.domain.model.BaseResponse
 import org.joda.time.DateTime
 import javax.inject.Inject
 

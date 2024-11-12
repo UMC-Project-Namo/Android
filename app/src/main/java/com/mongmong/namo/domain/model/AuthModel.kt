@@ -1,7 +1,5 @@
 package com.mongmong.namo.domain.model
 
-import com.mongmong.namo.data.utils.common.BaseResponse
-
 data class AuthResponse(
     val result: String
 ) : BaseResponse() // 기본 string

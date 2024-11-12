@@ -1,12 +1,12 @@
 package com.mongmong.namo.data.utils.common
 
-import com.mongmong.namo.domain.model.ActionResponse
+import com.mongmong.namo.domain.model.BaseResponse
 import org.json.JSONObject
 import retrofit2.HttpException
 
 object ErrorHandler {
     // Throwable의 확장 함수로 에러 메시지 처리
-    fun Throwable.handleError(): ActionResponse {
+    fun Throwable.handleError(): BaseResponse {
         return when (this) {
             is HttpException -> {
                 val errorBody = this.response()?.errorBody()?.string()
@@ -15,16 +15,16 @@ object ErrorHandler {
                 } catch (e: Exception) {
                     "Unknown HTTP error"
                 }
-                ActionResponse(
-                    code = this.code(),
+                BaseResponse(
+                    code = code(),
                     message = errorMessage,
                     isSuccess = false
                 )
             }
             else -> {
-                ActionResponse(
+                BaseResponse(
                     code = -1,
-                    message = this.message ?: "Unknown error",
+                    message = message ?: "Unknown error",
                     isSuccess = false
                 )
             }

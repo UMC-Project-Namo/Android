@@ -15,7 +15,7 @@ import com.mongmong.namo.data.dto.GetScheduleForDiaryResult
 import com.mongmong.namo.data.dto.PostDiaryRequest
 import com.mongmong.namo.data.remote.DiaryApiService
 import com.mongmong.namo.data.utils.common.ErrorHandler.handleError
-import com.mongmong.namo.domain.model.ActionResponse
+import com.mongmong.namo.domain.model.BaseResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -62,8 +62,8 @@ class RemoteDiaryDataSource @Inject constructor(
         enjoyRating: Int,
         images: List<String>,
         scheduleId: Long
-    ): ActionResponse {
-        var response = ActionResponse("")
+    ): BaseResponse {
+        var response = BaseResponse()
         withContext(Dispatchers.IO) {
             runCatching {
                 diaryApiService.addDiary(
@@ -91,8 +91,8 @@ class RemoteDiaryDataSource @Inject constructor(
         enjoyRating: Int,
         images: List<String>,
         deleteImageIds: List<Long>
-    ): ActionResponse {
-        var response = ActionResponse("")
+    ): BaseResponse {
+        var response = BaseResponse()
         withContext(Dispatchers.IO) {
             runCatching {
                 diaryApiService.editDiary(
@@ -116,8 +116,8 @@ class RemoteDiaryDataSource @Inject constructor(
     }
 
     // 기록 삭제
-    suspend fun deletePersonalDiary(scheduleServerId: Long): ActionResponse {
-        var response = ActionResponse()
+    suspend fun deletePersonalDiary(scheduleServerId: Long): BaseResponse {
+        var response = BaseResponse()
         withContext(Dispatchers.IO) {
             runCatching {
                 diaryApiService.deleteDiary(scheduleServerId)

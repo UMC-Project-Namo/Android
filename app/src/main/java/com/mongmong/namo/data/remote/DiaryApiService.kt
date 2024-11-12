@@ -8,7 +8,7 @@ import com.mongmong.namo.data.dto.GetDiaryResponse
 import com.mongmong.namo.data.dto.GetMoimPaymentResponse
 import com.mongmong.namo.data.dto.GetScheduleForDiaryResponse
 import com.mongmong.namo.data.dto.PostDiaryRequest
-import com.mongmong.namo.domain.model.ActionResponse
+import com.mongmong.namo.domain.model.BaseResponse
 import retrofit2.http.*
 
 interface DiaryApiService {
@@ -37,20 +37,20 @@ interface DiaryApiService {
     @POST("diaries")
     suspend fun addDiary(
         @Body requestBody: PostDiaryRequest
-    ): ActionResponse
+    ): BaseResponse
 
     // 기록 수정
     @PATCH("diaries/{diaryId}")
     suspend fun editDiary(
         @Path("diaryId") diaryId: Long,
         @Body requestBody: EditDiaryRequest
-    ): ActionResponse
+    ): BaseResponse
 
     // 기록 삭제
     @DELETE("diaries/{diaryId}")
     suspend fun deleteDiary(
         @Path("diaryId") diaryId: Long
-    ): ActionResponse
+    ): BaseResponse
 
     // 기록 캘린더 조회
     @GET("diaries/calendar/{yearMonth}")
