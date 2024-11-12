@@ -12,7 +12,7 @@ class CategoryPaletteRVAdapter(
     val context: Context,
     private val colorList: ArrayList<CategoryColor>,
     initColor: CategoryColor,
-    selectedPalettePosition: Int
+    selectedColorPosition: Int
     ): RecyclerView.Adapter<CategoryPaletteRVAdapter.ViewHolder>() {
 
     interface MyItemClickListener {
@@ -20,7 +20,7 @@ class CategoryPaletteRVAdapter(
     }
 
     private lateinit var mItemClickListener: MyItemClickListener
-    private var currentSelectPosition = if (colorList[selectedPalettePosition] == initColor) selectedPalettePosition else -1
+    private var currentSelectPosition = if (colorList[selectedColorPosition] == initColor) selectedColorPosition else -1
     private var previousSelectPosition = currentSelectPosition
 
     fun setColorClickListener(itemClickListener: MyItemClickListener) {

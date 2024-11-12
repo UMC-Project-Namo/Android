@@ -27,6 +27,11 @@ enum class CategoryColor(val colorId: Int, val hexColor: String) {
     BLACK(20, "#1D1D1D");
 
     companion object {
+        // enum class의 모든 CategoryColor 반환
+        fun getAllColors(): ArrayList<CategoryColor> {
+            return values().map { it } as ArrayList
+        }
+
         // enum class의 모든 hexColor 반환
         fun getAllHexColors(): ArrayList<String> {
             return values().map { it.hexColor } as ArrayList<String>
