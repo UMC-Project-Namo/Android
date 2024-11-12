@@ -3,7 +3,7 @@ package com.mongmong.namo.presentation.di
 import android.content.Context
 import com.mongmong.namo.data.datasource.auth.RemoteAuthDataSource
 import com.mongmong.namo.data.datasource.category.RemoteCategoryDataSource
-import com.mongmong.namo.data.datasource.diary.ActivityDataSource
+import com.mongmong.namo.data.datasource.diary.RemoteActivityDataSource
 import com.mongmong.namo.data.datasource.diary.RemoteDiaryDataSource
 import com.mongmong.namo.data.datasource.friend.RemoteFriendDataSource
 import com.mongmong.namo.data.datasource.s3.ImageDataSource
@@ -70,7 +70,7 @@ object RepositoryModule {
     /** 활동 */
     @Provides
     fun provideActivityRepository(
-        activityDataSource: ActivityDataSource
+        activityDataSource: RemoteActivityDataSource
     ): ActivityRepository = ActivityRepositoryImpl(activityDataSource)
 
     /** 친구 */

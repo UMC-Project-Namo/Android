@@ -2,7 +2,7 @@ package com.mongmong.namo.domain.repositories
 
 import com.mongmong.namo.domain.model.Activity
 import com.mongmong.namo.domain.model.ActivityPayment
-import com.mongmong.namo.domain.model.DiaryBaseResponse
+import com.mongmong.namo.domain.model.ActionResponse
 
 interface ActivityRepository {
     /** 활동*/
@@ -13,27 +13,27 @@ interface ActivityRepository {
     suspend fun getActivityPayment(activityId: Long): ActivityPayment
 
     // 활동 추가
-    suspend fun addActivity(scheduleId: Long, activity: Activity): DiaryBaseResponse
+    suspend fun addActivity(scheduleId: Long, activity: Activity): ActionResponse
 
     // 활동 수정
-    suspend fun editActivity(activityId: Long, activity: Activity, deleteImages: List<Long>): DiaryBaseResponse
+    suspend fun editActivity(activityId: Long, activity: Activity, deleteImages: List<Long>): ActionResponse
 
     // 활동 태그 수정
-    suspend fun editActivityTag(activityId: Long, tag: String): DiaryBaseResponse
+    suspend fun editActivityTag(activityId: Long, tag: String): ActionResponse
 
     // 활동 참가자 수정
     suspend fun editActivityParticipants(
         activityId: Long,
         participantsToAdd: List<Long>,
         participantsToRemove: List<Long>
-    ): DiaryBaseResponse
+    ): ActionResponse
 
     // 활동 정산 수정
     suspend fun editActivityPayment(
         activityId: Long,
         payment: ActivityPayment
-    ): DiaryBaseResponse
+    ): ActionResponse
 
     // 활동 삭제
-    suspend fun deleteActivity(activityId: Long): DiaryBaseResponse
+    suspend fun deleteActivity(activityId: Long): ActionResponse
 }

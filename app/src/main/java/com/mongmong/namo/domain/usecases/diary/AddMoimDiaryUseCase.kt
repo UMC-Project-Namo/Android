@@ -1,7 +1,7 @@
 package com.mongmong.namo.domain.usecases.diary
 
 import android.net.Uri
-import com.mongmong.namo.domain.model.DiaryBaseResponse
+import com.mongmong.namo.domain.model.ActionResponse
 import com.mongmong.namo.domain.model.DiaryDetail
 import com.mongmong.namo.domain.repositories.DiaryRepository
 import com.mongmong.namo.domain.usecases.image.UploadImageToS3UseCase
@@ -14,7 +14,7 @@ class AddMoimDiaryUseCase @Inject constructor(
     suspend fun execute(
         diary: DiaryDetail,
         scheduleId: Long
-    ): DiaryBaseResponse {
+    ): ActionResponse {
         val newImageUrls = uploadImageToS3UseCase.execute(PREFIX, (diary.diaryImages).map { Uri.parse(it.imageUrl) })
         return diaryRepository.addDiary(
             content = diary.content,

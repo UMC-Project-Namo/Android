@@ -14,7 +14,8 @@ import com.mongmong.namo.data.dto.GetScheduleForDiaryResponse
 import com.mongmong.namo.data.dto.GetScheduleForDiaryResult
 import com.mongmong.namo.data.dto.PostDiaryRequest
 import com.mongmong.namo.data.remote.DiaryApiService
-import com.mongmong.namo.domain.model.DiaryBaseResponse
+import com.mongmong.namo.data.utils.common.ErrorHandler.handleError
+import com.mongmong.namo.domain.model.ActionResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -61,8 +62,8 @@ class RemoteDiaryDataSource @Inject constructor(
         enjoyRating: Int,
         images: List<String>,
         scheduleId: Long
-    ): DiaryBaseResponse {
-        var response = DiaryBaseResponse("")
+    ): ActionResponse {
+        var response = ActionResponse("")
         withContext(Dispatchers.IO) {
             runCatching {
                 diaryApiService.addDiary(
@@ -75,9 +76,9 @@ class RemoteDiaryDataSource @Inject constructor(
                 )
             }.onSuccess {
                 Log.d("RemoteDiaryDataSource addPersonalDiary Success", "$it")
-                response = it
-            }.onFailure {
-                Log.d("RemoteDiaryDataSource addPersonalDiary Failure", "$it")
+            }.onFailure { exception ->
+                response = exception.handleError()
+                Log.d("RemoteDiaryDataSource addPersonalDiary Failure", response.message)
             }
         }
         return response
@@ -90,8 +91,8 @@ class RemoteDiaryDataSource @Inject constructor(
         enjoyRating: Int,
         images: List<String>,
         deleteImageIds: List<Long>
-    ): DiaryBaseResponse {
-        var response = DiaryBaseResponse("")
+    ): ActionResponse {
+        var response = ActionResponse("")
         withContext(Dispatchers.IO) {
             runCatching {
                 diaryApiService.editDiary(
@@ -106,27 +107,29 @@ class RemoteDiaryDataSource @Inject constructor(
             }.onSuccess {
                 Log.d("RemoteDiaryDataSource editPersonalDiary Success", "$it")
                 response = it
-            }.onFailure {
-                Log.d("RemoteDiaryDataSource editPersonalDiary Failure", "$it")
+            }.onFailure { exception ->
+                response = exception.handleError()
+                Log.d("RemoteDiaryDataSource editPersonalDiary Failure", response.message)
             }
         }
         return response
     }
 
     // 기록 삭제
-    suspend fun deletePersonalDiary(scheduleServerId: Long): DiaryBaseResponse {
-        var diaryResponse = DiaryBaseResponse()
+    suspend fun deletePersonalDiary(scheduleServerId: Long): ActionResponse {
+        var response = ActionResponse()
         withContext(Dispatchers.IO) {
             runCatching {
                 diaryApiService.deleteDiary(scheduleServerId)
             }.onSuccess {
                 Log.d("RemoteDiaryDataSource deleteDiary Success", "$it")
-                diaryResponse = it
-            }.onFailure {
-                Log.d("RemoteDiaryDataSource deleteDiary Failure", "$it")
+                response = it
+            }.onFailure { exception ->
+                response = exception.handleError()
+                Log.d("RemoteDiaryDataSource deleteDiary Failure", response.message)
             }
         }
-        return diaryResponse
+        return response
     }
 
     // 기록 캘린더 조회
