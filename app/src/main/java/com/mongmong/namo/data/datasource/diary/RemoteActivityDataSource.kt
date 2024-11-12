@@ -6,6 +6,7 @@ import com.mongmong.namo.data.dto.GetActivitiesResult
 import com.mongmong.namo.data.dto.GetActivityPaymentResponse
 import com.mongmong.namo.data.dto.GetActivityPaymentResult
 import com.mongmong.namo.data.dto.PatchActivityParticipantsRequest
+import com.mongmong.namo.data.dto.PatchActivityPaymentRequest
 import com.mongmong.namo.data.dto.PatchActivityRequest
 import com.mongmong.namo.data.dto.PostActivityRequest
 import com.mongmong.namo.data.remote.ActivityApiService
@@ -13,6 +14,7 @@ import com.mongmong.namo.data.utils.common.ErrorHandler.handleError
 import com.mongmong.namo.data.utils.mappers.ActivityMapper.toDTO
 import com.mongmong.namo.domain.model.Activity
 import com.mongmong.namo.domain.model.ActionResponse
+import com.mongmong.namo.domain.model.ActivityPayment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -21,7 +23,6 @@ class RemoteActivityDataSource @Inject constructor(
     val apiService: ActivityApiService
 ) {
     /** 활동 */
-
     // 활동 조회
     suspend fun getActivities(scheduleId: Long): List<GetActivitiesResult> {
         var response = GetActivitiesResponse(emptyList())
@@ -116,6 +117,57 @@ class RemoteActivityDataSource @Inject constructor(
         return response
     }
 
+    // 활동 태그 수정
+    suspend fun editActivityTag(
+        activityId: Long,
+        tag: String
+    ): ActionResponse {
+        var response = ActionResponse()
+        withContext(Dispatchers.IO) {
+            runCatching {
+                apiService.editActivityTag(activityId = activityId, tag = tag)
+            }.onSuccess {
+                Log.d("ActivityDataSource editActivityTag Success", "$it")
+                response = it
+            }.onFailure { exception ->
+                response = exception.handleError()
+                Log.d("ActivityDataSource editActivityTag Success", response.message)
+            }
+        }
+
+        return response
+    }
+
+    // 활동 정산 수정
+    suspend fun editActivityPayment(
+        activityId: Long,
+        payment: ActivityPayment
+    ): ActionResponse {
+        var response = ActionResponse()
+
+        withContext(Dispatchers.IO) {
+            runCatching {
+                apiService.editActivityPayment(
+                    activityId = activityId,
+                    PatchActivityPaymentRequest(
+                        amountPerPerson = payment.amountPerPerson,
+                        totalAmount = payment.totalAmount,
+                        divisionCount = payment.divisionCount,
+                        activityParticipantId = payment.participants.filter { it.isPayer }
+                            .map { it.id }
+                    )
+                )
+            }.onSuccess {
+                Log.d("ActivityDataSource editActivityPayment Success", "$it")
+                response = it
+            }.onFailure { exception ->
+                response = exception.handleError()
+                Log.d("ActivityDataSource editActivity Fail", response.message)
+            }
+        }
+        return response
+    }
+
     // 활동 참가자 수정
     suspend fun editActivityParticipants(
         activityId: Long,
@@ -141,5 +193,22 @@ class RemoteActivityDataSource @Inject constructor(
             }
         }
         return response
+    }
+
+    // 활동 삭제
+    suspend fun deleteActivity(activityId: Long): ActionResponse {
+        var response = ActionResponse()
+        withContext(Dispatchers.IO) {
+            runCatching {
+                apiService.deleteActivity(activityId)
+            }.onSuccess {
+                Log.d("ActivityDataSource deleteActivity Success", "$it")
+                response = it
+            }.onFailure { exception ->
+                response = exception.handleError()
+                Log.d("ActivityDataSource deleteActivity Success", response.message)
+            }
+        }
+        return  response
     }
 }
