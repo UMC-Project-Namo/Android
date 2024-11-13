@@ -33,8 +33,8 @@ object BindingAdapters {
     @BindingAdapter("app:tintColor")
     fun setTintColor(view: View, color: Int) {
         val hexColor = when (color) {
-            in 1..CategoryColor.getAllColors().size -> CategoryColor.getAllColors()[color - 1]
-            else -> CategoryColor.DEFAULT_PALETTE_COLOR1.hexColor
+            in 1..CategoryColor.getAllHexColors().size -> CategoryColor.getAllHexColors()[color - 1]
+            else -> CategoryColor.NAMO_PINK.hexColor
         }
         view.backgroundTintList = ColorStateList.valueOf(Color.parseColor(hexColor))
     }

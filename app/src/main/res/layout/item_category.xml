@@ -38,7 +38,7 @@
                     android:id="@+id/item_category_color_iv"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    app:cardBackgroundColor="@{CategoryColor.convertPaletteIdToColorStateList(category.colorId)}"
+                    app:cardBackgroundColor="@{CategoryColor.convertColorIdToColorStateList(category.colorId)}"
                     app:cardCornerRadius="25dp"
                     app:cardElevation="0dp"
                     tools:backgroundTint="@color/main_pink">

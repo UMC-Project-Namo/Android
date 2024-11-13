@@ -12,7 +12,7 @@ class CategoryPaletteRVAdapter(
     val context: Context,
     private val colorList: ArrayList<CategoryColor>,
     initColor: CategoryColor,
-    selectedPalettePosition: Int
+    selectedColorPosition: Int
     ): RecyclerView.Adapter<CategoryPaletteRVAdapter.ViewHolder>() {
 
     interface MyItemClickListener {
@@ -20,7 +20,7 @@ class CategoryPaletteRVAdapter(
     }
 
     private lateinit var mItemClickListener: MyItemClickListener
-    private var currentSelectPosition = if (colorList[selectedPalettePosition] == initColor) selectedPalettePosition else -1
+    private var currentSelectPosition = if (colorList[selectedColorPosition] == initColor) selectedColorPosition else -1
     private var previousSelectPosition = currentSelectPosition
 
     fun setColorClickListener(itemClickListener: MyItemClickListener) {
@@ -63,7 +63,7 @@ class CategoryPaletteRVAdapter(
             // 카테고리 색 확인
 //            Log.d("PaletteColor", "position = ${absoluteAdapterPosition} color = $color")
             // 카드뷰에 색 넣어주기
-            binding.itemPaletteColorCv.backgroundTintList = CategoryColor.convertPaletteIdToColorStateList(color.paletteId)
+            binding.itemPaletteColorCv.backgroundTintList = CategoryColor.convertColorIdToColorStateList(color.colorId)
             // 체크 표시 초기화
             if (adapterPosition == currentSelectPosition) selectIv.visibility = View.VISIBLE
             else selectIv.visibility = View.GONE

@@ -23,7 +23,7 @@
             android:layout_height="0dp"
             android:layout_marginStart="28dp"
             android:background="@drawable/bg_diary_calendar_category_color_view"
-            android:backgroundTint="@{CategoryColor.convertPaletteIdToColorStateList(diary.categoryInfo.colorId)}"
+            android:backgroundTint="@{CategoryColor.convertColorIdToColorStateList(diary.categoryInfo.colorId)}"
             android:elevation="1dp"
             app:layout_constraintBottom_toBottomOf="@id/item_moim_diary_content_cl"
             app:layout_constraintStart_toStartOf="parent"

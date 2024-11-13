@@ -84,7 +84,7 @@ class CategoryViewModel @Inject constructor(
     fun setCategory(category: CategoryModel) {
         _category.value = category
         if (category.colorId != 0) {
-            _color.value = CategoryColor.findCategoryColorByPaletteId(category.colorId)
+            _color.value = CategoryColor.findCategoryColorByColorId(category.colorId)
         }
     }
 
@@ -100,7 +100,7 @@ class CategoryViewModel @Inject constructor(
 
     fun updateCategoryColor(color: CategoryColor) {
         _color.value = color
-        _category.value = _category.value?.copy(colorId = color.paletteId)
+        _category.value = _category.value?.copy(colorId = color.colorId)
     }
 
     fun updateIsShare(isShare: Boolean) {

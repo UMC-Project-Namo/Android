@@ -3,25 +3,21 @@ package com.mongmong.namo.presentation.ui.home.category
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import android.view.View
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import com.mongmong.namo.databinding.FragmentCategoryDetailBinding
-import com.mongmong.namo.presentation.ui.home.category.CategorySettingFragment.Companion.CATEGORY_DATA
-import com.mongmong.namo.presentation.ui.home.category.adapter.CategoryPaletteRVAdapter
-import com.mongmong.namo.domain.model.CategoryModel
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
 import com.mongmong.namo.R
+import com.mongmong.namo.databinding.FragmentCategoryDetailBinding
+import com.mongmong.namo.domain.model.CategoryModel
 import com.mongmong.namo.presentation.config.BaseFragment
-import com.mongmong.namo.presentation.enums.PaletteType
 import com.mongmong.namo.presentation.enums.CategoryColor
 import com.mongmong.namo.presentation.enums.SuccessType
+import com.mongmong.namo.presentation.ui.home.category.CategorySettingFragment.Companion.CATEGORY_DATA
+import com.mongmong.namo.presentation.ui.home.category.adapter.CategoryPaletteRVAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,23 +28,17 @@ class CategoryDetailFragment(private val isEditMode: Boolean)
 
     private val viewModel : CategoryViewModel by viewModels()
 
-    private lateinit var categoryList : List<CardView>
-    private lateinit var checkList : List<ImageView>
-
     override fun setup() {
         binding.viewModel = this@CategoryDetailFragment.viewModel
-
-        initBasicColor()
 
         setInit()
         switchToggle()
         onClickListener()
-        clickCategoryItem()
 
         initObservers()
 
         if (viewModel.color.value == null) {
-            initPaletteColorRv(CategoryColor.SCHEDULE)
+            initPaletteColorRv(CategoryColor.NAMO_ORANGE)
         } else {
             initPaletteColorRv(viewModel.color.value!!)
         }
@@ -117,32 +107,11 @@ class CategoryDetailFragment(private val isEditMode: Boolean)
         viewModel.editCategory()
     }
 
-    private fun initBasicColor() {
-        // 기본 색상 관련 리스트 설정
-        with (binding) {
-            categoryList = listOf(
-                scheduleColorCv, schedulePlanColorCv, scheduleParttimeColorCv, scheduleGroupColorCv
-            )
-            checkList = listOf(
-                scheduleColorSelectIv, schedulePlanColorSelectIv, scheduleParttimeColorSelectIv, scheduleGroupColorSelectIv
-            )
-        }
-    }
-
     private fun initPaletteColorRv(initCategory: CategoryColor) {
-        // 기본 팔레트
-        val paletteDatas = CategoryColor.findPaletteByPaletteType(PaletteType.BASIC_PALETTE)
-
-        for (i: Int in paletteDatas.indices) {
-            if (paletteDatas[i] == viewModel.color.value) {
-                viewModel.updateSelectedPalettePosition(i)
-            }
-        }
-
         if (viewModel.selectedPalettePosition.value == null) viewModel.updateSelectedPalettePosition(0)
 
         // 어댑터 연결
-        paletteAdapter = CategoryPaletteRVAdapter(requireContext(), paletteDatas, initCategory, viewModel.selectedPalettePosition.value!!)
+        paletteAdapter = CategoryPaletteRVAdapter(requireContext(), CategoryColor.getAllColors(), initCategory, viewModel.selectedPalettePosition.value!!)
         binding.categoryPaletteRv.apply {
             adapter = paletteAdapter
             layoutManager = GridLayoutManager(context, 5)
@@ -150,37 +119,12 @@ class CategoryDetailFragment(private val isEditMode: Boolean)
         // 아이템 클릭
         paletteAdapter.setColorClickListener(object: CategoryPaletteRVAdapter.MyItemClickListener {
             override fun onItemClick(position: Int, selectedColor: CategoryColor) {
-                // 팔레트의 색상을 선택했다면 기본 색상의 체크 상태는 초기화
-                for (j: Int in categoryList.indices) {
-                    checkList[j].visibility = View.GONE
-                }
                 // 색상값 세팅
                 viewModel.updateCategoryColor(selectedColor)
-                // notifyItemChanged()에서 인자로 넘겨주기 위함. 기본 색상을 클릭했다면 이전에 선택된 팔레트 색상의 체크 표시는 해제
+                // notifyItemChanged()에서 인자로 넘겨주기 위함
                 viewModel.updateSelectedPalettePosition(position)
             }
         })
-    }
-
-    private fun clickCategoryItem() { // 기본 색상 선택
-        for (i: Int in categoryList.indices) {
-            categoryList[i].setOnClickListener {
-                // 다른 모든 기본 색상 선택 해제
-                for (j: Int in categoryList.indices) {
-                    checkList[j].visibility = View.GONE
-                }
-                // 팔레트 내의 색상도 모두 선택 해제
-                initPaletteColorRv(CategoryColor.SCHEDULE)
-                if (viewModel.selectedPalettePosition.value != null) {
-                    paletteAdapter.notifyItemChanged(viewModel.selectedPalettePosition.value!!)
-                }
-                // 선택한 카테고리 표시
-                checkList[i].visibility = View.VISIBLE
-                viewModel.updateCategoryColor(CategoryColor.findPaletteByPaletteType(PaletteType.DEFAULT_4)[i])
-                // 이제 팔레트가 아니라 기본 색상에서 설정한 색임
-                viewModel.updateSelectedPalettePosition(null)
-            }
-        }
     }
 
     private fun switchToggle() {
@@ -208,12 +152,6 @@ class CategoryDetailFragment(private val isEditMode: Boolean)
                 // 데이터 받기
                 val data: CategoryModel = gson.fromJson(json, typeToken)
                 viewModel.setCategory(data)
-
-                // 데이터 값 넣어주기
-                if (CategoryColor.findPaletteByPaletteType(PaletteType.DEFAULT_4).contains(viewModel.color.value)) {
-                    // 기본 카테고리 체크 표시
-                    checkList[viewModel.category.value!!.colorId - 1].visibility = View.VISIBLE
-                }
             } catch (e: JsonParseException) { // 파싱이 안 될 경우
                 e.printStackTrace()
             }

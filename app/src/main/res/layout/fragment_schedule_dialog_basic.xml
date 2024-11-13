@@ -113,7 +113,7 @@
                     android:layout_width="13dp"
                     android:layout_height="13dp"
                     android:background="@drawable/bg_circle"
-                    android:backgroundTint="@{CategoryColor.convertPaletteIdToColorStateList(viewModel.category.colorId)}"
+                    android:backgroundTint="@{CategoryColor.convertColorIdToColorStateList(viewModel.category.colorId)}"
                     android:src="@color/main"/>
 
                 <TextView

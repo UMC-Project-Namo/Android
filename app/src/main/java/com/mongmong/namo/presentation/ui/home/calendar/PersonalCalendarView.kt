@@ -151,7 +151,7 @@ class PersonalCalendarView(context: Context, attrs: AttributeSet) :
     }
 
     private fun setBgPaintColor(schedule: Schedule) {
-        val hexColor = CategoryColor.convertPaletteIdToHexColor(schedule.categoryInfo?.colorId ?: 0)
+        val hexColor = CategoryColor.convertColorIdToHexColor(schedule.categoryInfo?.colorId ?: 0)
         bgPaint.color = Color.parseColor(hexColor)
     }
 }
