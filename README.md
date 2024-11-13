@@ -6,13 +6,16 @@
 
 ![image_basic](https://github.com/Namo-log/Android/assets/101113025/c31d1390-e95e-4662-a916-cd106dad96d2)
 
-> 나의 모임기록 어플 [나모 (Google Play)](https://play.google.com/store/apps/details?id=com.mongmong.namo)
+> 나의 모임 기록, 나모
+<a href='https://play.google.com/store/apps/details?id=com.mongmong.namo'>
+   <img width="250px" alt='Google Play에서 다운로드' src='https://github.com/Namo-Mongmong/.github/assets/101113025/5e11c728-060f-43d4-bab3-cbcae1f708f9'/>
+</a>
 
 ### 목차
 - [🛠️ 나모는 이런 기술을 사용했어요](#-나모는-이런-기술을-사용했어요)
 - [🔎 나모의 안드로이드 프로젝트 구조](#-나모의-안드로이드-프로젝트-구조)
 - [✍🏻 나모 안드로이드 팀원들은 이렇게 작업해요](#-나모-안드로이-팀원들은-이렇게-작업해요)
-
+</br>
 
 
 ## 🛠️ 나모는 이런 기술을 사용했어요
@@ -26,7 +29,7 @@
 
 <img src="https://img.shields.io/badge/image-555555?style=for-the-badge">![Glide](https://img.shields.io/badge/glide-%2318BED4.svg?style=for-the-badge&logo=glide&logoColor=white)
 
-
+</br>
 
 ## 🔎 나모 안드로이드의 아키텍처
 ![image](https://github.com/namo-log/Android/assets/99808693/0b03f7f0-6a0d-49f2-aecc-da708422a7c5)
@@ -38,9 +41,19 @@
 - LiveData와 ViewModel을 사용한 UI 상태 관리
 - Room 데이터베이스를 통한 로컬 데이터 저장
 
-
+</br>
 
 ## ✍🏻 나모 안드로이드 팀원들은 이렇게 작업해요
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/edv-Shin"><img src="https://github.com/edv-Shin.png" width="100px;" alt=""/></a></td>
+    <td align="center"><a href="https://github.com/nahy-512"><img src="https://github.com/nahy-512.png" width="100px;" alt=""/></a></td>
+  </tr>
+  <tr>
+    <td align="center"><b>신동원</b></a></td>
+    <td align="center"><b>김나현</b></a></td>
+  </tr>
+</table>
 
 ### 짱구/신동원
 - [나모의 코루틴 사용기](https://namo-log.vercel.app/android-coroutine)
