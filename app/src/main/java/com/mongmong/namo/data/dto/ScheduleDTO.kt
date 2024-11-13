@@ -1,6 +1,6 @@
 package com.mongmong.namo.data.dto
 
-import com.mongmong.namo.data.utils.common.BaseResponse
+import com.mongmong.namo.domain.model.BaseResponse
 import com.google.gson.annotations.SerializedName
 
 // 개인

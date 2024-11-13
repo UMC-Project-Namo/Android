@@ -5,7 +5,7 @@ import com.mongmong.namo.data.dto.GetFriendCategoryResponse
 import com.mongmong.namo.data.dto.GetFriendListResponse
 import com.mongmong.namo.data.dto.GetFriendRequestResponse
 import com.mongmong.namo.data.dto.GetFriendScheduleResponse
-import com.mongmong.namo.data.utils.common.BaseResponse
+import com.mongmong.namo.domain.model.BaseResponse
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH

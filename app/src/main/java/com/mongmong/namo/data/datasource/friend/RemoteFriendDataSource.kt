@@ -9,7 +9,7 @@ import com.mongmong.namo.data.dto.GetFriendRequestResponse
 import com.mongmong.namo.data.dto.GetFriendRequestResult
 import com.mongmong.namo.data.dto.GetFriendScheduleResponse
 import com.mongmong.namo.data.remote.FriendApiService
-import com.mongmong.namo.data.utils.common.BaseResponse
+import com.mongmong.namo.domain.model.BaseResponse
 import com.mongmong.namo.presentation.utils.converter.ScheduleDateConverter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

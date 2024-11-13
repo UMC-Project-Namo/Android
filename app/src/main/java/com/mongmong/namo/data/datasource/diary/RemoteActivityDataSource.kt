@@ -1,7 +1,6 @@
 package com.mongmong.namo.data.datasource.diary
 
 import android.util.Log
-import com.mongmong.namo.data.dto.DiaryResponse
 import com.mongmong.namo.data.dto.GetActivitiesResponse
 import com.mongmong.namo.data.dto.GetActivitiesResult
 import com.mongmong.namo.data.dto.GetActivityPaymentResponse
@@ -11,16 +10,16 @@ import com.mongmong.namo.data.dto.PatchActivityPaymentRequest
 import com.mongmong.namo.data.dto.PatchActivityRequest
 import com.mongmong.namo.data.dto.PostActivityRequest
 import com.mongmong.namo.data.remote.ActivityApiService
+import com.mongmong.namo.data.utils.common.ErrorHandler.handleError
 import com.mongmong.namo.data.utils.mappers.ActivityMapper.toDTO
 import com.mongmong.namo.domain.model.Activity
+import com.mongmong.namo.domain.model.BaseResponse
 import com.mongmong.namo.domain.model.ActivityPayment
-import com.mongmong.namo.domain.model.DiaryBaseResponse
-import com.mongmong.namo.domain.model.ParticipantInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class ActivityDataSource @Inject constructor(
+class RemoteActivityDataSource @Inject constructor(
     val apiService: ActivityApiService
 ) {
     /** 활동 */
@@ -34,7 +33,7 @@ class ActivityDataSource @Inject constructor(
                 Log.d("ActivityDataSource getActivities Success", "$it")
                 response = it
             }.onFailure {
-                Log.d("ActivityDataSource getActivities Fail", "$it")
+                Log.d("ActivityDataSource getActivities Fail", it.handleError().message)
             }
         }
         return response.result
@@ -50,7 +49,7 @@ class ActivityDataSource @Inject constructor(
                 Log.d("ActivityDataSource getActivityPayment Success", "$it")
                 response = it
             }.onFailure {
-                Log.d("ActivityDataSource getActivityPayment Fail", "$it")
+                Log.d("ActivityDataSource getActivityPayment Fail", it.handleError().message)
             }
         }
         return response.result
@@ -60,8 +59,8 @@ class ActivityDataSource @Inject constructor(
     suspend fun addActivity(
         scheduleId: Long,
         activity: Activity
-    ): DiaryBaseResponse {
-        var response = DiaryBaseResponse()
+    ): BaseResponse {
+        var response = BaseResponse()
         withContext(Dispatchers.IO) {
             runCatching {
                 apiService.addActivity(scheduleId,
@@ -80,10 +79,10 @@ class ActivityDataSource @Inject constructor(
                 Log.d("ActivityDataSource addActivity Success", "$it")
                 response = it
             }.onFailure {
-                Log.d("ActivityDataSource addActivity Success", "$it")
+                response = it.handleError()
+                Log.d("ActivityDataSource addActivity Fail", response.message)
             }
         }
-
         return response
     }
 
@@ -92,8 +91,8 @@ class ActivityDataSource @Inject constructor(
         activityId: Long,
         activity: Activity,
         deleteImages: List<Long>
-    ): DiaryBaseResponse {
-        var response = DiaryBaseResponse()
+    ): BaseResponse {
+        var response = BaseResponse()
         withContext(Dispatchers.IO) {
             runCatching {
                 apiService.editActivity(
@@ -111,10 +110,10 @@ class ActivityDataSource @Inject constructor(
                 Log.d("ActivityDataSource editActivity Success", "$it")
                 response = it
             }.onFailure {
-                Log.d("ActivityDataSource editActivity Success", "$it")
+                response = it.handleError()
+                Log.d("ActivityDataSource editActivity Fail", response.message)
             }
         }
-
         return response
     }
 
@@ -122,16 +121,17 @@ class ActivityDataSource @Inject constructor(
     suspend fun editActivityTag(
         activityId: Long,
         tag: String
-    ): DiaryBaseResponse {
-        var response = DiaryBaseResponse()
+    ): BaseResponse {
+        var response = BaseResponse()
         withContext(Dispatchers.IO) {
             runCatching {
                 apiService.editActivityTag(activityId = activityId, tag = tag)
             }.onSuccess {
                 Log.d("ActivityDataSource editActivityTag Success", "$it")
                 response = it
-            }.onFailure {
-                Log.d("ActivityDataSource editActivityTag Success", "$it")
+            }.onFailure { exception ->
+                response = exception.handleError()
+                Log.d("ActivityDataSource editActivityTag Success", response.message)
             }
         }
 
@@ -142,8 +142,8 @@ class ActivityDataSource @Inject constructor(
     suspend fun editActivityPayment(
         activityId: Long,
         payment: ActivityPayment
-    ): DiaryBaseResponse {
-        var response = DiaryBaseResponse()
+    ): BaseResponse {
+        var response = BaseResponse()
 
         withContext(Dispatchers.IO) {
             runCatching {
@@ -153,14 +153,16 @@ class ActivityDataSource @Inject constructor(
                         amountPerPerson = payment.amountPerPerson,
                         totalAmount = payment.totalAmount,
                         divisionCount = payment.divisionCount,
-                        activityParticipantId = payment.participants.filter { it.isPayer }.map { it.id }
+                        activityParticipantId = payment.participants.filter { it.isPayer }
+                            .map { it.id }
                     )
                 )
             }.onSuccess {
                 Log.d("ActivityDataSource editActivityPayment Success", "$it")
                 response = it
-            }.onFailure {
-                Log.d("ActivityDataSource editActivityPayment Success", "$it")
+            }.onFailure { exception ->
+                response = exception.handleError()
+                Log.d("ActivityDataSource editActivity Fail", response.message)
             }
         }
         return response
@@ -170,40 +172,41 @@ class ActivityDataSource @Inject constructor(
     suspend fun editActivityParticipants(
         activityId: Long,
         participantsToAdd: List<Long>,
-        participantToRemove: List<Long>
-    ): DiaryBaseResponse {
-        var response = DiaryBaseResponse()
+        participantsToRemove: List<Long>
+    ): BaseResponse {
+        var response = BaseResponse()
         withContext(Dispatchers.IO) {
             runCatching {
                 apiService.editActivityParticipants(
                     activityId = activityId,
                     PatchActivityParticipantsRequest(
                         participantsToAdd = participantsToAdd,
-                        participantsToRemove = participantToRemove
+                        participantsToRemove = participantsToRemove
                     )
                 )
             }.onSuccess {
                 Log.d("ActivityDataSource editActivityParticipants Success", "$it")
                 response = it
-            }.onFailure {
-                Log.d("ActivityDataSource editActivityParticipants Failure", "$it")
+            }.onFailure { exception ->
+                response = exception.handleError()
+                Log.d("ActivityDataSource editActivityParticipants Fail", response.message)
             }
         }
-
         return response
     }
 
     // 활동 삭제
-    suspend fun deleteActivity(activityId: Long): DiaryBaseResponse {
-        var response = DiaryBaseResponse()
+    suspend fun deleteActivity(activityId: Long): BaseResponse {
+        var response = BaseResponse()
         withContext(Dispatchers.IO) {
             runCatching {
                 apiService.deleteActivity(activityId)
             }.onSuccess {
                 Log.d("ActivityDataSource deleteActivity Success", "$it")
                 response = it
-            }.onFailure {
-                Log.d("ActivityDataSource deleteActivity Success", "$it")
+            }.onFailure { exception ->
+                response = exception.handleError()
+                Log.d("ActivityDataSource deleteActivity Success", response.message)
             }
         }
         return  response

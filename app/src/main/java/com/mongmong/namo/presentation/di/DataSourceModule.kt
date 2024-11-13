@@ -1,7 +1,7 @@
 package com.mongmong.namo.presentation.di
 
 import com.mongmong.namo.data.datasource.category.RemoteCategoryDataSource
-import com.mongmong.namo.data.datasource.diary.ActivityDataSource
+import com.mongmong.namo.data.datasource.diary.RemoteActivityDataSource
 import com.mongmong.namo.data.datasource.schedule.RemoteScheduleDataSource
 import com.mongmong.namo.data.datasource.diary.RemoteDiaryDataSource
 import com.mongmong.namo.data.datasource.friend.RemoteFriendDataSource
@@ -36,7 +36,7 @@ object DataSourceModule {
     @Provides
     fun provideActivityDataSource(
         activityApiService: ActivityApiService
-    ): ActivityDataSource = ActivityDataSource(activityApiService)
+    ): RemoteActivityDataSource = RemoteActivityDataSource(activityApiService)
 
     /** 친구 */
     @Provides

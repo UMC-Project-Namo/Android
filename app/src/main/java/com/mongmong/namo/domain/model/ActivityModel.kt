@@ -40,10 +40,3 @@ data class PaymentParticipant(
     val nickname: String = "",
     var isPayer: Boolean = false
 )
-
-data class DiaryBaseResponse(
-    val result: String = "",
-    val code: Int = 0,
-    val message: String = "",
-    val isSuccess: Boolean = false
-)

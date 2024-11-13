@@ -3,7 +3,7 @@ package com.mongmong.namo.domain.repositories
 import androidx.paging.PagingData
 import com.mongmong.namo.domain.model.CalendarDiaryDate
 import com.mongmong.namo.domain.model.Diary
-import com.mongmong.namo.domain.model.DiaryBaseResponse
+import com.mongmong.namo.domain.model.BaseResponse
 import com.mongmong.namo.domain.model.DiaryDetail
 import com.mongmong.namo.domain.model.MoimPayment
 import com.mongmong.namo.domain.model.ScheduleForDiary
@@ -30,7 +30,7 @@ interface DiaryRepository {
         enjoyRating: Int,
         images: List<String>,
         scheduleId: Long
-    ): DiaryBaseResponse
+    ): BaseResponse
 
     // 기록 수정
     suspend fun editDiary(
@@ -39,10 +39,10 @@ interface DiaryRepository {
         enjoyRating: Int,
         images: List<String>,
         deleteImageIds: List<Long>
-    ): DiaryBaseResponse
+    ): BaseResponse
 
     // 기록 삭제
-    suspend fun deleteDiary(diaryId: Long): DiaryBaseResponse
+    suspend fun deleteDiary(diaryId: Long): BaseResponse
 
     // 기록 캘린더 조회
     suspend fun getCalendarDiary(yearMonth: String): CalendarDiaryDate

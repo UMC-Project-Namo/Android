@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mongmong.namo.domain.model.DiaryBaseResponse
+import com.mongmong.namo.domain.model.BaseResponse
 import com.mongmong.namo.domain.model.DiaryDetail
 import com.mongmong.namo.domain.model.DiaryImage
 import com.mongmong.namo.domain.model.ScheduleForDiary
@@ -30,14 +30,14 @@ class PersonalDiaryViewModel @Inject constructor(
     private val _diaryChanged = MutableLiveData<Boolean>(false)
     val diaryChanged: LiveData<Boolean> = _diaryChanged
 
-    private val _addDiaryResult = MutableLiveData<DiaryBaseResponse>()
-    val addDiaryResult: LiveData<DiaryBaseResponse> = _addDiaryResult
+    private val _addDiaryResult = MutableLiveData<BaseResponse>()
+    val addDiaryResult: LiveData<BaseResponse> = _addDiaryResult
 
-    private val _editDiaryResult = MutableLiveData<DiaryBaseResponse>()
-    val editDiaryResult: LiveData<DiaryBaseResponse> = _editDiaryResult
+    private val _editDiaryResult = MutableLiveData<BaseResponse>()
+    val editDiaryResult: LiveData<BaseResponse> = _editDiaryResult
 
-    private val _deleteDiaryResult = MutableLiveData<DiaryBaseResponse>()
-    val deleteDiaryResult: LiveData<DiaryBaseResponse> = _deleteDiaryResult
+    private val _deleteDiaryResult = MutableLiveData<BaseResponse>()
+    val deleteDiaryResult: LiveData<BaseResponse> = _deleteDiaryResult
 
     private var initialDiaryContent: String? = null
     private var initialImgList: List<DiaryImage> = emptyList()

@@ -7,7 +7,7 @@ import com.mongmong.namo.data.dto.PatchMoimScheduleCategoryRequestBody
 import com.mongmong.namo.data.dto.PostScheduleResponse
 import com.mongmong.namo.data.dto.EditScheduleResponse
 import com.mongmong.namo.data.dto.ScheduleRequestBody
-import com.mongmong.namo.data.utils.common.BaseResponse
+import com.mongmong.namo.domain.model.BaseResponse
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET

@@ -3,7 +3,7 @@ package com.mongmong.namo.domain.usecases.diary
 import android.net.Uri
 import android.util.Log
 import com.mongmong.namo.domain.model.Activity
-import com.mongmong.namo.domain.model.DiaryBaseResponse
+import com.mongmong.namo.domain.model.BaseResponse
 import com.mongmong.namo.domain.model.DiaryDetail
 import com.mongmong.namo.domain.model.DiaryImage
 import com.mongmong.namo.domain.repositories.ActivityRepository
@@ -24,14 +24,14 @@ class EditMoimDiaryUseCase @Inject constructor(
         activities: List<Activity>,
         deleteDiaryImageIds: List<Long>,
         deleteActivityImageIds: MutableMap<Long, MutableList<Long>>
-    ): DiaryBaseResponse {
+    ): BaseResponse {
         // 결과를 담을 변수를 초기화
-        var diaryResponse: DiaryBaseResponse
-        val activityResponses = mutableListOf<DiaryBaseResponse>()
+        var diaryResponse: BaseResponse
+        val activityResponses = mutableListOf<BaseResponse>()
 
         // 활동명 공백 여부 체크
         if(activities.any { activity -> activity.title.isEmpty() }) {
-            return DiaryBaseResponse(isSuccess = false, message = "활동명을 입력해주세요.")
+            return BaseResponse(isSuccess = false, message = "활동명을 입력해주세요.")
         }
 
         if(diary != null) {
@@ -55,7 +55,7 @@ class EditMoimDiaryUseCase @Inject constructor(
                 diaryId = diary.diaryId,
                 deleteImageIds = deleteDiaryImageIds
             )
-        } else diaryResponse = DiaryBaseResponse(result = "", code = 200, message = "", isSuccess = true)
+        } else diaryResponse = BaseResponse(code = 200, message = "", isSuccess = true)
 
         // 활동 이미지 업로드 및 수정 처리
         coroutineScope {
@@ -96,7 +96,7 @@ class EditMoimDiaryUseCase @Inject constructor(
             diaryResponse
         } else {
             Log.d("EditMoimDiaryUseCase", "수정 실패")
-            DiaryBaseResponse(message = "Failed to update all activities or diary")
+            BaseResponse(message = "Failed to update all activities or diary")
         }
     }
 

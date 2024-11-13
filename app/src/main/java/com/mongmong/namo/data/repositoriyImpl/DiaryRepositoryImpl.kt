@@ -12,7 +12,7 @@ import com.mongmong.namo.data.remote.NetworkChecker
 import com.mongmong.namo.domain.model.CalendarDiaryDate
 import com.mongmong.namo.data.utils.mappers.DiaryMapper.toModel
 import com.mongmong.namo.domain.model.Diary
-import com.mongmong.namo.domain.model.DiaryBaseResponse
+import com.mongmong.namo.domain.model.BaseResponse
 import com.mongmong.namo.domain.model.DiaryDetail
 import com.mongmong.namo.domain.model.MoimPayment
 import com.mongmong.namo.domain.model.ScheduleForDiary
@@ -63,7 +63,7 @@ class DiaryRepositoryImpl @Inject constructor(
         enjoyRating: Int,
         images: List<String>,
         scheduleId: Long
-    ): DiaryBaseResponse {
+    ): BaseResponse {
         Log.d("DiaryRepositoryImpl addDiary", "$content, $enjoyRating, $images, $scheduleId")
         return remoteDiaryDataSource.addPersonalDiary(content, enjoyRating, images, scheduleId)
     }
@@ -75,13 +75,13 @@ class DiaryRepositoryImpl @Inject constructor(
         enjoyRating: Int,
         images: List<String>,
         deleteImageIds: List<Long>
-    ): DiaryBaseResponse {
+    ): BaseResponse {
         Log.d("DiaryRepositoryImpl editDiary", "$diaryId, $content, $enjoyRating, $images, $deleteImageIds")
         return remoteDiaryDataSource.editPersonalDiary(diaryId, content, enjoyRating, images, deleteImageIds)
     }
 
     // 기록 삭제
-    override suspend fun deleteDiary(diaryId: Long): DiaryBaseResponse {
+    override suspend fun deleteDiary(diaryId: Long): BaseResponse {
         Log.d("DiaryRepositoryImpl deletePersonalDiary", "$diaryId")
         return remoteDiaryDataSource.deletePersonalDiary(diaryId)
     }

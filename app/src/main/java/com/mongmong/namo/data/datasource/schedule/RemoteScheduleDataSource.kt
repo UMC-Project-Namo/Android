@@ -19,7 +19,7 @@ import com.mongmong.namo.data.dto.MoimBaseResponse
 import com.mongmong.namo.data.dto.MoimScheduleRequestBody
 import com.mongmong.namo.data.dto.PostMoimScheduleResponse
 import com.mongmong.namo.data.dto.ScheduleRequestBody
-import com.mongmong.namo.data.utils.common.BaseResponse
+import com.mongmong.namo.domain.model.BaseResponse
 import com.mongmong.namo.presentation.utils.converter.ScheduleDateConverter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

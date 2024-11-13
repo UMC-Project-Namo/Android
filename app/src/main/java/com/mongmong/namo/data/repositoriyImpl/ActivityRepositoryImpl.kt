@@ -1,15 +1,15 @@
 package com.mongmong.namo.data.repositoriyImpl
 
-import com.mongmong.namo.data.datasource.diary.ActivityDataSource
+import com.mongmong.namo.data.datasource.diary.RemoteActivityDataSource
 import com.mongmong.namo.data.utils.mappers.ActivityMapper.toModel
 import com.mongmong.namo.domain.model.Activity
 import com.mongmong.namo.domain.model.ActivityPayment
-import com.mongmong.namo.domain.model.DiaryBaseResponse
+import com.mongmong.namo.domain.model.BaseResponse
 import com.mongmong.namo.domain.repositories.ActivityRepository
 import javax.inject.Inject
 
 class ActivityRepositoryImpl @Inject constructor(
-    private val activityDataSource: ActivityDataSource
+    private val activityDataSource: RemoteActivityDataSource
 ): ActivityRepository {
     /** 모임 기록 활동 */
     // 활동 리스트 조회
@@ -23,7 +23,7 @@ class ActivityRepositoryImpl @Inject constructor(
     }
 
     // 활동 추가
-    override suspend fun addActivity(scheduleId: Long, activity: Activity): DiaryBaseResponse {
+    override suspend fun addActivity(scheduleId: Long, activity: Activity): BaseResponse {
         return activityDataSource.addActivity(scheduleId, activity)
     }
 
@@ -32,12 +32,12 @@ class ActivityRepositoryImpl @Inject constructor(
         activityId: Long,
         activity: Activity,
         deleteImages: List<Long>
-    ): DiaryBaseResponse {
+    ): BaseResponse {
         return activityDataSource.editActivity(activityId, activity, deleteImages)
     }
 
     // 활동 태그 수정
-    override suspend fun editActivityTag(activityId: Long, tag: String): DiaryBaseResponse {
+    override suspend fun editActivityTag(activityId: Long, tag: String): BaseResponse {
         return activityDataSource.editActivityTag(activityId, tag)
     }
 
@@ -46,17 +46,17 @@ class ActivityRepositoryImpl @Inject constructor(
         activityId: Long,
         participantsToAdd: List<Long>,
         participantsToRemove: List<Long>
-    ): DiaryBaseResponse {
+    ): BaseResponse {
         return activityDataSource.editActivityParticipants(activityId, participantsToAdd, participantsToRemove)
     }
 
     // 활동 정산 수정
-    override suspend fun editActivityPayment(activityId: Long, payment: ActivityPayment): DiaryBaseResponse {
+    override suspend fun editActivityPayment(activityId: Long, payment: ActivityPayment): BaseResponse {
         return activityDataSource.editActivityPayment(activityId, payment)
     }
 
     // 활동 삭제
-    override suspend fun deleteActivity(activityId: Long): DiaryBaseResponse {
+    override suspend fun deleteActivity(activityId: Long): BaseResponse {
         return activityDataSource.deleteActivity(activityId)
     }
 }
