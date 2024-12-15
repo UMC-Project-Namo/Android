@@ -156,9 +156,6 @@ class DiaryCalendarAdapter(
                 this.height = height
             }
             binding.root.requestLayout()
-
-            val indicatorImage = if (isOpening) R.drawable.ic_archive_diary_small else R.drawable.ic_archive_diary
-            binding.diaryCalendarHasDiaryIndicatorIv.setImageResource(indicatorImage)
         }
 
         fun updateItemWithAnimate(isOpening: Boolean) {
@@ -174,9 +171,6 @@ class DiaryCalendarAdapter(
             }
             valueAnimator.duration = ANIMATION_DURATION
             valueAnimator.start()
-
-            val indicatorImage = if (isOpening) R.drawable.ic_archive_diary_small else R.drawable.ic_archive_diary
-            binding.diaryCalendarHasDiaryIndicatorIv.setImageResource(indicatorImage)
         }
 
         private fun updateSelectedDateView(newDateView: TextView, newDate: CalendarDay) {
