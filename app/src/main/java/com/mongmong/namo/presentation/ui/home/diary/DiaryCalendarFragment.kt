@@ -112,37 +112,47 @@ class DiaryCalendarFragment :
         var scrollJob: Job? = null // 코루틴 Job 변수로 스크롤을 제어
 
         binding.diaryCalendarRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            private var isScrollingFast = false
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    // 스크롤이 멈췄을 때만 API 호출
                     scrollJob?.cancel() // 기존 Job 취소
                     scrollJob = CoroutineScope(Dispatchers.Main).launch {
                         delay(200)
                         setDiaryIndicator(recyclerView)
+                        updateVisibleMonth(recyclerView) // 스크롤 멈췄을 때 중앙 달 업데이트
                     }
-                    isScrollingFast = false // 스크롤 멈추면 속도 상태 초기화
                 }
             }
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                checkFirstDay(recyclerView)
                 updateReturnBtnVisible()
-                // 스크롤 속도가 빠른지 감지
-                isScrollingFast = dy > recyclerView.height / 3
-                if (!isScrollingFast) {
-                    if (scrollJob == null || scrollJob?.isActive == false) {
-                        scrollJob = CoroutineScope(Dispatchers.Main).launch {
-                            delay(300)
-                            setDiaryIndicator(recyclerView)
-                        }
+                if (scrollJob == null || scrollJob?.isActive == false) {
+                    scrollJob = CoroutineScope(Dispatchers.Main).launch {
+                        delay(300)
+                        updateVisibleMonth(recyclerView) // 스크롤 도중에도 중앙 달 업데이트
                     }
                 }
             }
         })
     }
+
+    private fun updateVisibleMonth(recyclerView: RecyclerView) {
+        val layoutManager = recyclerView.layoutManager as GridLayoutManager
+        val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
+        val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+
+        // 중앙에 위치한 아이템 계산
+        val centerPosition = (firstVisiblePosition + lastVisiblePosition) / 2
+        val centerItem = calendarAdapter.getItemAtPosition(centerPosition)
+
+        // 어댑터에 중앙에 보이는 달 전달
+        centerItem?.let {
+            val currentMonth = it.toYearMonth()
+            calendarAdapter.updateVisibleMonth(currentMonth)
+        }
+    }
+
 
 
 
