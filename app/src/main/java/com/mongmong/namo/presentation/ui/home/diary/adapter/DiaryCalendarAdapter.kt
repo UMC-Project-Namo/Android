@@ -13,47 +13,63 @@ import com.mongmong.namo.domain.model.CalendarDate
 import com.mongmong.namo.domain.model.CalendarDay
 import com.mongmong.namo.domain.model.ScheduleType
 import com.mongmong.namo.presentation.utils.converter.DiaryDateConverter.toYearMonth
+import java.util.Calendar
 
 class DiaryCalendarAdapter(
     private val recyclerView: RecyclerView,
     private val items: List<CalendarDay>,
     private val listener: OnCalendarListener
 ) : RecyclerView.Adapter<DiaryCalendarAdapter.ViewHolder>() {
+
     private var diaryDates: MutableMap<String, Set<CalendarDate>> = mutableMapOf() // "yyyy-MM": [기록된 날짜들]
-    private var isOpeningBottomSheet: Boolean = false
+    private var isBottomSheetOpen: Boolean = false // 바텀시트 상태
     private var selectedDateView: TextView? = null  // 선택된 날짜의 TextView
     private var selectedDate: CalendarDay? = null  // 선택된 날짜
+    private var visibleMonth: String? = null // 현재 화면 중앙의 달 ("yyyy-MM")
 
     fun updateDiaryDates(yearMonth: String, diaryDates: Set<CalendarDate>) {
         this.diaryDates[yearMonth] = diaryDates
 
         items.forEachIndexed { index, calendarDay ->
-            if (calendarDay.toYearMonth() == yearMonth && diaryDates.any { it.date == calendarDay.date.toString() }) {
+            if (calendarDay.toYearMonth() == yearMonth) {
                 notifyItemChanged(index)
             }
         }
     }
 
+    fun updateVisibleMonth(visibleMonth: String) {
+        if (this.visibleMonth != visibleMonth) {
+            this.visibleMonth = visibleMonth
+            notifyDataSetChanged() // 현재 보이는 달이 바뀌었을 때 전체 갱신
+        }
+    }
+
     fun updateBottomSheetState(isOpened: Boolean) {
-        this.isOpeningBottomSheet = isOpened
+        if (isBottomSheetOpen != isOpened) {
+            isBottomSheetOpen = isOpened
 
-        // 화면에 보이는 아이템들의 위치를 가져옴
-        val layoutManager = recyclerView.layoutManager ?: return
-        val firstVisibleItemPosition = (layoutManager as GridLayoutManager).findFirstVisibleItemPosition()
-        val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+            // 화면에 보이는 아이템들의 위치를 가져옴
+            val layoutManager = recyclerView.layoutManager ?: return
+            val firstVisibleItemPosition = (layoutManager as GridLayoutManager).findFirstVisibleItemPosition()
+            val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
 
-        // 화면에 보이는 아이템들에 대해서는 애니메이션 적용
-        for (i in firstVisibleItemPosition..lastVisibleItemPosition) {
-            val viewHolder = recyclerView.findViewHolderForAdapterPosition(i) as ViewHolder
-            viewHolder.updateItemWithAnimate(isOpened)
-        }
+            // 보이는 아이템은 애니메이션 적용
+            for (i in firstVisibleItemPosition..lastVisibleItemPosition) {
+                val viewHolder = recyclerView.findViewHolderForAdapterPosition(i) as? ViewHolder
+                viewHolder?.updateItemWithAnimate(isOpened)
+            }
 
-        // 화면에 보이지 않는 아이템들은 높이 변경을 직접 적용하도록 notify
-        if (firstVisibleItemPosition > 0) {
-            notifyItemRangeChanged(0, firstVisibleItemPosition)
-        }
-        if (lastVisibleItemPosition < itemCount - 1) {
-            notifyItemRangeChanged(lastVisibleItemPosition + 1, itemCount - lastVisibleItemPosition - 1)
+            // 보이지 않는 아이템은 notify로 높이 변경
+            if (firstVisibleItemPosition > 0) {
+                for (i in 0 until firstVisibleItemPosition) {
+                    notifyItemChanged(i, isOpened)
+                }
+            }
+            if (lastVisibleItemPosition < itemCount - 1) {
+                for (i in lastVisibleItemPosition + 1 until itemCount) {
+                    notifyItemChanged(i, isOpened)
+                }
+            }
         }
     }
 
@@ -65,7 +81,18 @@ class DiaryCalendarAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.bind(item)
-        holder.updateItem(isOpeningBottomSheet)
+
+        // 현재 달 상태에 따라 아이템을 업데이트
+        holder.updateItem(isBottomSheetOpen)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+        if (payloads.isNotEmpty()) {
+            val isOpened = payloads[0] as Boolean
+            holder.updateItem(isOpened)
+        } else {
+            super.onBindViewHolder(holder, position, payloads)
+        }
     }
 
     fun getItemAtPosition(position: Int): CalendarDay? {
@@ -80,6 +107,7 @@ class DiaryCalendarAdapter(
         fun bind(calendarDay: CalendarDay) {
             binding.calendarDay = calendarDay
 
+            // Indicator 설정
             val dateType = diaryDates[calendarDay.toYearMonth()]?.find { it.date == calendarDay.date.toString() }?.type
             binding.diaryCalendarHasDiaryIndicatorIv.visibility = if (dateType != null) View.VISIBLE else View.GONE
 
@@ -96,20 +124,29 @@ class DiaryCalendarAdapter(
                 )
             }
 
+            // 텍스트 색상 설정
             binding.diaryCalendarDateTv.setTextColor(
                 binding.root.context.getColor(
                     when {
-                        calendarDay.isSameDate(selectedDate) -> R.color.main
-                        calendarDay.isAfterToday() -> R.color.text_placeholder
-                        else -> R.color.main_text
+                        calendarDay.isSameDate(selectedDate) -> R.color.main // 선택된 날짜
+                        calendarDay.toYearMonth() == visibleMonth -> R.color.main_text // 현재 달
+                        else -> R.color.text_placeholder // 다른 달
                     }
                 )
             )
 
+            // 클릭 리스너 설정
             binding.root.setOnClickListener {
                 updateSelectedDateView(binding.diaryCalendarDateTv, calendarDay)
                 listener.onCalendarDayClick(calendarDay)
             }
+
+            // 아이템 높이 설정
+            val height = dpToPx(if (isBottomSheetOpen) OPEN_HEIGHT else CLOSE_HEIGHT, binding.root.context)
+            binding.root.layoutParams = binding.root.layoutParams.apply {
+                this.height = height
+            }
+            binding.root.requestLayout()
         }
 
         fun updateItem(isOpening: Boolean) {
@@ -147,7 +184,7 @@ class DiaryCalendarAdapter(
             if (selectedDate?.isSameDate(newDate) == true) {
                 selectedDateView?.setTextColor(
                     binding.diaryCalendarDateTv.context.getColor(
-                        if (newDate.isAfterToday()) R.color.text_placeholder else R.color.main_text
+                        if (newDate.toYearMonth() == visibleMonth) R.color.main_text else R.color.text_placeholder
                     )
                 )
                 selectedDate = null
@@ -156,7 +193,7 @@ class DiaryCalendarAdapter(
                 // 새로운 날짜를 선택
                 selectedDateView?.setTextColor(
                     binding.diaryCalendarDateTv.context.getColor(
-                        if (newDate.isAfterToday()) R.color.text_placeholder else R.color.main_text
+                        if (selectedDate?.toYearMonth() == visibleMonth) R.color.main_text else R.color.text_placeholder
                     )
                 )
                 selectedDate = newDate
