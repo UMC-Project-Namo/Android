@@ -44,7 +44,7 @@ class DiaryCalendarFragment :
     private lateinit var personalDiaryAdapter: PersonalDiaryRVAdapter
     private lateinit var moimDiaryAdapter: MoimDiaryRVAdapter
     private var isInitialLoad = true
-    private var lastDisplayedMonth: Int? = null // 마지막으로 표시된 월을 저장하는 변수
+    private var lastDisplayedMonth: String? = null // 마지막으로 표시된 월을 저장
     private val fetchedMonths = mutableSetOf<String>() // 이미 요청한 월을 저장하는 집합
 
     override fun setup() {
@@ -149,6 +149,10 @@ class DiaryCalendarFragment :
         // 어댑터에 중앙에 보이는 달 전달
         centerItem?.let {
             val currentMonth = it.toYearMonth()
+            if (currentMonth != lastDisplayedMonth) {
+                lastDisplayedMonth = currentMonth
+                showMonthSnackBar(it.year, it.month + 1) // 스낵바 띄우기
+            }
             calendarAdapter.updateVisibleMonth(currentMonth)
         }
     }
@@ -165,28 +169,6 @@ class DiaryCalendarFragment :
         val isBottomSheetOpened = viewModel.isBottomSheetOpened.value ?: false
 
         viewModel.setReturnBtnVisible(!isAtBottom && !isBottomSheetOpened)
-    }
-
-    private fun checkFirstDay(recyclerView: RecyclerView) {
-        val layoutManager = recyclerView.layoutManager as GridLayoutManager
-        val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
-        val lastVisiblePosition = firstVisiblePosition + INDICATOR_LAST
-
-        for (position in firstVisiblePosition..lastVisiblePosition) {
-            val calendarDay = calendarAdapter.getItemAtPosition(position)
-            if (calendarDay != null) {
-                if (calendarDay.date == 1) {
-                    val currentMonth = calendarDay.month + 1
-
-                    // 달이 바뀐 경우에만 스낵바
-                    if (lastDisplayedMonth == null || lastDisplayedMonth != currentMonth) {
-                        lastDisplayedMonth = currentMonth
-                        showMonthSnackBar(calendarDay.year, currentMonth)
-                    }
-                    break
-                }
-            }
-        }
     }
 
     private fun setDiaryIndicator(recyclerView: RecyclerView) {
