@@ -309,9 +309,4 @@ class DiaryCalendarFragment :
             viewModel.toggleBottomSheetState()
         }
     }
-
-    companion object {
-        const val INDICATOR_FIRST = 7
-        const val INDICATOR_LAST = 21
-    }
 }
