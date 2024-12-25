@@ -44,7 +44,7 @@ class DiaryCalendarFragment :
     private lateinit var personalDiaryAdapter: PersonalDiaryRVAdapter
     private lateinit var moimDiaryAdapter: MoimDiaryRVAdapter
     private var isInitialLoad = true
-    private var lastDisplayedMonth: Int? = null // 마지막으로 표시된 월을 저장하는 변수
+    private var lastDisplayedMonth: String? = null // 마지막으로 표시된 월을 저장
     private val fetchedMonths = mutableSetOf<String>() // 이미 요청한 월을 저장하는 집합
 
     override fun setup() {
@@ -112,37 +112,51 @@ class DiaryCalendarFragment :
         var scrollJob: Job? = null // 코루틴 Job 변수로 스크롤을 제어
 
         binding.diaryCalendarRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            private var isScrollingFast = false
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    // 스크롤이 멈췄을 때만 API 호출
                     scrollJob?.cancel() // 기존 Job 취소
                     scrollJob = CoroutineScope(Dispatchers.Main).launch {
                         delay(200)
                         setDiaryIndicator(recyclerView)
+                        updateVisibleMonth(recyclerView) // 스크롤 멈췄을 때 중앙 달 업데이트
                     }
-                    isScrollingFast = false // 스크롤 멈추면 속도 상태 초기화
                 }
             }
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                checkFirstDay(recyclerView)
                 updateReturnBtnVisible()
-                // 스크롤 속도가 빠른지 감지
-                isScrollingFast = dy > recyclerView.height / 3
-                if (!isScrollingFast) {
-                    if (scrollJob == null || scrollJob?.isActive == false) {
-                        scrollJob = CoroutineScope(Dispatchers.Main).launch {
-                            delay(300)
-                            setDiaryIndicator(recyclerView)
-                        }
+                if (scrollJob == null || scrollJob?.isActive == false) {
+                    scrollJob = CoroutineScope(Dispatchers.Main).launch {
+                        delay(300)
+                        updateVisibleMonth(recyclerView) // 스크롤 도중에도 중앙 달 업데이트
                     }
                 }
             }
         })
     }
+
+    private fun updateVisibleMonth(recyclerView: RecyclerView) {
+        val layoutManager = recyclerView.layoutManager as GridLayoutManager
+        val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
+        val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+
+        // 중앙에 위치한 아이템 계산
+        val centerPosition = (firstVisiblePosition + lastVisiblePosition) / 2
+        val centerItem = calendarAdapter.getItemAtPosition(centerPosition)
+
+        // 어댑터에 중앙에 보이는 달 전달
+        centerItem?.let {
+            val currentMonth = it.toYearMonth()
+            if (currentMonth != lastDisplayedMonth) {
+                lastDisplayedMonth = currentMonth
+                showMonthSnackBar(it.year, it.month + 1) // 스낵바 띄우기
+            }
+            calendarAdapter.updateVisibleMonth(currentMonth)
+        }
+    }
+
 
 
 
@@ -155,28 +169,6 @@ class DiaryCalendarFragment :
         val isBottomSheetOpened = viewModel.isBottomSheetOpened.value ?: false
 
         viewModel.setReturnBtnVisible(!isAtBottom && !isBottomSheetOpened)
-    }
-
-    private fun checkFirstDay(recyclerView: RecyclerView) {
-        val layoutManager = recyclerView.layoutManager as GridLayoutManager
-        val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
-        val lastVisiblePosition = firstVisiblePosition + INDICATOR_LAST
-
-        for (position in firstVisiblePosition..lastVisiblePosition) {
-            val calendarDay = calendarAdapter.getItemAtPosition(position)
-            if (calendarDay != null) {
-                if (calendarDay.date == 1) {
-                    val currentMonth = calendarDay.month + 1
-
-                    // 달이 바뀐 경우에만 스낵바
-                    if (lastDisplayedMonth == null || lastDisplayedMonth != currentMonth) {
-                        lastDisplayedMonth = currentMonth
-                        showMonthSnackBar(calendarDay.year, currentMonth)
-                    }
-                    break
-                }
-            }
-        }
     }
 
     private fun setDiaryIndicator(recyclerView: RecyclerView) {
@@ -316,10 +308,5 @@ class DiaryCalendarFragment :
             viewModel.getDiaryByDate(date)
             viewModel.toggleBottomSheetState()
         }
-    }
-
-    companion object {
-        const val INDICATOR_FIRST = 7
-        const val INDICATOR_LAST = 21
     }
 }
