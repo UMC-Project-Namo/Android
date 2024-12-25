@@ -14,7 +14,6 @@ import com.mongmong.namo.domain.model.CalendarDate
 import com.mongmong.namo.domain.model.CalendarDay
 import com.mongmong.namo.domain.model.ScheduleType
 import com.mongmong.namo.presentation.utils.converter.DiaryDateConverter.toYearMonth
-import java.util.Calendar
 
 class DiaryCalendarAdapter(
     private val recyclerView: RecyclerView,
@@ -30,7 +29,6 @@ class DiaryCalendarAdapter(
 
     fun updateDiaryDates(yearMonth: String, diaryDates: Set<CalendarDate>) {
         this.diaryDates[yearMonth] = diaryDates
-
         items.forEachIndexed { index, calendarDay ->
             if (calendarDay.toYearMonth() == yearMonth) {
                 notifyItemChanged(index)
@@ -46,31 +44,23 @@ class DiaryCalendarAdapter(
     }
 
     fun updateBottomSheetState(isOpened: Boolean) {
-        if (isBottomSheetOpen == isOpened) return
+        if (isBottomSheetOpen == isOpened || itemCount == 0) return
         isBottomSheetOpen = isOpened
 
-        // 화면에 보이는 아이템들의 위치를 가져옴
-        val layoutManager = recyclerView.layoutManager ?: return
-        val firstVisibleItemPosition =
-            (layoutManager as GridLayoutManager).findFirstVisibleItemPosition()
+        val layoutManager = recyclerView.layoutManager as? GridLayoutManager ?: return
+        val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
         val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
 
-        // 보이는 아이템은 애니메이션 적용
         for (i in firstVisibleItemPosition..lastVisibleItemPosition) {
             val viewHolder = recyclerView.findViewHolderForAdapterPosition(i) as? ViewHolder
             viewHolder?.updateItemWithAnimate(isOpened)
         }
 
-        // 보이지 않는 아이템은 notify로 높이 변경
-        if (firstVisibleItemPosition > 0) {
-            for (i in 0 until firstVisibleItemPosition) {
-                notifyItemChanged(i, isOpened)
-            }
+        for (i in 0 until firstVisibleItemPosition) {
+            notifyItemChanged(i, isOpened)
         }
-        if (lastVisibleItemPosition < itemCount - 1) {
-            for (i in lastVisibleItemPosition + 1 until itemCount) {
-                notifyItemChanged(i, isOpened)
-            }
+        for (i in lastVisibleItemPosition + 1 until itemCount) {
+            notifyItemChanged(i, isOpened)
         }
     }
 
@@ -82,8 +72,6 @@ class DiaryCalendarAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.bind(item)
-
-        // 현재 달 상태에 따라 아이템을 업데이트
         holder.updateItem(isBottomSheetOpen)
     }
 
@@ -103,13 +91,11 @@ class DiaryCalendarAdapter(
         }
     }
 
-
+    override fun getItemCount(): Int = items.size
 
     fun getItemAtPosition(position: Int): CalendarDay? {
         return if (position in items.indices) items[position] else null
     }
-
-    override fun getItemCount(): Int = items.size
 
     inner class ViewHolder(val binding: ItemDiaryCalendarDateBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -202,7 +188,6 @@ class DiaryCalendarAdapter(
                 }
             }
 
-            // 새로운 날짜 선택
             selectedDate = newDate
             selectedDateView = newDateView
             newDateView.setTextColor(newDateView.context.getColor(R.color.main))
@@ -212,7 +197,6 @@ class DiaryCalendarAdapter(
                 notifyItemChanged(newIndex, PAYLOAD_SELECT)
             }
         }
-
     }
 
     interface OnCalendarListener {
@@ -230,5 +214,4 @@ class DiaryCalendarAdapter(
         const val PAYLOAD_SELECT = "select"
         const val PAYLOAD_DESELECT = "deselect"
     }
-
 }
