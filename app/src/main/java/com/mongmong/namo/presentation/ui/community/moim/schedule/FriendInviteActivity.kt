@@ -6,7 +6,9 @@ import com.mongmong.namo.R
 import com.mongmong.namo.databinding.ActivityFriendInviteBinding
 import com.mongmong.namo.presentation.config.BaseActivity
 import com.mongmong.namo.presentation.ui.community.moim.schedule.adapter.FriendInviteRVAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.activity_friend_invite) {
 
     private val viewModel: FriendInviteViewModel by viewModels()
