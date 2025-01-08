@@ -19,8 +19,8 @@ class FriendInviteViewModel @Inject constructor(
     val friendList: LiveData<List<Friend>> = _friendList
 
     // 초대할 친구 목록
-    private val _friendToInviteList = MutableLiveData<List<Friend>>(emptyList())
-    val friendToInviteList: LiveData<List<Friend>> = _friendToInviteList
+    private val _friendToInviteList = MutableLiveData<ArrayList<Friend>>(ArrayList())
+    val friendToInviteList: LiveData<ArrayList<Friend>> = _friendToInviteList
 
     init {
         getFriends()
@@ -31,5 +31,12 @@ class FriendInviteViewModel @Inject constructor(
         viewModelScope.launch {
             _friendList.value = getFriendsUseCase.execute()
         }
+    }
+
+    fun updateSelectedFriend(isSelected: Boolean, friend: Friend) {
+        val tempFriendArr =  _friendToInviteList.value!!
+        if (isSelected) tempFriendArr.add(friend)
+        else tempFriendArr.remove(friend)
+        _friendToInviteList.value = tempFriendArr
     }
 }

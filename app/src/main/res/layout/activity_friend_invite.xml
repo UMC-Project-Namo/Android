@@ -105,6 +105,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:visibility="@{viewModel.friendToInviteList.empty ? View.GONE : View.VISIBLE}"
             android:layout_marginHorizontal="25dp"
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@id/friend_invite_search_btn">
@@ -116,6 +117,7 @@
                 style="@style/content_bold"/>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/friend_invite_preparatory_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"

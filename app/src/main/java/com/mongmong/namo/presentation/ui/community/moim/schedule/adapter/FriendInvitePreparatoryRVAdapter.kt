@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mongmong.namo.databinding.ItemFriendInviteBinding
+import com.mongmong.namo.databinding.ItemFriendToInviteBinding
 import com.mongmong.namo.domain.model.Friend
 
-class FriendInviteRVAdapter: RecyclerView.Adapter<FriendInviteRVAdapter.ViewHolder>(){
+class FriendInvitePreparatoryRVAdapter: RecyclerView.Adapter<FriendInvitePreparatoryRVAdapter.ViewHolder>(){
 
     private var friendList = emptyList<Friend>()
     private lateinit var mItemClickListener: MyItemClickListener
@@ -23,12 +23,11 @@ class FriendInviteRVAdapter: RecyclerView.Adapter<FriendInviteRVAdapter.ViewHold
     }
 
     interface MyItemClickListener {
-        fun onInviteButtonClick(isSelected: Boolean, position: Int)
-        fun onItemClick(position: Int)
+        fun onDeleteBtnClick(position: Int)
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val binding: ItemFriendInviteBinding = ItemFriendInviteBinding.inflate(
+        val binding: ItemFriendToInviteBinding = ItemFriendToInviteBinding.inflate(
             LayoutInflater.from(viewGroup.context), viewGroup, false
         )
 
@@ -38,20 +37,16 @@ class FriendInviteRVAdapter: RecyclerView.Adapter<FriendInviteRVAdapter.ViewHold
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(friendList[position])
         holder.apply {
-            // 아이템 전체 클릭
-            itemView.setOnClickListener {
-                mItemClickListener.onItemClick(position)
-            }
-            // 초대 버튼 클릭
-            binding.itemFriendInviteBtn.setOnClickListener {
-                mItemClickListener.onInviteButtonClick(binding.itemFriendInviteBtn.isChecked, position)
+            // 삭제 버튼 클릭
+            binding.imageDeleteBtn.setOnClickListener {
+                mItemClickListener.onDeleteBtnClick(position)
             }
         }
     }
 
     override fun getItemCount(): Int = friendList.size
 
-    inner class ViewHolder(val binding: ItemFriendInviteBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding: ItemFriendToInviteBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(friend: Friend) {
             binding.friend = friend
         }

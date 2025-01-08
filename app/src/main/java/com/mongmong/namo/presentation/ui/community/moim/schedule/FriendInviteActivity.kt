@@ -1,11 +1,13 @@
 package com.mongmong.namo.presentation.ui.community.moim.schedule
 
 import android.text.Html
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mongmong.namo.R
 import com.mongmong.namo.databinding.ActivityFriendInviteBinding
 import com.mongmong.namo.presentation.config.BaseActivity
+import com.mongmong.namo.presentation.ui.community.moim.schedule.adapter.FriendInvitePreparatoryRVAdapter
 import com.mongmong.namo.presentation.ui.community.moim.schedule.adapter.FriendInviteRVAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -14,7 +16,8 @@ class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.
 
     private val viewModel: FriendInviteViewModel by viewModels()
 
-    private lateinit var friendAdapter: FriendInviteRVAdapter
+    private lateinit var friendToInviteAdapter: FriendInvitePreparatoryRVAdapter
+    private lateinit var allFriendAdapter: FriendInviteRVAdapter
 
     override fun setup() {
         binding.viewModel = viewModel
@@ -36,31 +39,62 @@ class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.
         binding.friendInviteSelectedNumTv.text = Html.fromHtml(String.format(resources.getString(R.string.moim_schedule_friend_invite_selected_num), viewModel.friendToInviteList.value?.size, viewModel.friendList.value?.size))
     }
 
-    private fun setAdapter() {
-        friendAdapter = FriendInviteRVAdapter()
+    // 초대할 친구 어댑터 설정
+    private fun setFriendInvitePreparatoryAdapter() {
+        friendToInviteAdapter = FriendInvitePreparatoryRVAdapter()
+        binding.friendInvitePreparatoryRv.apply {
+            adapter = friendToInviteAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        }
+
+        friendToInviteAdapter.setItemClickListener(object : FriendInvitePreparatoryRVAdapter.MyItemClickListener {
+            override fun onDeleteBtnClick(position: Int) {
+                val friendToDelete = viewModel.friendToInviteList.value!![position]
+                // 초대할 친구 목록에서 삭제
+                viewModel.updateSelectedFriend(false, friendToDelete)
+            }
+        })
+    }
+
+    // 모든 친구 어댑터 설정
+    private fun setAllFriendAdapter() {
+        allFriendAdapter = FriendInviteRVAdapter()
         binding.friendInviteListRv.apply {
-            adapter = friendAdapter
+            adapter = allFriendAdapter
             layoutManager = LinearLayoutManager(context)
         }
 
-        friendAdapter.setItemClickListener(object : FriendInviteRVAdapter.MyItemClickListener {
-            override fun onInviteButtonClick(position: Int) {
-                //TODO: 친구 초대 진행
+        allFriendAdapter.setItemClickListener(object : FriendInviteRVAdapter.MyItemClickListener {
+            override fun onInviteButtonClick(isSelected: Boolean, position: Int) {
+                // 초대할 친구 목록에 추가
+                Log.d("FriendInviteACT", "onInviteButtonClick - isSelected: $isSelected, position: $position")
+                viewModel.updateSelectedFriend(isSelected, viewModel.friendList.value!![position])
             }
 
             override fun onItemClick(position: Int) {
-                //TODO: 친구 정보 화면으로 이동?
+                //
             }
         })
     }
 
     private fun initObserve() {
-        viewModel.friendList.observe(this) {
+        // 초대할 친구
+        viewModel.friendToInviteList.observe(this) {
+            Log.d("FriendInviteACT", "friendToInviteList: $it")
             if (it.isNotEmpty()) {
-                setAdapter()
-                friendAdapter.addFriend(it)
+                setFriendInvitePreparatoryAdapter()
+                friendToInviteAdapter.addFriend(it)
                 setFriendSelectedNum()
             }
+        }
+
+        // 모든 친구
+        viewModel.friendList.observe(this) {
+            if (it.isNotEmpty()) {
+                setAllFriendAdapter()
+            }
+            allFriendAdapter.addFriend(it)
+            setFriendSelectedNum()
         }
     }
 }
