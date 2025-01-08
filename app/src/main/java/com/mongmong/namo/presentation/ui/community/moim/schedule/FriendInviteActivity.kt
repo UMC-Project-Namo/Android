@@ -48,10 +48,12 @@ class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.
         }
 
         friendToInviteAdapter.setItemClickListener(object : FriendInvitePreparatoryRVAdapter.MyItemClickListener {
-            override fun onDeleteBtnClick(position: Int) {
+            override fun onDeleteBtnClick(position: Int) { // 초대할 친구 해제
                 val friendToDelete = viewModel.friendToInviteList.value!![position]
                 // 초대할 친구 목록에서 삭제
                 viewModel.updateSelectedFriend(false, friendToDelete)
+                // 모든 친구 목록에서도 체크 해제
+                allFriendAdapter.uninvitedFriend(friendToDelete)
             }
         })
     }
