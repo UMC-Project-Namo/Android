@@ -113,7 +113,7 @@ class MoimScheduleViewModel @Inject constructor(
 
     private fun getGuestInvitationLink() {
         viewModelScope.launch {
-            guestInvitationLink = repository.getGuestInvitaionLink(_moimSchedule.value!!.moimId)
+            guestInvitationLink = repository.getGuestInvitationLink(_moimSchedule.value!!.moimId)
         }
     }
 

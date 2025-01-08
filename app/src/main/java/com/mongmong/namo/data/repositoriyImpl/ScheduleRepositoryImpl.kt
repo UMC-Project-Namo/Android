@@ -118,7 +118,7 @@ class ScheduleRepositoryImpl @Inject constructor(
         ).isSuccess
     }
 
-    override suspend fun getGuestInvitaionLink(moimScheduleId: Long): String {
+    override suspend fun getGuestInvitationLink(moimScheduleId: Long): String {
         return remoteScheduleDataSource.getGuestInvitationLink(moimScheduleId).result
     }
 }

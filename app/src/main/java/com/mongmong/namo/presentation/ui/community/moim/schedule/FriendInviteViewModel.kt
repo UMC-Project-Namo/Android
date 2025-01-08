@@ -47,7 +47,7 @@ class FriendInviteViewModel @Inject constructor(
         Log.d("FriendInviteVM", "moimScheduleId: $moimScheduleId")
         if (moimScheduleId == 0L) return
         viewModelScope.launch {
-            _isSuccess.value = repository.inviteMoimParticipant(moimScheduleId, _friendToInviteList.value!!.map { friend -> friend.userid })
+            _isSuccess.value = repository.inviteMoimParticipant(moimScheduleId, _friendToInviteList.value!!.map { friend -> friend.userId })
         }
     }
 

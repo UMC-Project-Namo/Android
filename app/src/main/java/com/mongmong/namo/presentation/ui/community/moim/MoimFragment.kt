@@ -4,19 +4,24 @@ import android.app.Activity
 import android.content.Intent
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mongmong.namo.R
 import com.mongmong.namo.databinding.FragmentMoimBinding
 import com.mongmong.namo.domain.model.Moim
 import com.mongmong.namo.presentation.config.BaseFragment
+import com.mongmong.namo.presentation.ui.common.ConfirmDialog
+import com.mongmong.namo.presentation.ui.common.ConfirmDialog.ConfirmDialogInterface
 import com.mongmong.namo.presentation.ui.community.moim.diary.MoimDiaryDetailActivity
 import com.mongmong.namo.presentation.ui.community.moim.adapter.MoimRVAdapter
+import com.mongmong.namo.presentation.ui.community.moim.schedule.FriendInviteActivity
 import com.mongmong.namo.presentation.ui.community.moim.schedule.MoimScheduleActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MoimFragment : BaseFragment<FragmentMoimBinding>(R.layout.fragment_moim) {
+class MoimFragment : BaseFragment<FragmentMoimBinding>(R.layout.fragment_moim),
+    ConfirmDialogInterface {
 
     private val viewModel: MoimViewModel by viewModels()
 
@@ -24,10 +29,18 @@ class MoimFragment : BaseFragment<FragmentMoimBinding>(R.layout.fragment_moim) {
 
     private val getResultText = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
-    ) {result ->
+    ) { result ->
+        Log.d("MoimFragment", "ActivityResult received")
         if (result.resultCode == Activity.RESULT_OK) {
-            val edited = result.data?.getBooleanExtra(MOIM_EDIT_KEY, false)
-            if (edited == true) viewModel.getMoim() // 변경 사항이 있다면 업데이트
+            Log.d("MoimFragment", "Result OK")
+            val isEdited = result.data?.getBooleanExtra(MOIM_EDIT_KEY, false)
+            if (isEdited == true) viewModel.getMoim() // 변경 사항이 있다면 업데이트
+
+            val createdMoimTitle = result.data?.getStringExtra(MOIM_CREATE_KEY)
+            Log.d("MoimFragment", "isEdited: $isEdited, createdMoimTitle: $createdMoimTitle")
+            if (createdMoimTitle != null) showCustomDialog(getString(R.string.dialog_moim_friend_invite_title, createdMoimTitle), R.string.dialog_moim_friend_invite_content, R.string.continuously, 0)
+        } else {
+            Log.d("MoimFragment", "Result not OK: ${result.resultCode}")
         }
     }
 
@@ -70,6 +83,13 @@ class MoimFragment : BaseFragment<FragmentMoimBinding>(R.layout.fragment_moim) {
         })
     }
 
+    private fun showCustomDialog(title: String, content: Int, buttonText: Int, id: Int) {
+        Log.d("MoimFragment", "showCustomDialog()")
+        val dialog = ConfirmDialog(this, title, getString(content), getString(buttonText), id)
+        dialog.isCancelable = false
+        activity?.let { dialog.show(it.supportFragmentManager, "ConfirmDialog") }
+    }
+
     private fun initObserve() {
         viewModel.moimPreviewList.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
@@ -79,7 +99,13 @@ class MoimFragment : BaseFragment<FragmentMoimBinding>(R.layout.fragment_moim) {
         }
     }
 
+    override fun onClickYesButton(id: Int) {
+        // 친구 초대 화면으로 이동
+        startActivity(Intent(requireActivity(), FriendInviteActivity::class.java))
+    }
+
     companion object {
         const val MOIM_EDIT_KEY = "moim_edit_key"
+        const val MOIM_CREATE_KEY = "moim_create_key"
     }
 }

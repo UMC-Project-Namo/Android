@@ -70,7 +70,7 @@ interface ScheduleRepository {
         memberIdsToInvite: List<Long>
     ): Boolean
 
-    suspend fun getGuestInvitaionLink(
+    suspend fun getGuestInvitationLink(
         moimScheduleId: Long
     ): String
 }
