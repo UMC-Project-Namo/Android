@@ -1,5 +1,6 @@
 package com.mongmong.namo.presentation.ui.community.moim.schedule
 
+import android.text.Html
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mongmong.namo.R
@@ -29,12 +30,19 @@ class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.
         }
     }
 
+    // 초대한 친구 현황 표시용
+    private fun setFriendSelectedNum() {
+        // {초대할 친구 수} / {전체 친구 수}
+        binding.friendInviteSelectedNumTv.text = Html.fromHtml(String.format(resources.getString(R.string.moim_schedule_friend_invite_selected_num), viewModel.friendToInviteList.value?.size, viewModel.friendList.value?.size))
+    }
+
     private fun setAdapter() {
         friendAdapter = FriendInviteRVAdapter()
         binding.friendInviteListRv.apply {
             adapter = friendAdapter
             layoutManager = LinearLayoutManager(context)
         }
+
         friendAdapter.setItemClickListener(object : FriendInviteRVAdapter.MyItemClickListener {
             override fun onInviteButtonClick(position: Int) {
                 //TODO: 친구 초대 진행
@@ -51,6 +59,7 @@ class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.
             if (it.isNotEmpty()) {
                 setAdapter()
                 friendAdapter.addFriend(it)
+                setFriendSelectedNum()
             }
         }
     }

@@ -14,6 +14,7 @@
     <string name="birth">생일</string>
     <string name="nickname">닉네임</string>
     <string name="input_hint">입력</string>
+    <string name="continuously">계속</string>
 
     <!-- 약관 동의 관련 String -->
     <string name="for_service">서비스 이용을 위한</string>
@@ -208,8 +209,12 @@
     <string name="moim_schedule_new_moim_start">새 모임 시작하기</string>
     <string name="moim_schedule_look_invite_friend_schedule">초대한 친구 일정 보기</string>
     <string name="moim_schedule_do_friend_invite">친구 초대하기</string>
-    <string name="moim_schedule_invite_friend">초대한 친구</string>
-    <string name="moim_schedule_invite_friend_empty">아직 초대한 친구가 없습니다.</string>
+    <string name="moim_schedule_invite_friend">초대할 친구</string>
+    <string name="moim_schedule_invite_friend_reset">전체 선택 취소</string>
+    <string name="moim_schedule_friend_invite_selected_num"><![CDATA[<font color=\'#DA6022\'>%d</font> / %d]]></string> <!-- 선택 인원수 / 전체 친구 수 -->
+    <string name="moim_schedule_do_invite">초대하기</string>
+    <string name="moim_schedule_all_friend">모든 친구</string>
+    <string name="moim_schedule_invite_friend_empty">아직 추가된 친구가 없어요.\n친구를 추가한 후 모임을 만들어보세요!</string>
     <string name="moim_schedule_add_guest">게스트 초대하기</string>
     <string name="moim_schedule_record_activity">활동 기록하기 </string>
     <string name="moim_schedule_participant_info">참석자 정보</string>
@@ -235,5 +240,11 @@
     <string name="community_alert_title">새로운 요청</string>
     <string name="request_accept">수락</string>
     <string name="request_deny">거절</string>
+
+    <!-- 다이얼로그 -->
+    <string name="dialog_moim_friend_invite_title">\‘%s\' 모임 일정에\n친구를 초대하시겠습니까?</string>
+    <string name="dialog_moim_friend_invite_content">지금 취소하셔도 추후 일정 편집에서\n친구를 추가하실 수 있습니다.</string>
+    <string name="dialog_moim_delete_title">모임 일정을 정말 삭제하시겠어요?</string>
+    <string name="dialog_moim_delete_content">삭제한 모임 일정은\n모든 참여자의 일정에서 삭제됩니다.</string>
 
 </resources>

@@ -14,8 +14,13 @@ import javax.inject.Inject
 class FriendInviteViewModel @Inject constructor(
     private val getFriendsUseCase: GetFriendsUseCase,
 ): ViewModel() {
+    // 모든 친구 목록
     private val _friendList = MutableLiveData<List<Friend>>()
     val friendList: LiveData<List<Friend>> = _friendList
+
+    // 초대할 친구 목록
+    private val _friendToInviteList = MutableLiveData<List<Friend>>(emptyList())
+    val friendToInviteList: LiveData<List<Friend>> = _friendToInviteList
 
     init {
         getFriends()
