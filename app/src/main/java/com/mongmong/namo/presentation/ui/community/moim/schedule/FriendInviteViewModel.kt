@@ -33,6 +33,12 @@ class FriendInviteViewModel @Inject constructor(
         }
     }
 
+    // 초대할 친구 선택 초기화
+    fun resetAllSelectedFriend() {
+        _friendToInviteList.value = ArrayList()
+    }
+
+    // 친구 초대 상태 변경
     fun updateSelectedFriend(isSelected: Boolean, friend: Friend) {
         val tempFriendArr =  _friendToInviteList.value!!
         if (isSelected) tempFriendArr.add(friend)

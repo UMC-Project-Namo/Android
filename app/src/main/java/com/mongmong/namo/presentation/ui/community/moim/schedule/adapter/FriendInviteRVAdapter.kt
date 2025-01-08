@@ -33,6 +33,12 @@ class FriendInviteRVAdapter: RecyclerView.Adapter<FriendInviteRVAdapter.ViewHold
         }
     }
 
+    // 전체 선택 취소
+    fun resetAllSelectedFriend() {
+        this.isFriendSelectedList = MutableList(friendList.size) { false }
+        notifyDataSetChanged()
+    }
+
     interface MyItemClickListener {
         fun onInviteButtonClick(isSelected: Boolean, position: Int)
         fun onItemClick(position: Int)

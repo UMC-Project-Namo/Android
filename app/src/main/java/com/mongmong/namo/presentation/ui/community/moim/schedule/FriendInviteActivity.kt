@@ -31,6 +31,12 @@ class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.
         binding.friendInviteBackIv.setOnClickListener {
             finish()
         }
+
+        // 전체 선택 취소
+        binding.friendInviteResetBtn.setOnClickListener {
+            viewModel.resetAllSelectedFriend()
+            allFriendAdapter.resetAllSelectedFriend()
+        }
     }
 
     // 초대한 친구 현황 표시용
