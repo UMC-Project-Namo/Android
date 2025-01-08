@@ -7,12 +7,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mongmong.namo.R
 import com.mongmong.namo.databinding.ActivityFriendInviteBinding
 import com.mongmong.namo.presentation.config.BaseActivity
+import com.mongmong.namo.presentation.ui.common.ConfirmDialog
 import com.mongmong.namo.presentation.ui.community.moim.schedule.adapter.FriendInvitePreparatoryRVAdapter
 import com.mongmong.namo.presentation.ui.community.moim.schedule.adapter.FriendInviteRVAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.activity_friend_invite) {
+class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.activity_friend_invite),
+    ConfirmDialog.ConfirmDialogInterface {
 
     private val viewModel: FriendInviteViewModel by viewModels()
 
@@ -21,6 +23,10 @@ class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.
 
     override fun setup() {
         binding.viewModel = viewModel
+
+        intent.getLongExtra(MOIM_INVITE_KEY, 0L).let { moimScheduleId ->
+            viewModel.moimScheduleId = moimScheduleId
+        }
 
         initClickListeners()
         initObserve()
@@ -36,6 +42,11 @@ class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.
         binding.friendInviteResetBtn.setOnClickListener {
             viewModel.resetAllSelectedFriend()
             allFriendAdapter.resetAllSelectedFriend()
+        }
+
+        // 초대하기 버튼
+        binding.friendInviteBtn.setOnClickListener {
+            showCustomDialog(R.string.dialog_moim_schedule_invite_complete_title, R.string.dialog_moim_schedule_invite_complete_content, 0)
         }
     }
 
@@ -104,5 +115,26 @@ class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.
             allFriendAdapter.addFriend(it)
             setFriendSelectedNum()
         }
+
+        // API 호출 성공 여부
+        viewModel.isSuccess.observe(this) { isSuccess ->
+            if (isSuccess) {
+                finish()
+            }
+        }
+    }
+
+    private fun showCustomDialog(title: Int, content: Int, id: Int) {
+        val dialog = ConfirmDialog(this@FriendInviteActivity, getString(title), getString(content), null, id)
+        dialog.isCancelable = false
+        dialog.show(this.supportFragmentManager, "ConfirmDialog")
+    }
+
+    override fun onClickYesButton(id: Int) {
+        viewModel.inviteMoimParticipants() // 참석자 초대 진행
+    }
+
+    companion object {
+        const val MOIM_INVITE_KEY = "moim_invite_key"
     }
 }

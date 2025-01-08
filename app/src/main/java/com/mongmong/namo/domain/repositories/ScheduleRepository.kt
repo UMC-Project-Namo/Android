@@ -65,6 +65,11 @@ interface ScheduleRepository {
         imageUrl: String
     ): Boolean
 
+    suspend fun inviteMoimParticipant(
+        moimScheduleId: Long,
+        memberIdsToInvite: List<Long>
+    ): Boolean
+
     suspend fun getGuestInvitaionLink(
         moimScheduleId: Long
     ): String

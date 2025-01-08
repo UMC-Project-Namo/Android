@@ -60,8 +60,6 @@ class MoimScheduleViewModel @Inject constructor(
 
     /** 모임 일정 생성 */
     fun postMoimSchedule() {
-        //TODO: 친구 API 연동 후 삭제
-        updateMembers(listOf(Participant(userId = 4))) // 참석자 선택
         viewModelScope.launch {
             uploadImageToServer(_moimSchedule.value?.coverImg)
 

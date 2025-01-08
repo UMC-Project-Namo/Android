@@ -1,10 +1,12 @@
 package com.mongmong.namo.presentation.ui.community.moim.schedule
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mongmong.namo.domain.model.Friend
+import com.mongmong.namo.domain.repositories.ScheduleRepository
 import com.mongmong.namo.domain.usecases.friend.GetFriendsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -12,8 +14,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FriendInviteViewModel @Inject constructor(
+    private val repository: ScheduleRepository,
     private val getFriendsUseCase: GetFriendsUseCase,
 ): ViewModel() {
+    var moimScheduleId: Long = 0L
+
     // 모든 친구 목록
     private val _friendList = MutableLiveData<List<Friend>>()
     val friendList: LiveData<List<Friend>> = _friendList
@@ -21,6 +26,10 @@ class FriendInviteViewModel @Inject constructor(
     // 초대할 친구 목록
     private val _friendToInviteList = MutableLiveData<ArrayList<Friend>>(ArrayList())
     val friendToInviteList: LiveData<ArrayList<Friend>> = _friendToInviteList
+
+    // API 호출 성공 여부
+    private val _isSuccess = MutableLiveData<Boolean>()
+    var isSuccess: LiveData<Boolean> = _isSuccess
 
     init {
         getFriends()
@@ -30,6 +39,15 @@ class FriendInviteViewModel @Inject constructor(
     private fun getFriends() {
         viewModelScope.launch {
             _friendList.value = getFriendsUseCase.execute()
+        }
+    }
+
+    /** 모임 일정 참석자 초대 */
+    fun inviteMoimParticipants() {
+        Log.d("FriendInviteVM", "moimScheduleId: $moimScheduleId")
+        if (moimScheduleId == 0L) return
+        viewModelScope.launch {
+            _isSuccess.value = repository.inviteMoimParticipant(moimScheduleId, _friendToInviteList.value!!.map { friend -> friend.userid })
         }
     }
 

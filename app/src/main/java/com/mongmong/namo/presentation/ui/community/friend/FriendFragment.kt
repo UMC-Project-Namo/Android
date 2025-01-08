@@ -1,6 +1,5 @@
 package com.mongmong.namo.presentation.ui.community.friend
 
-import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mongmong.namo.R

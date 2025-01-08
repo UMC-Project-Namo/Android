@@ -43,6 +43,8 @@ import com.mongmong.namo.presentation.ui.community.moim.schedule.adapter.MoimPar
 import com.mongmong.namo.presentation.ui.home.schedule.map.MapActivity
 import com.mongmong.namo.presentation.ui.common.ConfirmDialog
 import com.mongmong.namo.presentation.ui.common.ConfirmDialog.ConfirmDialogInterface
+import com.mongmong.namo.presentation.ui.community.moim.MoimFragment.Companion.MOIM_CREATE_KEY
+import com.mongmong.namo.presentation.ui.community.moim.schedule.FriendInviteActivity.Companion.MOIM_INVITE_KEY
 import com.mongmong.namo.presentation.utils.PermissionChecker.hasImagePermission
 import com.mongmong.namo.presentation.utils.converter.PickerConverter.setSelectedTime
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,7 +59,6 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
     private var kakaoMap: KakaoMap? = null
     private lateinit var mapView: MapView
 
-    private lateinit var getMemberResult : ActivityResultLauncher<Intent>
     private lateinit var participantAdapter: MoimParticipantRVAdapter
 
     private val viewModel : MoimScheduleViewModel by viewModels()
@@ -68,7 +69,6 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
         initViews()
         initMapView()
         setResultLocation()
-        setResultMember()
         initClickListeners()
         initObserve()
     }
@@ -115,7 +115,10 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
         // 친구 초대 버튼 클릭
         binding.moimScheduleAddParticipantTv.setOnClickListener {
             // 친구 추가하기 화면으로 이동
-            startActivity(Intent(this, FriendInviteActivity::class.java))
+            startActivity(
+                Intent(this, FriendInviteActivity::class.java)
+                    .putExtra(MOIM_INVITE_KEY, viewModel.moimSchedule.value!!.moimId)
+            )
         }
 
         // 게스트 초대 버튼 클릭 (편집 모드)
@@ -175,7 +178,7 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
         // 삭제 클릭
         binding.moimScheduleDeleteBtn.setOnClickListener {
             // 삭제 확인 다이얼로그 띄우기
-            showDialog()
+            showCustomDialog(getString(R.string.dialog_moim_delete_title), R.string.dialog_moim_delete_content, R.string.delete, 0)
         }
     }
 
@@ -212,6 +215,7 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
         }
 
         viewModel.successState.observe(this) { successState ->
+            Log.e("MoimScheduleACT", "API 요청 성공 여부: ${successState.isSuccess}")
             if (successState.isSuccess) { // 요청이 성공한 경우
                 var message = ""
                 message = when (successState.type) {
@@ -220,8 +224,10 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
                     SuccessType.DELETE -> "모임 일정이 삭제되었습니다."
                 }
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                // 편집여부 전달 (업데이트)
                 val intent = Intent(this, MainActivity::class.java).apply {
-                    putExtra(MOIM_EDIT_KEY, successState.isSuccess)
+                    putExtra(MOIM_EDIT_KEY, successState.isSuccess) // 편집 여부
+                    if (successState.type == SuccessType.ADD) putExtra(MOIM_CREATE_KEY, viewModel.moimSchedule.value?.title) // 친구 초대 팝업 표시용
                 }
                 setResult(Activity.RESULT_OK, intent)
                 finish()
@@ -343,15 +349,6 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
         }
     }
 
-    private fun setResultMember() {
-        getMemberResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                //TODO: 선택한 친구 넣기
-//                viewModel.updateMembers(result.data?.getSerializableExtra(GROUP_MEMBER_INTENT_KEY))
-            }
-        }
-    }
-
     private fun setParticipantAdapter() {
         participantAdapter = MoimParticipantRVAdapter(viewModel.moimSchedule.value!!.participants)
         binding.moimScheduleParticipantRv.apply {
@@ -466,18 +463,19 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
         kakaoMap?.labelManager?.layer?.addLabel(LabelOptions.from(latLng).setStyles(MapActivity.setPinStyle(false)))
     }
 
-    private fun showDialog() {
-        // 탈퇴 확인 다이얼로그
-        val title = "모임 일정을 정말 삭제하시겠어요?"
-        val content = "삭제한 모임 일정은\n모든 참여자의 일정에서 삭제됩니다."
-
-        val dialog = ConfirmDialog(this@MoimScheduleActivity, title, content, "삭제", 0)
+    private fun showCustomDialog(title: String, content: Int, buttonText: Int, id: Int) {
+        val dialog = ConfirmDialog(this@MoimScheduleActivity, title, getString(content), getString(buttonText), id)
         dialog.isCancelable = false
         dialog.show(this.supportFragmentManager, "ConfirmDialog")
     }
 
     override fun onClickYesButton(id: Int) {
-        // 일정 삭제 진행
-        deleteSchedule()
+        when (id) {
+            0 -> deleteSchedule() // 일정 삭제 진행
+            1 -> startActivity(
+                Intent(this, FriendInviteActivity::class.java)
+                    .putExtra(MOIM_INVITE_KEY, viewModel.moimSchedule.value!!.moimId)
+            ) // 친구 초대 화면으로 이동
+        }
     }
 }
