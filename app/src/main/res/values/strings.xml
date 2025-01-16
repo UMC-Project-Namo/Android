@@ -236,10 +236,9 @@
     <string name="nickname_tag">%s\#%s</string>
     <string name="nickname_tag_hint">나모#0000</string>
     <string name="friend_favorite_color">좋아하는 색깔</string>
-
     <!-- 알림 -->
-    <string name="alert_empty">새로운 요청이 없습니다.</string>
-    <string name="community_alert_title">새로운 요청</string>
+    <string name="friend_alert_empty">새로운 친구 요청이 없습니다.</string>
+    <string name="friend_alert_title">새로운 친구 요청</string>
     <string name="request_accept">수락</string>
     <string name="request_deny">거절</string>
 
