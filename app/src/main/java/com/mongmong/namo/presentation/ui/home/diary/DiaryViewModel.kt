@@ -40,7 +40,7 @@ class DiaryViewModel @Inject constructor(
 
     /** 일기 리스트 조회 **/
     fun getDiaryPaging(): Flow<PagingData<Diary>> {
-        Log.d("getDiaryPaging", "filterType: ${_filter.value} keyword: ${keyword.value}")
+        Log.d("getDiaryPaging", "filterType: ${_filter.value?.request} keyword: ${keyword.value}")
         return repository.getDiaryArchivePagingSource(filter.value?.request, keyword.value)
             .cachedIn(viewModelScope)
             .map { it.insertHeaderLogic() }
@@ -67,6 +67,8 @@ class DiaryViewModel @Inject constructor(
     private fun Long.convertDate(): String {
         return SimpleDateFormat("yyyy.MM.dd").format(this * 1000)
     }
+
+    fun clearKeyword() { keyword.value = "" }
 
     fun setIsListEmpty(isEmpty: Boolean) { _isListEmpty.value = isEmpty }
 
