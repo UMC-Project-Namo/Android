@@ -15,6 +15,17 @@ class AuthRepositoryImpl @Inject constructor(
         return remoteAuthDataSource.postLogin(loginPlatform, body)
     }
 
+    override suspend fun postSignupComplete(
+        name: String,
+        nickname: String,
+        birthday: String,
+        colorId: Long,
+        bio: String,
+        profileImage: String
+    ): Boolean {
+        return remoteAuthDataSource.postSignupComplete(name, nickname, birthday, colorId, bio, profileImage)
+    }
+
     override suspend fun postTokenRefresh(): RefreshResponse {
         return remoteAuthDataSource.postTokenRefresh()
     }

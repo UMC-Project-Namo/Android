@@ -11,6 +11,16 @@ interface AuthRepository {
         body: LoginBody
     ): LoginResponse
 
+    /** 회원가입 완료 */
+    suspend fun postSignupComplete(
+        name: String,
+        nickname: String,
+        birthday: String,
+        colorId: Long,
+        bio: String,
+        profileImage: String
+    ): Boolean
+
     /** 토큰 재발급 */
     suspend fun postTokenRefresh(): RefreshResponse
 

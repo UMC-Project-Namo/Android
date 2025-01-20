@@ -38,6 +38,29 @@ class RemoteAuthDataSource @Inject constructor(
         return loginResponse
     }
 
+    suspend fun postSignupComplete(
+        name: String,
+        nickname: String,
+        birthday: String,
+        colorId: Long,
+        bio: String,
+        profileImage: String
+    ): Boolean {
+        var result = false
+
+        withContext(Dispatchers.IO) {
+            runCatching {
+
+            }.onSuccess {
+
+            }.onFailure {
+
+            }
+        }
+
+        return result
+    }
+
     suspend fun postTokenRefresh(): RefreshResponse {
         var refreshResponse = RefreshResponse(
             result = RefreshResult(

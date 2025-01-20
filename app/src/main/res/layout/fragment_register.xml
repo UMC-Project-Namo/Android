@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.mongmong.namo.presentation.ui.auth.RegisterViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -51,13 +57,14 @@
                     app:layout_constraintTop_toBottomOf="@id/register_profile_img_iv" />
 
                 <EditText
-                    android:id="@+id/register_nickname_content_tv"
+                    android:id="@+id/register_nickname_content_et"
                     style="@style/content_regular"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="39dp"
                     android:layout_marginEnd="30dp"
                     android:hint="@string/register_nickname_hint"
+                    android:text="@={viewModel.nickname}"
                     android:textColorHint="@color/text_placeholder"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="@id/register_nickname_title_tv"
@@ -73,9 +80,9 @@
                     android:textColor="@color/text_disable"
                     android:text="@string/register_nickname_rule"
                     android:lineHeight="24sp"
-                    app:layout_constraintEnd_toEndOf="@+id/register_nickname_content_tv"
-                    app:layout_constraintStart_toStartOf="@+id/register_nickname_content_tv"
-                    app:layout_constraintTop_toBottomOf="@id/register_nickname_content_tv" />
+                    app:layout_constraintEnd_toEndOf="@+id/register_nickname_content_et"
+                    app:layout_constraintStart_toStartOf="@+id/register_nickname_content_et"
+                    app:layout_constraintTop_toBottomOf="@id/register_nickname_content_et" />
 
 
                 <TextView
@@ -93,11 +100,11 @@
                     style="@style/content_regular"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@{}"
+                    android:text="@{viewModel.name}"
                     android:textColorHint="@color/text_placeholder"
                     app:layout_constraintBottom_toBottomOf="@id/register_name_title_tv"
-                    app:layout_constraintEnd_toEndOf="@+id/register_nickname_content_tv"
-                    app:layout_constraintStart_toStartOf="@+id/register_nickname_content_tv"
+                    app:layout_constraintEnd_toEndOf="@+id/register_nickname_content_et"
+                    app:layout_constraintStart_toStartOf="@+id/register_nickname_content_et"
                     app:layout_constraintTop_toTopOf="@id/register_name_title_tv" />
 
                 <TextView
@@ -116,7 +123,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="@+id/register_birth_title_tv"
-                    app:layout_constraintEnd_toEndOf="@id/register_nickname_content_tv"
+                    app:layout_constraintEnd_toEndOf="@id/register_nickname_content_et"
                     app:layout_constraintStart_toStartOf="@+id/register_name_content_tv"
                     app:layout_constraintTop_toTopOf="@id/register_birth_title_tv">
 
@@ -128,7 +135,9 @@
                         android:layout_weight="1.5"
                         android:inputType="number"
                         android:maxLength="4"
+                        android:maxLines="1"
                         android:hint="@string/register_birth_year"
+                        android:text="@={viewModel.year}"
                         android:textColorHint="@color/text_placeholder"
                         android:textSize="15sp" />
 
@@ -147,7 +156,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:inputType="number"
+                        android:maxLines="1"
                         android:hint="@string/register_birth_month"
+                        android:text="@={viewModel.month}"
                         android:textColorHint="@color/text_placeholder"
                         android:textSize="15sp" />
 
@@ -168,7 +179,9 @@
                         android:layout_weight="1"
                         android:inputType="number"
                         android:maxLength="2"
+                        android:maxLines="1"
                         android:hint="@string/register_birth_day"
+                        android:text="@={viewModel.day}"
                         android:textColorHint="@color/text_placeholder"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -183,17 +196,27 @@
                     app:layout_constraintStart_toStartOf="@+id/register_nickname_title_tv"
                     app:layout_constraintTop_toBottomOf="@+id/register_birth_title_tv" />
 
-                <TextView
-                    android:id="@+id/register_color_select"
-                    style="@style/content_regular"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/ic_category_add"
-                    android:text="@string/register_color_select"
-                    android:drawablePadding="8dp"
                     app:layout_constraintBottom_toBottomOf="@+id/register_color_title_tv"
-                    app:layout_constraintEnd_toEndOf="@+id/register_nickname_content_tv"
-                    app:layout_constraintTop_toTopOf="@+id/register_color_title_tv" />
+                    app:layout_constraintEnd_toEndOf="@+id/register_nickname_content_et"
+                    app:layout_constraintTop_toTopOf="@+id/register_color_title_tv">
+                    <TextView
+                        android:id="@+id/register_color_select_tv"
+                        style="@style/content_regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/register_color_select"
+                        android:layout_marginEnd="8dp" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/register_color_select_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_category_add"/>
+                </LinearLayout>
+
 
                 <TextView
                     android:id="@+id/register_intro_title_tv"
@@ -223,7 +246,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/register_intro_max"
                     android:textColor="@color/text_unselected"
-                    app:layout_constraintEnd_toEndOf="@+id/register_nickname_content_tv"
+                    app:layout_constraintEnd_toEndOf="@+id/register_nickname_content_et"
                     app:layout_constraintTop_toTopOf="@+id/register_intro_title_tv" />
 
                 <EditText
@@ -236,7 +259,8 @@
                     android:textSize="15sp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="40dp"
-                    app:layout_constraintEnd_toEndOf="@+id/register_nickname_content_tv"
+                    android:maxLength="50"
+                    app:layout_constraintEnd_toEndOf="@+id/register_nickname_content_et"
                     app:layout_constraintStart_toStartOf="@+id/register_nickname_title_tv"
                     app:layout_constraintTop_toBottomOf="@+id/register_intro_title_tv"
                     app:layout_constraintBottom_toBottomOf="parent"/>
