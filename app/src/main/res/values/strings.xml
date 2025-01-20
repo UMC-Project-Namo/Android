@@ -35,6 +35,21 @@
     <string name="onboarding_next">다음</string>
     <string name="onboarding_skip">skip</string>
 
+    <!-- 회원가입 관련 String -->
+    <string name="register_title">프로필 설정</string>
+    <string name="register_nickname">닉네임 *</string>
+    <string name="register_nickname_hint">닉네임 입력</string>
+    <string name="register_nickname_rule">&#160;&#160;• 영어, 한글, 숫자 포함 12자 이내\n&#160;&#160;• 태그, 이모지 및 특수 문자 불가능</string>
+    <string name="register_name">이름 *</string>
+    <string name="register_birth">생년월일 *</string>
+    <string name="register_birth_year">YYYY</string>
+    <string name="register_birth_month">MM</string>
+    <string name="register_birth_day">DD</string>
+    <string name="register_birth_divider">/</string>
+    <string name="register_intro">한 줄 소개</string>
+    <string name="register_intro_max">/50</string>
+    <string name="register_required">* 표시는 필수 항목입니다.</string>
+
     <!--bottom navigation 관련 String-->
     <string name="nav_home">Home</string>
     <string name="nav_community">Community</string>
@@ -235,5 +250,7 @@
     <string name="community_alert_title">새로운 요청</string>
     <string name="request_accept">수락</string>
     <string name="request_deny">거절</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
