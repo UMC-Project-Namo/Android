@@ -1,7 +1,9 @@
 package com.mongmong.namo.presentation.ui.home.diary
 
 import android.content.Intent
+import android.text.InputType
 import android.util.Log
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
@@ -25,21 +27,6 @@ import java.util.ArrayList
 class DiaryArchiveFragment: BaseFragment<FragmentDiaryArchiveBinding>(R.layout.fragment_diary_archive) {
     private val viewModel: DiaryViewModel by viewModels()
 
-    private fun initClickListener() {
-        binding.diaryArchiveFilter.setOnClickListener {
-            DiaryFilterDialog(viewModel.filter.value).apply {
-                setOnFilterSelectedListener(object : DiaryFilterDialog.OnFilterSelectedListener {
-                    override fun onFilterSelected(filter: FilterType) {
-                        viewModel.setFilter(filter)
-                    }
-                })
-            }.show(parentFragmentManager, "FilterDialog")
-        }
-        binding.diaryArchiveFilterSearchBtn.setOnClickListener {
-            getDiaries()
-        }
-    }
-
     override fun setup() {
         binding.viewModel = viewModel
         initClickListener()
@@ -50,6 +37,33 @@ class DiaryArchiveFragment: BaseFragment<FragmentDiaryArchiveBinding>(R.layout.f
         getDiaries() // 화면이 다시 보일 때 관찰 시작
     }
 
+    private fun initClickListener() {
+        binding.diaryArchiveFilter.setOnClickListener {
+            DiaryFilterDialog(viewModel.filter.value).apply {
+                setOnFilterSelectedListener(object : DiaryFilterDialog.OnFilterSelectedListener {
+                    override fun onFilterSelected(filter: FilterType) {
+                        viewModel.setFilter(filter)
+                        if (filter == FilterType.NONE) handleNullFilter()
+                    }
+                })
+            }.show(parentFragmentManager, "FilterDialog")
+        }
+
+        binding.diaryArchiveFilterSearchBtn.setOnClickListener {
+            if (viewModel.filter.value == FilterType.NONE) {
+                // 필터가 NONE일 경우 토스트 메시지 표시
+                Toast.makeText(requireContext(), "필터를 선택해 주세요.", Toast.LENGTH_SHORT).show()
+            } else {
+                getDiaries()
+            }
+        }
+    }
+
+
+    fun handleNullFilter() {
+        viewModel.clearKeyword()
+        getDiaries()
+    }
 
     private fun getDiaries() {
         val adapter = DiaryRVAdapter(
@@ -122,18 +136,4 @@ class DiaryArchiveFragment: BaseFragment<FragmentDiaryArchiveBinding>(R.layout.f
     private fun onParticipantClickListener(participantsCount: Int, participantNames: String) {
         DiaryParticipantDialog(participantsCount, participantNames).show(parentFragmentManager, "ParticipantDialog")
     }
-
-
-    // yyyy.MM 타입을 밀리초로 변경
-    private fun convertYearMonthToMillis(
-        yearMonthStr: String,
-        pattern: String = "yyyy.MM"
-    ): Long = DateTimeFormat.forPattern(pattern).parseDateTime(yearMonthStr).toDate().time
-
-    companion object {
-        const val IS_MOIM = 1
-        const val IS_NOT_MOIM = 0
-    }
 }
-
-
