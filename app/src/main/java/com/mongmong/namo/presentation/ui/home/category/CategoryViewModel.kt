@@ -19,6 +19,8 @@ class CategoryViewModel @Inject constructor(
     private val repository: CategoryRepository,
     private val getCategoriesUseCase: GetCategoriesUseCase,
 ) : ViewModel() {
+    var isEditMode: Boolean = false
+
     private val _category = MutableLiveData<CategoryModel>()
     val category: LiveData<CategoryModel> = _category
 
@@ -33,9 +35,6 @@ class CategoryViewModel @Inject constructor(
 
     private val _color = MutableLiveData<CategoryColor?>(null)
     val color: LiveData<CategoryColor?> = _color
-
-    private val _selectedPalettePosition = MutableLiveData<Int?>() // 팔레트 -> 기본 색상 선택 시 사용될 변수
-    val selectedPalettePosition: LiveData<Int?> = _selectedPalettePosition
 
     private val _canDeleteCategory = MutableLiveData<Boolean>(true)
     val canDeleteCategory: LiveData<Boolean> = _canDeleteCategory
@@ -105,10 +104,6 @@ class CategoryViewModel @Inject constructor(
 
     fun updateIsShare(isShare: Boolean) {
         _category.value!!.isShare = isShare
-    }
-
-    fun updateSelectedPalettePosition(pos: Int?) {
-        _selectedPalettePosition.value = pos
     }
 
     fun isValidInput(): Boolean {

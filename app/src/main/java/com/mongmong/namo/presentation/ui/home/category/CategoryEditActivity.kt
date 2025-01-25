@@ -31,7 +31,7 @@ class CategoryEditActivity
         initObservers()
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.category_edit_frm, CategoryDetailFragment(true))
+            .replace(R.id.category_edit_frm, CategoryDetailFragment())
             .commitAllowingStateLoss()
     }
 

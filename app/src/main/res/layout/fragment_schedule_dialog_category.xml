@@ -14,23 +14,39 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/dialog_schedule_category_header_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/dialog_schedule_category_back_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/schedule"
+                android:padding="4dp"
+                android:drawableStart="@drawable/ic_arrow_left"
+                android:drawablePadding="8dp"
+                style="@style/content_regular"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/dialog_schedule_category_header_tv"
+                app:layout_constraintBottom_toBottomOf="@id/dialog_schedule_category_header_tv"/>
+
             <TextView
                 android:id="@+id/dialog_schedule_category_header_tv"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
                 android:text="@string/category"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                style="@style/content_bold"/>
+                style="@style/content_bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -50,33 +66,16 @@
                     android:overScrollMode="never"
                     tools:listitem="@layout/item_dialog_schedule_category"/>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/dialog_schedule_category_edit_cv"
-                    android:layout_width="match_parent"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/dialog_schedule_category_add_btn"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingVertical="5dp"
-                    android:layout_marginBottom="50dp">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/dialog_schedule_category_edit_iv"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:src="@drawable/ic_category_edit"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"/>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="@string/category_edit"
-                        app:layout_constraintStart_toEndOf="@id/dialog_schedule_category_edit_iv"
-                        app:layout_constraintTop_toTopOf="@id/dialog_schedule_category_edit_iv"
-                        app:layout_constraintBottom_toBottomOf="@id/dialog_schedule_category_edit_iv"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        style="@style/content_regular"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:paddingEnd="5dp"
+                    android:text="@string/category_add"
+                    android:drawableStart="@drawable/ic_category_add"
+                    android:drawablePadding="16dp"
+                    style="@style/content_regular"/>
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
