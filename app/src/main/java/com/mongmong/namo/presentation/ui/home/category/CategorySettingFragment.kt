@@ -59,7 +59,7 @@ class CategorySettingFragment: BaseFragment<FragmentCategorySettingBinding>(R.la
     private fun onClickCategoryAddBtn() {
         binding.categoryAddBtn.setOnClickListener { // 새 카테고리
             requireActivity().supportFragmentManager.beginTransaction()
-                .add(R.id.category_frm, CategoryDetailFragment(false))
+                .add(R.id.category_frm, CategoryDetailFragment())
                 .addToBackStack(null) // 백 스택에 트랜잭션을 추가
                 .commitAllowingStateLoss()
         }

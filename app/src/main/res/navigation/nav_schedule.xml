@@ -28,5 +28,20 @@
             app:destination="@id/scheduleDialogBasicFragment"
             app:popUpTo="@id/scheduleDialogBasicFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_scheduleDialogCategoryFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment"
+            app:popUpToInclusive="false"/>
+    </fragment>
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.mongmong.namo.presentation.ui.home.category.CategoryDetailFragment"
+        android:label="CategoryFragment"
+        tools:layout="@layout/fragment_category_detail">
+        <argument
+            android:name="category"
+            app:argType="com.mongmong.namo.domain.model.CategoryModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 </navigation>

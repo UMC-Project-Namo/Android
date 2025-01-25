@@ -76,7 +76,7 @@
                 app:layout_constraintVertical_bias="0">
 
                 <LinearLayout
-                    android:id="@+id/category_detail_calender_ll"
+                    android:id="@+id/category_detail_content_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
