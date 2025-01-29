@@ -1,6 +1,5 @@
 package com.mongmong.namo.domain.model
 
-import com.mongmong.namo.data.dto.CategoryRequestBody
 import java.io.Serializable
 
 data class CategoryModel(
@@ -10,13 +9,6 @@ data class CategoryModel(
     var basicCategory: Boolean = false,
     var isShare: Boolean = false,
 ) : Serializable {
-    fun convertLocalCategoryToServer() : CategoryRequestBody {
-        return CategoryRequestBody(
-            name = this.name,
-            paletteId = this.colorId,
-            isShare = this.isShare
-        )
-    }
 
     fun convertCategoryToScheduleCategory() : ScheduleCategoryInfo {
         return ScheduleCategoryInfo(
