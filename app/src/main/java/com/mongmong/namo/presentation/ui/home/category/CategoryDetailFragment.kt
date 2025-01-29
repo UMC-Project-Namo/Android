@@ -12,12 +12,13 @@ import com.mongmong.namo.domain.model.CategoryModel
 import com.mongmong.namo.presentation.config.BaseFragment
 import com.mongmong.namo.presentation.enums.CategoryColor
 import com.mongmong.namo.presentation.enums.SuccessType
+import com.mongmong.namo.presentation.ui.common.ConfirmDialog
 import com.mongmong.namo.presentation.ui.home.category.adapter.CategoryPaletteRVAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CategoryDetailFragment
-    : BaseFragment<FragmentCategoryDetailBinding>(R.layout.fragment_category_detail) {
+    : BaseFragment<FragmentCategoryDetailBinding>(R.layout.fragment_category_detail), ConfirmDialog.ConfirmDialogInterface {
 
     private lateinit var paletteAdapter: CategoryPaletteRVAdapter
 
@@ -28,7 +29,9 @@ class CategoryDetailFragment
 
         val args = this.arguments?.let { CategoryDetailFragmentArgs.fromBundle(it).category }
 
+        val isEditMode = args != null
         binding.isEditMode = (args != null)
+        viewModel.isEditMode = isEditMode
 
         if (args != null) { // 카테고리 편집
             viewModel.setCategory(args)
@@ -53,20 +56,32 @@ class CategoryDetailFragment
                 Toast.makeText(requireContext(), "카테고리를 입력해주세요", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            // 수정 모드 -> 카테고리 update
+            // 수정 모드 -> 카테고리 편집
             if (viewModel.isEditMode) {
-                updateData()
+                viewModel.editCategory()
+                return@setOnClickListener
             }
-            // 생성 모드 -> 카테고리 insert
-            else {
-                insertData()
-            }
+            // 생성 모드 -> 카테고리 추가
+            viewModel.addCategory()
+        }
+
+        // 카테고리 삭제
+        binding.categoryDeleteBtn.setOnClickListener {
+            val dialog = ConfirmDialog(
+                this@CategoryDetailFragment,
+                getString(R.string.dialog_category_delete_title),
+                getString(R.string.dialog_category_delete_content),
+                getString(R.string.delete),
+                0
+            )
+            // 알림창이 띄워져있는 동안 배경 클릭 막기
+            dialog.isCancelable = false
+            activity?.let { dialog.show(it.supportFragmentManager, "ConfirmDialog") }
         }
     }
 
     private fun initObservers() {
         viewModel.color.observe(requireActivity()) { color ->
-            Log.e("CategoryDetailFrag", "initObservers - color: $color")
             if (color == null) {
                 initPaletteColorRv(null)
             } else {
@@ -81,23 +96,13 @@ class CategoryDetailFragment
                     when(state) {
                         SuccessType.ADD -> Toast.makeText(requireContext(), "카테고리가 생성되었습니다.", Toast.LENGTH_SHORT).show()
                         SuccessType.EDIT -> Toast.makeText(requireContext(), "카테고리가 수정되었습니다.", Toast.LENGTH_SHORT).show()
+                        SuccessType.DELETE -> Toast.makeText(requireContext(), "카테고리가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
                         else -> {}
                     }
                 }
                 findNavController().popBackStack() // 뒤로가기
             }
         }
-    }
-
-    /** 카테고리 추가 */
-    private fun insertData() {
-        // 새 카테고리 등록
-        viewModel.addCategory()
-    }
-
-    private fun updateData() {
-        // 카테고리 편집
-        viewModel.editCategory()
     }
 
     private fun initPaletteColorRv(initCategory: CategoryColor?) {
@@ -128,5 +133,10 @@ class CategoryDetailFragment
                 viewModel.updateIsShare(!isShare)
             }
         }
+    }
+
+    override fun onClickYesButton(id: Int) {
+        // 삭제 진행
+        viewModel.deleteCategory()
     }
 }

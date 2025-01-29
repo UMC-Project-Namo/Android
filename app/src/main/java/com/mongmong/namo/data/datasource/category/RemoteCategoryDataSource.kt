@@ -1,15 +1,12 @@
 package com.mongmong.namo.data.datasource.category
 
 import android.util.Log
-import com.mongmong.namo.data.remote.CategoryApiService
+import com.mongmong.namo.data.dto.CategoryBaseResponse
+import com.mongmong.namo.data.dto.CategoryDTO
 import com.mongmong.namo.data.dto.CategoryRequestBody
 import com.mongmong.namo.data.dto.DeleteCategoryResponse
-import com.mongmong.namo.data.dto.EditCategoryResponse
-import com.mongmong.namo.data.dto.EditCategoryResult
 import com.mongmong.namo.data.dto.GetCategoryResponse
-import com.mongmong.namo.data.dto.GetCategoryResult
-import com.mongmong.namo.data.dto.PostCategoryResponse
-import com.mongmong.namo.data.dto.PostCategoryResult
+import com.mongmong.namo.data.remote.CategoryApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -17,7 +14,7 @@ import javax.inject.Inject
 class RemoteCategoryDataSource @Inject constructor(
     private val apiService: CategoryApiService
 ) {
-    suspend fun getCategories(): List<GetCategoryResult> {
+    suspend fun getCategories(): List<CategoryDTO> {
         var categoryResponse = GetCategoryResponse(result = emptyList())
         withContext(Dispatchers.IO) {
             runCatching {
@@ -32,44 +29,44 @@ class RemoteCategoryDataSource @Inject constructor(
         return categoryResponse.result
     }
 
-    suspend fun addCategoryToServer(
+    suspend fun addCategory(
         category: CategoryRequestBody,
-    ): PostCategoryResponse {
-        var categoryResponse = PostCategoryResponse(result = PostCategoryResult(-1))
+    ): CategoryBaseResponse {
+        var categoryResponse = CategoryBaseResponse(result = "")
 
         withContext(Dispatchers.IO) {
             runCatching {
                 apiService.postCategory(category)
             }.onSuccess {
-                Log.d("RemoteCategoryDataSource", "addCategoryToServer Success $it")
+                Log.d("RemoteCategoryDataSource", "addCategory Success $it")
                 categoryResponse = it
             }.onFailure {
-                Log.d("RemoteCategoryDataSource", "addCategoryToServer Failure")
+                Log.d("RemoteCategoryDataSource", "addCategory Failure $it")
             }
         }
         return categoryResponse
     }
 
-    suspend fun editCategoryToServer(
+    suspend fun editCategory(
         categoryId: Long,
         category: CategoryRequestBody
-    ) : EditCategoryResponse {
-        var categoryResponse = EditCategoryResponse(result = EditCategoryResult(categoryId))
+    ) : CategoryBaseResponse {
+        var categoryResponse = CategoryBaseResponse(result = "")
 
         withContext(Dispatchers.IO) {
             runCatching {
                 apiService.patchCategory(categoryId, category)
             }.onSuccess {
-                Log.d("RemoteCategoryDataSource", "editCategoryToServer Success $it")
+                Log.d("RemoteCategoryDataSource", "editCategory Success $it")
                 categoryResponse = it
             }.onFailure {
-                Log.d("RemoteCategoryDataSource", "editCategoryToServer Failure")
+                Log.d("RemoteCategoryDataSource", "editCategory Failure $it")
             }
         }
         return categoryResponse
     }
 
-    suspend fun deleteCategoryToServer(
+    suspend fun deleteCategory(
         categoryId: Long
     ) : DeleteCategoryResponse {
         var categoryResponse = DeleteCategoryResponse("")
@@ -78,10 +75,10 @@ class RemoteCategoryDataSource @Inject constructor(
             runCatching {
                 apiService.deleteCategory(categoryId)
             }.onSuccess {
-                Log.d("RemoteCategoryDataSource", "deleteCategoryToServer Success, $it")
+                Log.d("RemoteCategoryDataSource", "deleteCategory Success, $it")
                 categoryResponse = it
             }.onFailure {
-                Log.d("RemoteCategoryDataSource", "deleteCategoryToServer Fail")
+                Log.d("RemoteCategoryDataSource", "deleteCategory Fail $it")
             }
         }
         return categoryResponse
