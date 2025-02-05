@@ -67,6 +67,10 @@ class CategoryDetailFragment
 
         // 카테고리 삭제
         binding.categoryDeleteBtn.setOnClickListener {
+            if (viewModel.category.value!!.basicCategory) {
+                Toast.makeText(requireContext(), "기본 카테고리는 삭제할 수 없습니다.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             val dialog = ConfirmDialog(
                 this@CategoryDetailFragment,
                 getString(R.string.dialog_category_delete_title),

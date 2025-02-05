@@ -18,7 +18,8 @@ object CategoryMapper {
             categoryId = this.categoryId,
             name = this.categoryName,
             colorId = this.colorId,
-            isShare = this.isShared
+            isShare = this.isShared,
+            basicCategory = this.baseCategory
         )
     }
 }
