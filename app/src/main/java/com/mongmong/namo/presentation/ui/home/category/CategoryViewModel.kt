@@ -17,7 +17,6 @@ import javax.inject.Inject
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
     private val repository: CategoryRepository,
-    private val getCategoriesUseCase: GetCategoriesUseCase,
 ) : ViewModel() {
     var isEditMode: Boolean = false
 
@@ -35,17 +34,6 @@ class CategoryViewModel @Inject constructor(
 
     private val _color = MutableLiveData<CategoryColor?>(null)
     val color: LiveData<CategoryColor?> = _color
-
-    private val _canDeleteCategory = MutableLiveData<Boolean>(true)
-    val canDeleteCategory: LiveData<Boolean> = _canDeleteCategory
-
-    /** 카테고리 조회 */
-    fun getCategories() {
-        viewModelScope.launch {
-            Log.d("CategoryViewModel", "getCategories")
-            _categoryList.value = getCategoriesUseCase.invoke()
-        }
-    }
 
     /** 카테고리 추가 */
     fun addCategory() {
@@ -85,16 +73,6 @@ class CategoryViewModel @Inject constructor(
         if (category.colorId != 0) {
             _color.value = CategoryColor.findCategoryColorByColorId(category.colorId)
         }
-    }
-
-    fun setDeliable(canDelete: Boolean) {
-        _canDeleteCategory.value = canDelete
-    }
-
-    fun updateTitle(title: String) {
-        _category.value = _category.value?.copy(
-            name = title
-        )
     }
 
     fun updateCategoryColor(color: CategoryColor) {
