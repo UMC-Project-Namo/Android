@@ -149,6 +149,6 @@ class TermsFragment: BaseFragment<FragmentTermsBinding>(R.layout.fragment_terms)
 
     private fun moveToMainActivity(){
         requireActivity().finish()
-        startActivity(Intent(requireContext(), MainActivity::class.java))
+        startActivity(Intent(requireContext(), RegisterActivity::class.java))
     }
 }

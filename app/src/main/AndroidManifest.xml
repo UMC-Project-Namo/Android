@@ -42,13 +42,8 @@
             android:name=".presentation.ui.onBoarding.OnBoardingActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.ui.MainActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".presentation.ui.SplashActivity"
-            android:exported="true"
-            android:theme="@style/Theme.App.Starting">
+            android:name=".presentation.ui.auth.RegisterActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -56,10 +51,20 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".presentation.ui.MainActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".presentation.ui.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.App.Starting">
+
+        </activity>
+        <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity">
+            tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

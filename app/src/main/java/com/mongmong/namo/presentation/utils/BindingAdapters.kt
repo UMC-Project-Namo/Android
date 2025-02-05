@@ -3,6 +3,7 @@ package com.mongmong.namo.presentation.utils
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -13,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.mongmong.namo.R
 import com.mongmong.namo.domain.model.ActivityParticipant
 import com.mongmong.namo.presentation.enums.CategoryColor
@@ -168,5 +170,21 @@ object BindingAdapters {
     @BindingAdapter("drawableTintColor")
     fun setDrawableTintColor(textView: TextView, color: Int) {
         textView.compoundDrawableTintList = ColorStateList.valueOf(color)
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:registerImage")
+    fun setRegisterImage(view: ImageView, profileImage: Uri?) {
+        val padding = if (profileImage != null) 0 else 46 // dp 단위를 정수로 변환
+        val density = view.context.resources.displayMetrics.density
+        val paddingPx = (padding * density).toInt() // dp -> px 변환
+        view.setPadding(paddingPx, paddingPx, paddingPx, paddingPx)
+
+        profileImage?.let {
+            Glide.with(view.context)
+                .load(it)
+                .transform(RoundedCorners(24))
+                .into(view)
+        }
     }
 }
