@@ -47,6 +47,7 @@
     <string name="register_birth_day">DD</string>
     <string name="register_birth_divider">/</string>
     <string name="register_color_title">좋아하는 색상 *</string>
+    <string name="register_color_dialog_title">좋아하는 색상</string>
     <string name="register_color_select">색상 선택</string>
     <string name="register_intro_title">한 줄 소개</string>
     <string name="register_intro_max">&#160;/ 50</string>

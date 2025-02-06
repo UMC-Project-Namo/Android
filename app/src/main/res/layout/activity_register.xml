@@ -6,7 +6,7 @@
     <data>
 
         <import type="android.view.View" />
-
+        <import type="com.mongmong.namo.presentation.enums.CategoryColor"/>
         <variable
             name="viewModel"
             type="com.mongmong.namo.presentation.ui.auth.RegisterViewModel" />
@@ -44,7 +44,6 @@
                     android:layout_height="120dp"
                     android:layout_marginTop="40dp"
                     android:background="@drawable/bg_register_profile_border"
-                    android:scaleType="centerCrop"
                     android:src="@drawable/ic_gallery"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -234,13 +233,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
-                        android:text="@string/register_color_select" />
+                        android:text='@{viewModel.color == null ? @string/register_color_select : viewModel.color.toFormattedString()}' />
 
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/register_color_select_iv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_category_add" />
+                        android:id="@+id/register_color_select_cv"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center"
+                        android:src="@{viewModel.color == null ? @drawable/ic_register_color_add : CategoryColor.convertColorIdToDrawable(viewModel.color.colorId)}" />
                 </LinearLayout>
 
                 <TextView

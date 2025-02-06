@@ -42,7 +42,7 @@ class RemoteAuthDataSource @Inject constructor(
         name: String,
         nickname: String,
         birthday: String,
-        colorId: Long,
+        colorId: Int,
         bio: String,
         profileImage: String
     ): Boolean {

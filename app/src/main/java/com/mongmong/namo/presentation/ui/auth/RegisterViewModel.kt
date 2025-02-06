@@ -3,6 +3,7 @@ package com.mongmong.namo.presentation.ui.auth
 import android.net.Uri
 import androidx.lifecycle.*
 import com.mongmong.namo.domain.repositories.AuthRepository
+import com.mongmong.namo.presentation.enums.CategoryColor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,8 +22,8 @@ class RegisterViewModel @Inject constructor(
 
     var name: String = ""
 
-    private val _color = MutableLiveData<Long?>()
-    val color: LiveData<Long?> = _color
+    private val _color = MutableLiveData<CategoryColor?>(null)
+    val color: LiveData<CategoryColor?> = _color
 
     // 닉네임 유효성 검사
     val isNicknameValid: LiveData<Boolean> = Transformations.map(nickname) {
@@ -56,8 +57,8 @@ class RegisterViewModel @Inject constructor(
                     color.value != null
     }
 
-    fun setColor(colorId: Long) {
-        _color.value = colorId
+    fun setColor(categoryColor: CategoryColor?) {
+        _color.value = categoryColor
     }
 
     fun setProfileImage(uri: Uri) {
@@ -87,7 +88,7 @@ class RegisterViewModel @Inject constructor(
                     name = name,
                     nickname = nickname.value ?: "",
                     birthday = birthDate.value ?: "",
-                    colorId = color.value ?: 0,
+                    colorId = color.value?.colorId ?: 0,  // CategoryColor의 colorId 전달
                     bio = intro.value ?: "",
                     profileImage = profileImage.value.toString()
                 )

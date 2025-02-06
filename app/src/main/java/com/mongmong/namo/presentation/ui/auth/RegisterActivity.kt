@@ -9,9 +9,9 @@ import androidx.activity.viewModels
 import com.mongmong.namo.R
 import com.mongmong.namo.databinding.ActivityRegisterBinding
 import com.mongmong.namo.presentation.config.BaseActivity
+import com.mongmong.namo.presentation.enums.CategoryColor
 import com.mongmong.namo.presentation.utils.hideKeyboardOnTouchOutside
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 @AndroidEntryPoint
 class RegisterActivity : BaseActivity<ActivityRegisterBinding>(R.layout.activity_register) {
@@ -29,7 +29,7 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(R.layout.activity
         }
 
         binding.registerColorSelectLl.setOnClickListener {
-            viewModel.setColor(1) // 색상 선택 기능
+            showColorDialog()
         }
 
         // 생년월일 선택 컨테이너 클릭 시 커스텀 다이얼로그 호출
@@ -61,6 +61,14 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(R.layout.activity
             )
         }
         dialog.show(supportFragmentManager, "RegisterDateDialog")
+    }
+
+    private fun showColorDialog() {
+        val currentColor = viewModel.color.value
+        val dialog = RegisterColorDialog(initialColor = currentColor) { selectedColor ->
+            viewModel.setColor(selectedColor)
+        }
+        dialog.show(supportFragmentManager, "RegisterColorDialog")
     }
 
     private val galleryLauncher =

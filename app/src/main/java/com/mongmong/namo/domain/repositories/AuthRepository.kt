@@ -16,7 +16,7 @@ interface AuthRepository {
         name: String,
         nickname: String,
         birthday: String,
-        colorId: Long,
+        colorId: Int,
         bio: String,
         profileImage: String
     ): Boolean
