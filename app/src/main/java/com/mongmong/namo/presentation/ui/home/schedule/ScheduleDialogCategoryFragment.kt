@@ -25,6 +25,12 @@ class ScheduleDialogCategoryFragment
         initObserve()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.getCategories()
+    }
+
     private fun initClickListeners()  {
         // 뒤로가기 (일정 화면)
         binding.dialogScheduleCategoryBackIv.setOnClickListener {
