@@ -15,6 +15,7 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.mongmong.namo.R
 import com.mongmong.namo.domain.model.ActivityParticipant
 import com.mongmong.namo.presentation.enums.CategoryColor
@@ -183,7 +184,7 @@ object BindingAdapters {
         profileImage?.let {
             Glide.with(view.context)
                 .load(it)
-                .transform(RoundedCorners(24))
+                .apply(RequestOptions.bitmapTransform(RoundedCorners(24)))
                 .into(view)
         }
     }

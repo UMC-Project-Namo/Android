@@ -1,6 +1,8 @@
 package com.mongmong.namo.presentation.ui.auth
 
 import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
@@ -21,18 +23,31 @@ class RegisterDateDialog(
         _binding = DialogRegisterDateBinding.inflate(layoutInflater)
         val view = binding.root
 
-        // 오늘 날짜 이후 선택 불가: 최대 날짜를 오늘로 설정
-        binding.registerDateDp.maxDate = Calendar.getInstance().timeInMillis
+        setupDatePicker()
 
-        // 초기 날짜 값이 있으면 DatePicker에 반영 (없으면 DatePicker 기본값은 오늘 날짜)
+        val dialog = createAlertDialog(view)
+
+        initClickListeners(dialog)
+
+        return dialog
+    }
+
+    private fun setupDatePicker() {
+        binding.registerDateDp.maxDate = Calendar.getInstance().timeInMillis
         if (initialYear.isNotEmpty() && initialMonth.isNotEmpty() && initialDay.isNotEmpty()) {
             binding.registerDateDp.updateDate(initialYear.toInt(), initialMonth.toInt(), initialDay.toInt())
         }
+    }
 
-        val dialog = AlertDialog.Builder(requireContext())
+    private fun createAlertDialog(view: android.view.View): Dialog {
+        return AlertDialog.Builder(requireContext())
             .setView(view)
-            .create()
+            .create().apply {
+                window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            }
+    }
 
+    private fun initClickListeners(dialog: Dialog) {
         // 취소 버튼: 다이얼로그 dismiss
         binding.dialogNoBtn.setOnClickListener {
             dialog.dismiss()
@@ -46,8 +61,6 @@ class RegisterDateDialog(
             onDateSelected(year, month, day)
             dialog.dismiss()
         }
-
-        return dialog
     }
 
     override fun onDestroyView() {

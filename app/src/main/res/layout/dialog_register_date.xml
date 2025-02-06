@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:background="@drawable/bg_dialog"
     android:gravity="center"
-    android:minWidth="310dp"
     android:padding="16dp">
 
     <DatePicker
