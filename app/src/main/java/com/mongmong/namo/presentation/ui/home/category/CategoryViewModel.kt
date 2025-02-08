@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mongmong.namo.domain.model.CategoryModel
 import com.mongmong.namo.domain.repositories.CategoryRepository
-import com.mongmong.namo.domain.usecases.category.GetCategoriesUseCase
 import com.mongmong.namo.presentation.enums.CategoryColor
 import com.mongmong.namo.presentation.enums.SuccessType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -39,9 +38,11 @@ class CategoryViewModel @Inject constructor(
     fun addCategory() {
         viewModelScope.launch {
             Log.d("CategoryViewModel", "addCategory ${_category.value}")
-            _isComplete.postValue(repository.addCategory(
-                category = _category.value!!
-            ))
+            _isComplete.postValue(
+                repository.addCategory(
+                    category = _category.value!!
+                )
+            )
             _completeState.value = SuccessType.ADD
         }
     }
@@ -50,9 +51,11 @@ class CategoryViewModel @Inject constructor(
     fun editCategory() {
         viewModelScope.launch {
             Log.d("CategoryViewModel", "editCategory ${_category.value}")
-            _isComplete.postValue(repository.editCategory(
-                category = _category.value!!
-            ))
+            _isComplete.postValue(
+                repository.editCategory(
+                    category = _category.value!!
+                )
+            )
             _completeState.value = SuccessType.EDIT
         }
     }
@@ -61,9 +64,11 @@ class CategoryViewModel @Inject constructor(
     fun deleteCategory() {
         viewModelScope.launch {
             Log.d("CategoryViewModel", "deleteCategory ${_category.value}")
-            _isComplete.postValue(repository.deleteCategory(
-                category = _category.value!!
-            ))
+            _isComplete.postValue(
+                repository.deleteCategory(
+                    category = _category.value!!
+                )
+            )
             _completeState.value = SuccessType.DELETE
         }
     }
@@ -84,7 +89,11 @@ class CategoryViewModel @Inject constructor(
         _category.value!!.isShare = isShare
     }
 
-    fun isValidInput(): Boolean {
-        return (!_category.value?.name.isNullOrEmpty()) && (_color.value != null)
+    fun isValidName(): Boolean {
+        return _category.value?.name!!.isNotEmpty()
+    }
+
+    fun isColorSelected(): Boolean {
+        return _color.value != null
     }
 }

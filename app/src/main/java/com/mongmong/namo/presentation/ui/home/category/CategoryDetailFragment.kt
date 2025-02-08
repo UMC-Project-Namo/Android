@@ -52,10 +52,16 @@ class CategoryDetailFragment
 
         // 저장하기
         binding.categoryDetailSaveTv.setOnClickListener {
-            if (!this@CategoryDetailFragment.viewModel.isValidInput()) {
+            if (!viewModel.isValidName()) {
                 Toast.makeText(requireContext(), "카테고리를 입력해주세요", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
+            if (!viewModel.isColorSelected()) {
+                Toast.makeText(requireContext(), "색상을 설정 후 저장해주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             // 수정 모드 -> 카테고리 편집
             if (viewModel.isEditMode) {
                 viewModel.editCategory()
