@@ -1,7 +1,6 @@
 package com.mongmong.namo.presentation.ui.auth
 
 import android.net.Uri
-import android.os.Bundle
 import android.view.MotionEvent
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -9,7 +8,6 @@ import androidx.activity.viewModels
 import com.mongmong.namo.R
 import com.mongmong.namo.databinding.ActivityRegisterBinding
 import com.mongmong.namo.presentation.config.BaseActivity
-import com.mongmong.namo.presentation.enums.CategoryColor
 import com.mongmong.namo.presentation.utils.hideKeyboardOnTouchOutside
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,11 +27,13 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(R.layout.activity
         }
 
         binding.registerColorSelectLl.setOnClickListener {
+            viewModel.clearHighlight("color")
             showColorDialog()
         }
 
         // 생년월일 선택 컨테이너 클릭 시 커스텀 다이얼로그 호출
-        binding.registerBirthContainerLl.setOnClickListener {
+        binding.registerBirthContentTv.setOnClickListener {
+            viewModel.clearHighlight("birth")
             showRegisterDateDialog()
         }
 
@@ -41,27 +41,23 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(R.layout.activity
             if (viewModel.isRegisterEnabled.value == true) {
                 viewModel.requestRegister()
             } else {
+                viewModel.enableHighlight()
                 Toast.makeText(this, "색상과 필수 항목을 기재해주세요.", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun showRegisterDateDialog() {
-        // 이미 선택한 날짜가 있다면 그 값을, 없으면 오늘 날짜를 기본값으로 사용
-        val defaultYear = viewModel.getBirthYear()
-        val defaultMonth = viewModel.getBirthMonth()
-        val defaultDay = viewModel.getBirthDay()
-
-        val dialog = RegisterDateDialog(defaultYear, defaultMonth, defaultDay) { selectedYear, selectedMonth, selectedDay ->
-            // 선택한 날짜를 ViewModel에 저장 (필요에 따라 포맷 변경)
+        val birthDate = viewModel.birthDate.value ?: ""
+        RegisterDateDialog(birthDate) { year, month, day ->
             viewModel.setBirthDate(
-                selectedYear.toString(),
-                String.format("%02d", selectedMonth + 1),
-                String.format("%02d", selectedDay)
+                year.toString(),
+                String.format("%02d", month + 1),  // DatePicker는 0-based → 1-based 변환
+                String.format("%02d", day)
             )
-        }
-        dialog.show(supportFragmentManager, "RegisterDateDialog")
+        }.show(supportFragmentManager, "RegisterDateDialog")
     }
+
 
     private fun showColorDialog() {
         val currentColor = viewModel.color.value

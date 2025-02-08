@@ -10,10 +10,8 @@ import com.mongmong.namo.databinding.DialogRegisterDateBinding
 import java.util.*
 
 class RegisterDateDialog(
-    private val initialYear: String,
-    private val initialMonth: String,
-    private val initialDay: String,
-    private val onDateSelected: (year: Int, month: Int, day: Int) -> Unit
+    private val birthDate: String,
+    private val onDateSelected: (Int, Int, Int) -> Unit
 ) : DialogFragment() {
 
     private var _binding: DialogRegisterDateBinding? = null
@@ -24,9 +22,7 @@ class RegisterDateDialog(
         val view = binding.root
 
         setupDatePicker()
-
         val dialog = createAlertDialog(view)
-
         initClickListeners(dialog)
 
         return dialog
@@ -34,8 +30,11 @@ class RegisterDateDialog(
 
     private fun setupDatePicker() {
         binding.registerDateDp.maxDate = Calendar.getInstance().timeInMillis
-        if (initialYear.isNotEmpty() && initialMonth.isNotEmpty() && initialDay.isNotEmpty()) {
-            binding.registerDateDp.updateDate(initialYear.toInt(), initialMonth.toInt(), initialDay.toInt())
+
+        val dateParts = birthDate.split("-").mapNotNull { it.toIntOrNull() }
+        if (dateParts.size == 3) {
+            val (year, month, day) = dateParts
+            binding.registerDateDp.updateDate(year, month - 1, day)  // month는 0-based로 변환
         }
     }
 
@@ -48,15 +47,11 @@ class RegisterDateDialog(
     }
 
     private fun initClickListeners(dialog: Dialog) {
-        // 취소 버튼: 다이얼로그 dismiss
-        binding.dialogNoBtn.setOnClickListener {
-            dialog.dismiss()
-        }
+        binding.dialogNoBtn.setOnClickListener { dialog.dismiss() }
 
-        // 확인 버튼: 선택한 날짜를 콜백으로 전달 후 dismiss
         binding.dialogYesBtn.setOnClickListener {
             val year = binding.registerDateDp.year
-            val month = binding.registerDateDp.month  // 월은 0부터 시작
+            val month = binding.registerDateDp.month  // 0부터 시작
             val day = binding.registerDateDp.dayOfMonth
             onDateSelected(year, month, day)
             dialog.dismiss()

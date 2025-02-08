@@ -66,13 +66,14 @@
                     style="@style/content_regular"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="39dp"
+                    android:layout_marginStart="59dp"
                     android:layout_marginEnd="30dp"
-                    android:backgroundTint="@{viewModel.nickname.isEmpty() ? @color/text_placeholder : @color/black}"
                     android:hint="@string/register_nickname_hint"
                     android:text="@={viewModel.nickname}"
-                    android:textColorHint="@color/text_placeholder"
+                    android:textColorHint='@{viewModel.highlightFields["nickname"] ? @color/main : (viewModel.nickname.isEmpty() ? @color/text_placeholder : @color/main_text)}'
                     android:textSize="15sp"
+                    android:onTextChanged='@{(text, start, before, count) -> viewModel.clearHighlight("nickname")}'
+                    android:backgroundTint='@{viewModel.highlightFields["nickname"] ? @color/main : (viewModel.nickname.isEmpty() ? @color/text_placeholder : @color/main_text)}'
                     app:layout_constraintBottom_toBottomOf="@id/register_nickname_title_tv"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/register_nickname_title_tv"
@@ -114,12 +115,11 @@
                 <TextView
                     android:id="@+id/register_name_content_tv"
                     style="@style/content_regular"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.name}"
                     android:textColorHint="@color/text_placeholder"
                     app:layout_constraintBottom_toBottomOf="@id/register_name_title_tv"
-                    app:layout_constraintEnd_toEndOf="@+id/register_nickname_content_et"
                     app:layout_constraintStart_toStartOf="@+id/register_nickname_content_et"
                     app:layout_constraintTop_toTopOf="@id/register_name_title_tv" />
 
@@ -133,70 +133,17 @@
                     app:layout_constraintStart_toStartOf="@+id/register_nickname_title_tv"
                     app:layout_constraintTop_toBottomOf="@+id/register_name_title_tv" />
 
-                <LinearLayout
-                    android:id="@+id/register_birth_container_ll"
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/register_birth_content_tv"
+                    style="@style/content_regular"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:text="@{viewModel.birthDate.isEmpty() ? @string/register_birth_empty : viewModel.getFormattedBirthDate}"
+                    android:textColor='@{viewModel.highlightFields["birthDate"] ? @color/main : (viewModel.birthDate.isEmpty() ? @color/text_placeholder : @color/main_text)}'
+                    android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="@+id/register_birth_title_tv"
-                    app:layout_constraintEnd_toEndOf="@+id/register_nickname_content_et"
-                    app:layout_constraintStart_toStartOf="@+id/register_name_content_tv"
-                    app:layout_constraintTop_toTopOf="@id/register_birth_title_tv">
-
-                    <TextView
-                        android:id="@+id/register_birth_year_tv"
-                        style="@style/content_regular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.5"
-                        android:paddingBottom="4dp"
-                        android:background="@{viewModel.birthDate.isEmpty() ? @drawable/bg_underline_empty : @drawable/bg_underline}"
-                        android:text='@{viewModel.birthDate.isEmpty() ? @string/register_birth_year : viewModel.getBirthYear}'
-                        android:textColor="@{viewModel.birthDate.isEmpty() ? @color/text_placeholder : @color/black}"
-                        android:textColorHint="@color/text_placeholder"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        style="@style/content_regular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="8dp"
-                        android:text="@string/register_birth_divider"
-                        android:textColor="@color/text_placeholder" />
-
-                    <TextView
-                        android:id="@+id/register_birth_month_tv"
-                        style="@style/content_regular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingBottom="4dp"
-                        android:background="@{viewModel.birthDate.isEmpty() ? @drawable/bg_underline_empty : @drawable/bg_underline}"
-                        android:text='@{viewModel.birthDate.isEmpty() ? @string/register_birth_month : viewModel.getBirthMonth}'
-                        android:textColor="@{viewModel.birthDate.isEmpty() ? @color/text_placeholder : @color/black}"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        style="@style/content_regular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="8dp"
-                        android:maxLength="2"
-                        android:text="@string/register_birth_divider"
-                        android:textColor="@color/text_placeholder" />
-
-                    <TextView
-                        android:id="@+id/register_birth_day_tv"
-                        style="@style/content_regular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingBottom="4dp"
-                        android:background="@{viewModel.birthDate.isEmpty() ? @drawable/bg_underline_empty : @drawable/bg_underline}"
-                        android:text='@{viewModel.birthDate.isEmpty() ? @string/register_birth_day : viewModel.getBirthDay}'
-                        android:textColor="@{viewModel.birthDate.isEmpty() ? @color/text_placeholder : @color/black}"
-                        android:textSize="15sp" />
-                </LinearLayout>
+                    app:layout_constraintStart_toStartOf="@+id/register_nickname_content_et"
+                    app:layout_constraintTop_toTopOf="@+id/register_birth_title_tv" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/register_birth_check"
@@ -205,9 +152,10 @@
                     android:src="@drawable/ic_register_check"
                     android:visibility="@{viewModel.isBirthValid ? View.VISIBLE : View.GONE}"
                     app:civ_circle_background_color="@color/main"
-                    app:layout_constraintBottom_toBottomOf="@+id/register_birth_container_ll"
-                    app:layout_constraintEnd_toEndOf="@id/register_birth_container_ll"
-                    app:layout_constraintTop_toTopOf="@+id/register_birth_container_ll" />
+                    android:layout_marginStart="4dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/register_birth_content_tv"
+                    app:layout_constraintStart_toEndOf="@id/register_birth_content_tv"
+                    app:layout_constraintTop_toTopOf="@+id/register_birth_content_tv" />
 
                 <TextView
                     android:id="@+id/register_color_title_tv"
@@ -223,8 +171,8 @@
                     android:id="@+id/register_color_select_ll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/register_nickname_content_et"
                     app:layout_constraintBottom_toBottomOf="@+id/register_color_title_tv"
-                    app:layout_constraintEnd_toEndOf="@+id/register_nickname_content_et"
                     app:layout_constraintTop_toTopOf="@+id/register_color_title_tv">
 
                     <TextView
@@ -233,6 +181,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
+                        android:textColor='@{viewModel.highlightFields["color"] ? @color/main : @color/main_text}'
                         android:text='@{viewModel.color == null ? @string/register_color_select : viewModel.color.toFormattedString()}' />
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -240,6 +189,7 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:layout_gravity="center"
+                        android:colorFilter='@{viewModel.highlightFields["color"] ? @color/main : (viewModel.color == null ? @color/main_text : @android:color/transparent)}'
                         android:src="@{viewModel.color == null ? @drawable/ic_register_color_add : CategoryColor.convertColorIdToDrawable(viewModel.color.colorId)}" />
                 </LinearLayout>
 

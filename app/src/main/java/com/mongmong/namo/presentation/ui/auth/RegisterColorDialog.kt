@@ -39,12 +39,11 @@ class RegisterColorDialog(
 
     private fun setupRecyclerView() {
         val colorList = ArrayList(CategoryColor.getAllColors())
-        val initialPosition = colorList.indexOf(initialColor).takeIf { it >= 0 } ?: 0
+        val initialPosition = colorList.indexOf(initialColor).takeIf { it >= 0 } ?: -1  // 선택된 색이 없으면 -1
 
         paletteAdapter = CategoryPaletteRVAdapter(
             requireContext(),
             colorList,
-            initialColor ?: CategoryColor.NAMO_ORANGE, // 기본값이 필요하면 사용
             initialPosition
         )
         binding.categoryPaletteRv.apply {
@@ -58,6 +57,7 @@ class RegisterColorDialog(
             }
         })
     }
+
 
     private fun setupButtons() {
         binding.registerColorCancelBtn.setOnClickListener {
