@@ -35,21 +35,20 @@ class AuthViewModel @Inject constructor(
     val refreshResponse: LiveData<RefreshResponse> = _refreshResponse
 
     /** 로그인 */
-    fun tryLogin(platform: LoginPlatform, accessToken: String, refreshToken: String) {
+    fun tryLogin(platform: LoginPlatform, accessToken: String, refreshToken: String, userName: String) {
         viewModelScope.launch {
-            // 로그인 진행
             val response = repository.postLogin(platform.platformName, LoginBody(accessToken, refreshToken))
 
             if (response.code != SUCCESS_CODE) return@launch
 
-            // 로그인 정보 저장
             saveLoginPlatform(platform)
-            // 토큰 저장
             saveToken(response.result)
-            // userId 저장
             saveUserId(response.result.userId)
 
-            _loginResult.value = response.result
+            // 로그인 결과 설정
+            _loginResult.value = response.result.apply {
+                this.userName = userName // 사용자 이름을 추가
+            }
         }
     }
 
@@ -84,41 +83,35 @@ class AuthViewModel @Inject constructor(
     // 약관 동의 여부 확인
     fun checkUpdatedTerms(): Boolean {
         for (term in _loginResult.value!!.terms) {
-            if (!term.check) return true // 하나라도 체크되어 있지 않을 경우 약관 동의 필요
+            if (!term.check) return true
         }
         return false
     }
 
     /** 토큰 */
-    // 앱 내 저장된 토큰 정보 가져오기
     private fun getSavedToken(): TokenBody = runBlocking {
         val accessToken = dsManager.getAccessToken().first().orEmpty()
         val refreshToken = dsManager.getRefreshToken().first().orEmpty()
         return@runBlocking TokenBody(accessToken, refreshToken)
     }
 
-    // 로그인 한 sdk 정보 가져오기
     private fun getLoginPlatform(): String = runBlocking {
         dsManager.getPlatform().first().orEmpty()
     }
 
-    // 로그인 플랫폼 정보 앱 내에 저장
     private suspend fun saveLoginPlatform(platform: LoginPlatform) {
         dsManager.savePlatform(platform.platformName)
     }
 
-    // 토큰 정보 앱 내에 저장
     private suspend fun saveToken(tokenResult: LoginResult) {
         dsManager.saveAccessToken(tokenResult.accessToken)
         dsManager.saveRefreshToken(tokenResult.refreshToken)
     }
 
-    // userId 앱 내에 저장
     private suspend fun saveUserId(userId: Long) {
         dsManager.saveUserId(userId)
     }
 
-    // 앱 내에 저장된 토큰 정보 삭제
     private suspend fun deleteToken() {
         dsManager.clearTokens()
     }

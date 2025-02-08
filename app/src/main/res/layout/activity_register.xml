@@ -72,6 +72,7 @@
                     android:text="@={viewModel.nickname}"
                     android:textColorHint='@{viewModel.highlightFields["nickname"] ? @color/main : (viewModel.nickname.isEmpty() ? @color/text_placeholder : @color/main_text)}'
                     android:textSize="15sp"
+                    android:maxLength="12"
                     android:onTextChanged='@{(text, start, before, count) -> viewModel.clearHighlight("nickname")}'
                     android:backgroundTint='@{viewModel.highlightFields["nickname"] ? @color/main : (viewModel.nickname.isEmpty() ? @color/text_placeholder : @color/main_text)}'
                     app:layout_constraintBottom_toBottomOf="@id/register_nickname_title_tv"
@@ -144,18 +145,6 @@
                     app:layout_constraintBottom_toBottomOf="@+id/register_birth_title_tv"
                     app:layout_constraintStart_toStartOf="@+id/register_nickname_content_et"
                     app:layout_constraintTop_toTopOf="@+id/register_birth_title_tv" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/register_birth_check"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/ic_register_check"
-                    android:visibility="@{viewModel.isBirthValid ? View.VISIBLE : View.GONE}"
-                    app:civ_circle_background_color="@color/main"
-                    android:layout_marginStart="4dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/register_birth_content_tv"
-                    app:layout_constraintStart_toEndOf="@id/register_birth_content_tv"
-                    app:layout_constraintTop_toTopOf="@+id/register_birth_content_tv" />
 
                 <TextView
                     android:id="@+id/register_color_title_tv"

@@ -12,6 +12,8 @@ import javax.inject.Inject
 class RegisterViewModel @Inject constructor(
     private val repository: AuthRepository
 ) : ViewModel() {
+    private val _name = MutableLiveData<String>("")
+    val name: LiveData<String> = _name
 
     private val _profileImage = MutableLiveData<Uri?>(null)
     val profileImage: LiveData<Uri?> = _profileImage
@@ -22,8 +24,6 @@ class RegisterViewModel @Inject constructor(
     val birthDate: LiveData<String> = _birthDate
 
     val intro = MutableLiveData<String>("")
-
-    var name: String = ""
 
     private val _color = MutableLiveData<CategoryColor?>(null)
     val color: LiveData<CategoryColor?> = _color
@@ -83,17 +83,13 @@ class RegisterViewModel @Inject constructor(
                     color.value != null
     }
 
-    fun setColor(categoryColor: CategoryColor?) {
-        _color.value = categoryColor
-    }
+    fun setUserName(name: String) { _name.value = name }
 
-    fun setProfileImage(uri: Uri) {
-        _profileImage.value = uri
-    }
+    fun setColor(categoryColor: CategoryColor?) { _color.value = categoryColor }
 
-    fun setBirthDate(year: String, month: String, day: String) {
-        _birthDate.value = "$year/$month/$day"
-    }
+    fun setProfileImage(uri: Uri) { _profileImage.value = uri }
+
+    fun setBirthDate(year: String, month: String, day: String) { _birthDate.value = "$year/$month/$day" }
 
     fun getFormattedBirthDate(): String {
         return _birthDate.value?.replace("-", "/") ?: "생년월일을 선택하세요"
@@ -103,7 +99,7 @@ class RegisterViewModel @Inject constructor(
         if (isRegisterEnabled.value == true) {
             viewModelScope.launch {
                 repository.postSignupComplete(
-                    name = name,
+                    name = name.value ?: "",
                     nickname = nickname.value ?: "",
                     birthday = birthDate.value ?: "",
                     colorId = color.value?.colorId ?: 0,  // CategoryColor의 colorId 전달

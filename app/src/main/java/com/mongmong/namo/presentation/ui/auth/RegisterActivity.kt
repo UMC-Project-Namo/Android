@@ -18,7 +18,12 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(R.layout.activity
     override fun setup() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+        setUserName()
         initClickListener()
+    }
+
+    private fun setUserName() {
+        viewModel.setUserName(intent.getStringExtra("userName") ?: "사용자")
     }
 
     private fun initClickListener() {
@@ -33,7 +38,7 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(R.layout.activity
 
         // 생년월일 선택 컨테이너 클릭 시 커스텀 다이얼로그 호출
         binding.registerBirthContentTv.setOnClickListener {
-            viewModel.clearHighlight("birth")
+            viewModel.clearHighlight("birthDate")
             showRegisterDateDialog()
         }
 

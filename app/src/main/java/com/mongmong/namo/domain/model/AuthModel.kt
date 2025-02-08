@@ -18,7 +18,8 @@ data class LoginResult(
     val userId: Long = 0L,
     val newUser: Boolean = false,
     val signUpComplete: Boolean = true,
-    val terms: List<TermsResult> = emptyList()
+    val terms: List<TermsResult> = emptyList(),
+    var userName: String = ""
 )
 
 data class TermsResult(
