@@ -139,8 +139,8 @@
                     style="@style/content_regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.birthDate.isEmpty() ? @string/register_birth_empty : viewModel.getFormattedBirthDate}"
-                    android:textColor='@{viewModel.highlightFields["birthDate"] ? @color/main : (viewModel.birthDate.isEmpty() ? @color/text_placeholder : @color/main_text)}'
+                    android:text="@{viewModel.birthday.isEmpty() ? @string/register_birth_empty : viewModel.getFormattedBirthday()}"
+                    android:textColor='@{viewModel.highlightFields["birthDate"] ? @color/main : (viewModel.birthday.isEmpty() ? @color/text_placeholder : @color/main_text)}'
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="@+id/register_birth_title_tv"
                     app:layout_constraintStart_toStartOf="@+id/register_nickname_content_et"

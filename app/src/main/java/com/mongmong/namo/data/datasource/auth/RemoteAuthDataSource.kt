@@ -1,9 +1,12 @@
 package com.mongmong.namo.data.datasource.auth
 
 import android.util.Log
+import com.mongmong.namo.data.dto.SignupCompleteRequest
 import com.mongmong.namo.data.remote.AnonymousApiService
 import com.mongmong.namo.data.remote.AuthApiService
 import com.mongmong.namo.data.remote.ReissuanceApiService
+import com.mongmong.namo.data.utils.common.ErrorHandler.handleError
+import com.mongmong.namo.domain.model.BaseResponse
 import com.mongmong.namo.domain.model.LoginBody
 import com.mongmong.namo.domain.model.LoginResponse
 import com.mongmong.namo.domain.model.LoginResult
@@ -39,26 +42,21 @@ class RemoteAuthDataSource @Inject constructor(
     }
 
     suspend fun postSignupComplete(
-        name: String,
-        nickname: String,
-        birthday: String,
-        colorId: Int,
-        bio: String,
-        profileImage: String
-    ): Boolean {
-        var result = false
-
+        registerDTO: SignupCompleteRequest
+    ): BaseResponse {
+        var response = BaseResponse()
         withContext(Dispatchers.IO) {
             runCatching {
-
+                authApiService.postSignupComplete(registerDTO)
             }.onSuccess {
-
-            }.onFailure {
-
+                response = BaseResponse(code = it.code, message = it.message, isSuccess = it.isSuccess)
+            }.onFailure { exception ->
+                response = exception.handleError()
+                Log.d("ActivityDataSource editActivityTag Fail", response.message)
             }
         }
 
-        return result
+        return response
     }
 
     suspend fun postTokenRefresh(): RefreshResponse {

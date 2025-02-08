@@ -2,7 +2,9 @@ package com.mongmong.namo.presentation.ui.auth
 
 import android.net.Uri
 import androidx.lifecycle.*
+import com.mongmong.namo.domain.model.BaseResponse
 import com.mongmong.namo.domain.repositories.AuthRepository
+import com.mongmong.namo.domain.usecases.auth.RequestRegisterUseCase
 import com.mongmong.namo.presentation.enums.CategoryColor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -10,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val repository: AuthRepository
+    private val registerUseCase: RequestRegisterUseCase
 ) : ViewModel() {
     private val _name = MutableLiveData<String>("")
     val name: LiveData<String> = _name
@@ -20,8 +22,8 @@ class RegisterViewModel @Inject constructor(
 
     val nickname = MutableLiveData<String>("")
 
-    private val _birthDate = MutableLiveData<String>("") // YYYY-MM-DD 형식으로 저장
-    val birthDate: LiveData<String> = _birthDate
+    private val _birthday = MutableLiveData<String>("") // YYYY-MM-DD 형식으로 저장
+    val birthday: LiveData<String> = _birthday
 
     val intro = MutableLiveData<String>("")
 
@@ -33,8 +35,11 @@ class RegisterViewModel @Inject constructor(
         validateNickname(it)
     }
 
+    private val _isRegisterComplete = MutableLiveData<BaseResponse>()
+    val isRegisterComplete: LiveData<BaseResponse> = _isRegisterComplete
+
     // 생년월일 유효성 검사
-    val isBirthValid: LiveData<Boolean> = Transformations.map(birthDate) {
+    private val isBirthValid: LiveData<Boolean> = Transformations.map(birthday) {
         it.isNotEmpty()
     }
 
@@ -59,7 +64,7 @@ class RegisterViewModel @Inject constructor(
     fun enableHighlight() {
         highlightFields.value = mapOf(
             "nickname" to nickname.value.isNullOrEmpty(),
-            "birthDate" to birthDate.value.isNullOrEmpty(),
+            "birthday" to birthday.value.isNullOrEmpty(),
             "color" to (color.value == null)
         )
     }
@@ -89,24 +94,22 @@ class RegisterViewModel @Inject constructor(
 
     fun setProfileImage(uri: Uri) { _profileImage.value = uri }
 
-    fun setBirthDate(year: String, month: String, day: String) { _birthDate.value = "$year/$month/$day" }
+    fun setBirthday(year: String, month: String, day: String) { _birthday.value = "$year/$month/$day" }
 
-    fun getFormattedBirthDate(): String {
-        return _birthDate.value?.replace("-", "/") ?: "생년월일을 선택하세요"
+    fun getFormattedBirthday(): String {
+        return _birthday.value?.replace("-", "/") ?: "생년월일을 선택하세요"
     }
 
     fun requestRegister() {
-        if (isRegisterEnabled.value == true) {
-            viewModelScope.launch {
-                repository.postSignupComplete(
-                    name = name.value ?: "",
-                    nickname = nickname.value ?: "",
-                    birthday = birthDate.value ?: "",
-                    colorId = color.value?.colorId ?: 0,  // CategoryColor의 colorId 전달
-                    bio = intro.value ?: "",
-                    profileImage = profileImage.value.toString()
-                )
-            }
+        viewModelScope.launch {
+            _isRegisterComplete.value = registerUseCase.invoke(
+                name = name.value ?: "",
+                nickname = nickname.value ?: "",
+                birthday = birthday.value ?: "",
+                colorId = color.value?.colorId ?: 0,  // CategoryColor의 colorId 전달
+                intro = intro.value ?: "",
+                profileImage = profileImage.value ?: Uri.parse("")
+            )
         }
     }
 }

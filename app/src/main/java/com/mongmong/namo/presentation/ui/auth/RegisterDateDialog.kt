@@ -10,7 +10,7 @@ import com.mongmong.namo.databinding.DialogRegisterDateBinding
 import java.util.*
 
 class RegisterDateDialog(
-    private val birthDate: String,
+    private val birthday: String,
     private val onDateSelected: (Int, Int, Int) -> Unit
 ) : DialogFragment() {
 
@@ -31,7 +31,7 @@ class RegisterDateDialog(
     private fun setupDatePicker() {
         binding.registerDateDp.maxDate = Calendar.getInstance().timeInMillis
 
-        val dateParts = birthDate.split("-").mapNotNull { it.toIntOrNull() }
+        val dateParts = birthday.split("-").mapNotNull { it.toIntOrNull() }
         if (dateParts.size == 3) {
             val (year, month, day) = dateParts
             binding.registerDateDp.updateDate(year, month - 1, day)  // month는 0-based로 변환

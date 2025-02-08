@@ -131,7 +131,7 @@ class RemoteActivityDataSource @Inject constructor(
                 response = it
             }.onFailure { exception ->
                 response = exception.handleError()
-                Log.d("ActivityDataSource editActivityTag Success", response.message)
+                Log.d("ActivityDataSource editActivityTag Fail", response.message)
             }
         }
 
@@ -206,7 +206,7 @@ class RemoteActivityDataSource @Inject constructor(
                 response = it
             }.onFailure { exception ->
                 response = exception.handleError()
-                Log.d("ActivityDataSource deleteActivity Success", response.message)
+                Log.d("ActivityDataSource deleteActivity Fail", response.message)
             }
         }
         return  response

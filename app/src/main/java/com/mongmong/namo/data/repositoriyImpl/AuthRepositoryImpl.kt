@@ -1,9 +1,12 @@
 package com.mongmong.namo.data.repositoriyImpl
 
 import com.mongmong.namo.data.datasource.auth.RemoteAuthDataSource
+import com.mongmong.namo.data.utils.mappers.AuthMapper.toDTO
+import com.mongmong.namo.domain.model.BaseResponse
 import com.mongmong.namo.domain.model.LoginBody
 import com.mongmong.namo.domain.model.LoginResponse
 import com.mongmong.namo.domain.model.RefreshResponse
+import com.mongmong.namo.domain.model.RegisterInfo
 import com.mongmong.namo.domain.repositories.AuthRepository
 import javax.inject.Inject
 
@@ -15,15 +18,8 @@ class AuthRepositoryImpl @Inject constructor(
         return remoteAuthDataSource.postLogin(loginPlatform, body)
     }
 
-    override suspend fun postSignupComplete(
-        name: String,
-        nickname: String,
-        birthday: String,
-        colorId: Int,
-        bio: String,
-        profileImage: String
-    ): Boolean {
-        return remoteAuthDataSource.postSignupComplete(name, nickname, birthday, colorId, bio, profileImage)
+    override suspend fun postSignupComplete(registerInfo: RegisterInfo): BaseResponse {
+        return remoteAuthDataSource.postSignupComplete(registerInfo.toDTO())
     }
 
     override suspend fun postTokenRefresh(): RefreshResponse {

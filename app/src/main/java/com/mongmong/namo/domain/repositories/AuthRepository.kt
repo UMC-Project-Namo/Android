@@ -1,8 +1,10 @@
 package com.mongmong.namo.domain.repositories
 
+import com.mongmong.namo.domain.model.BaseResponse
 import com.mongmong.namo.domain.model.LoginBody
 import com.mongmong.namo.domain.model.LoginResponse
 import com.mongmong.namo.domain.model.RefreshResponse
+import com.mongmong.namo.domain.model.RegisterInfo
 
 interface AuthRepository {
     /** 로그인 */
@@ -13,13 +15,8 @@ interface AuthRepository {
 
     /** 회원가입 완료 */
     suspend fun postSignupComplete(
-        name: String,
-        nickname: String,
-        birthday: String,
-        colorId: Int,
-        bio: String,
-        profileImage: String
-    ): Boolean
+        registerInfo: RegisterInfo
+    ): BaseResponse
 
     /** 토큰 재발급 */
     suspend fun postTokenRefresh(): RefreshResponse

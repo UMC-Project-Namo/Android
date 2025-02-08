@@ -1,5 +1,6 @@
 package com.mongmong.namo.presentation.ui.auth
 
+import android.content.Intent
 import android.net.Uri
 import android.view.MotionEvent
 import android.widget.Toast
@@ -8,6 +9,7 @@ import androidx.activity.viewModels
 import com.mongmong.namo.R
 import com.mongmong.namo.databinding.ActivityRegisterBinding
 import com.mongmong.namo.presentation.config.BaseActivity
+import com.mongmong.namo.presentation.ui.MainActivity
 import com.mongmong.namo.presentation.utils.hideKeyboardOnTouchOutside
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,6 +22,7 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(R.layout.activity
         binding.lifecycleOwner = this
         setUserName()
         initClickListener()
+        initObservers()
     }
 
     private fun setUserName() {
@@ -36,9 +39,8 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(R.layout.activity
             showColorDialog()
         }
 
-        // 생년월일 선택 컨테이너 클릭 시 커스텀 다이얼로그 호출
         binding.registerBirthContentTv.setOnClickListener {
-            viewModel.clearHighlight("birthDate")
+            viewModel.clearHighlight("birthday")
             showRegisterDateDialog()
         }
 
@@ -52,10 +54,19 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(R.layout.activity
         }
     }
 
+    private fun initObservers() {
+        viewModel.isRegisterComplete.observe(this) { isComplete ->
+            if(isComplete.isSuccess) {
+                finish()
+                startActivity(Intent(this, MainActivity::class.java))
+            } else Toast.makeText(this, isComplete.message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun showRegisterDateDialog() {
-        val birthDate = viewModel.birthDate.value ?: ""
-        RegisterDateDialog(birthDate) { year, month, day ->
-            viewModel.setBirthDate(
+        val birthday = viewModel.birthday.value ?: ""
+        RegisterDateDialog(birthday) { year, month, day ->
+            viewModel.setBirthday(
                 year.toString(),
                 String.format("%02d", month + 1),  // DatePicker는 0-based → 1-based 변환
                 String.format("%02d", day)
