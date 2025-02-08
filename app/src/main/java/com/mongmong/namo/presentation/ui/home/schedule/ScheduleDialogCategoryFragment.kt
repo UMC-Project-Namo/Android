@@ -21,6 +21,7 @@ class ScheduleDialogCategoryFragment
     override fun setup() {
         binding.viewModel = viewModel
 
+        viewModel.setDeleteBtnVisibility(false)
         initClickListeners()
         initObserve()
     }
