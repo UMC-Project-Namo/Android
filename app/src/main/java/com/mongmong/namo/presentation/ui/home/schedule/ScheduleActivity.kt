@@ -30,14 +30,12 @@ import org.joda.time.LocalDateTime
 @AndroidEntryPoint
 class ScheduleActivity : BaseActivity<ActivityScheduleBinding>(R.layout.activity_schedule), ConfirmDialogInterface {
 
-    private val navController: NavController by lazy {
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.schedule_nav_host) as NavHostFragment
-        navHostFragment.navController
-    }
     private val viewModel : PersonalScheduleViewModel by viewModels()
 
     override fun setup() {
         var schedule : Schedule? = null
+
+        binding.viewModel = this@ScheduleActivity.viewModel
 
         // intent가 넘어왔는지 확인
         intent.getStringExtra("schedule")?.let { scheduleJson ->
@@ -52,10 +50,8 @@ class ScheduleActivity : BaseActivity<ActivityScheduleBinding>(R.layout.activity
         val nowDay = intent.getLongExtra("nowDay", 0)
 
         if (schedule != null) { // 생성 모드
-            binding.scheduleDeleteBtn.visibility = View.VISIBLE
             viewModel.setSchedule(schedule)
         } else { // 편집 모드
-            binding.scheduleDeleteBtn.visibility = View.GONE
             viewModel.setSchedule(
                 Schedule(
                     period = SchedulePeriod(

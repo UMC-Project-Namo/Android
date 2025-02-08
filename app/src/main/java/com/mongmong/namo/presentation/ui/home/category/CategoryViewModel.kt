@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mongmong.namo.domain.model.CategoryModel
 import com.mongmong.namo.domain.repositories.CategoryRepository
-import com.mongmong.namo.domain.usecases.category.GetCategoriesUseCase
 import com.mongmong.namo.presentation.enums.CategoryColor
 import com.mongmong.namo.presentation.enums.SuccessType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,8 +16,9 @@ import javax.inject.Inject
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
     private val repository: CategoryRepository,
-    private val getCategoriesUseCase: GetCategoriesUseCase,
 ) : ViewModel() {
+    var isEditMode: Boolean = false
+
     private val _category = MutableLiveData<CategoryModel>()
     val category: LiveData<CategoryModel> = _category
 
@@ -34,27 +34,15 @@ class CategoryViewModel @Inject constructor(
     private val _color = MutableLiveData<CategoryColor?>(null)
     val color: LiveData<CategoryColor?> = _color
 
-    private val _selectedPalettePosition = MutableLiveData<Int?>() // 팔레트 -> 기본 색상 선택 시 사용될 변수
-    val selectedPalettePosition: LiveData<Int?> = _selectedPalettePosition
-
-    private val _canDeleteCategory = MutableLiveData<Boolean>(true)
-    val canDeleteCategory: LiveData<Boolean> = _canDeleteCategory
-
-    /** 카테고리 조회 */
-    fun getCategories() {
-        viewModelScope.launch {
-            Log.d("CategoryViewModel", "getCategories")
-            _categoryList.value = getCategoriesUseCase.invoke()
-        }
-    }
-
     /** 카테고리 추가 */
     fun addCategory() {
         viewModelScope.launch {
             Log.d("CategoryViewModel", "addCategory ${_category.value}")
-            _isComplete.postValue(repository.addCategory(
-                category = _category.value!!
-            ))
+            _isComplete.postValue(
+                repository.addCategory(
+                    category = _category.value!!
+                )
+            )
             _completeState.value = SuccessType.ADD
         }
     }
@@ -63,9 +51,11 @@ class CategoryViewModel @Inject constructor(
     fun editCategory() {
         viewModelScope.launch {
             Log.d("CategoryViewModel", "editCategory ${_category.value}")
-            _isComplete.postValue(repository.editCategory(
-                category = _category.value!!
-            ))
+            _isComplete.postValue(
+                repository.editCategory(
+                    category = _category.value!!
+                )
+            )
             _completeState.value = SuccessType.EDIT
         }
     }
@@ -74,9 +64,11 @@ class CategoryViewModel @Inject constructor(
     fun deleteCategory() {
         viewModelScope.launch {
             Log.d("CategoryViewModel", "deleteCategory ${_category.value}")
-            _isComplete.postValue(repository.deleteCategory(
-                category = _category.value!!
-            ))
+            _isComplete.postValue(
+                repository.deleteCategory(
+                    category = _category.value!!
+                )
+            )
             _completeState.value = SuccessType.DELETE
         }
     }
@@ -88,16 +80,6 @@ class CategoryViewModel @Inject constructor(
         }
     }
 
-    fun setDeliable(canDelete: Boolean) {
-        _canDeleteCategory.value = canDelete
-    }
-
-    fun updateTitle(title: String) {
-        _category.value = _category.value?.copy(
-            name = title
-        )
-    }
-
     fun updateCategoryColor(color: CategoryColor) {
         _color.value = color
         _category.value = _category.value?.copy(colorId = color.colorId)
@@ -107,11 +89,11 @@ class CategoryViewModel @Inject constructor(
         _category.value!!.isShare = isShare
     }
 
-    fun updateSelectedPalettePosition(pos: Int?) {
-        _selectedPalettePosition.value = pos
+    fun isValidName(): Boolean {
+        return _category.value?.name!!.isNotEmpty()
     }
 
-    fun isValidInput(): Boolean {
-        return (!_category.value?.name.isNullOrEmpty()) && (_color.value != null)
+    fun isColorSelected(): Boolean {
+        return _color.value != null
     }
 }

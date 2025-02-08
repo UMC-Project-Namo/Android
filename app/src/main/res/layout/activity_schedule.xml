@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="com.mongmong.namo.presentation.ui.home.schedule.PersonalScheduleViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/schedule_background_layout"
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,13 +21,14 @@
             android:layout_width="65dp"
             android:layout_height="70dp"
             android:layout_marginBottom="10dp"
-            app:layout_constraintBottom_toTopOf="@id/schedule_container_layout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="@{(viewModel.isShowTopDeleteBtn == true) ? View.VISIBLE : View.GONE}"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="25dp"
             app:cardElevation="5dp"
-            app:cardUseCompatPadding="true">
+            app:cardUseCompatPadding="true"
+            app:layout_constraintBottom_toTopOf="@id/schedule_container_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="24dp"

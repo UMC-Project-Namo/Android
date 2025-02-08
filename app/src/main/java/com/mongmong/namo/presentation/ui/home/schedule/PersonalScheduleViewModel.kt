@@ -63,6 +63,10 @@ class PersonalScheduleViewModel @Inject constructor(
     private val _isDailyScheduleEmptyPair = MutableLiveData<Pair<Boolean, Boolean>>()
     var isDailyScheduleEmptyPair: LiveData<Pair<Boolean, Boolean>> = _isDailyScheduleEmptyPair
 
+    // 다이얼로그 상단 휴지통 버튼 노출 여부
+    private val _isShowTopDeleteBtn = MutableLiveData<Boolean>()
+    var isShowTopDeleteBtn: LiveData<Boolean> = _isShowTopDeleteBtn
+
     init {
         getCategories() // 최초 카테고리 목록 조회
     }
@@ -299,6 +303,10 @@ class PersonalScheduleViewModel @Inject constructor(
             )
         }
         return null
+    }
+
+    fun setDeleteBtnVisibility(isVisible: Boolean) {
+        _isShowTopDeleteBtn.value = isVisible
     }
 
     fun isInvalidDate(): Boolean {
