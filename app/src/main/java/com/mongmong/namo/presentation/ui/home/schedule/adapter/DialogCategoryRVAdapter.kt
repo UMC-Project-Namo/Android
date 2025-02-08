@@ -14,7 +14,8 @@ class DialogCategoryRVAdapter(
     private var selectedId : Long = 0
 
     interface MyItemClickListener {
-        fun onSendId(category: CategoryModel)
+        fun onSelectCategory(category: CategoryModel)
+        fun onEditCategory(category: CategoryModel)
     }
 
     private lateinit var mItemClickListener : MyItemClickListener
@@ -48,9 +49,18 @@ class DialogCategoryRVAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(categoryList[position])
 
-        holder.itemView.setOnClickListener {
-            selectedId = categoryList[position].categoryId
-            mItemClickListener.onSendId(categoryList[position])
+        // 화면 이동
+        holder.binding.apply {
+            // 카테고리 선택
+            categoryColorView.setOnClickListener {
+                selectedId = categoryList[position].categoryId
+                mItemClickListener.onSelectCategory(categoryList[position]) // 카테고리 선택 진행
+            }
+
+            // 카테고리 수정
+            categoryEditLl.setOnClickListener {
+                mItemClickListener.onEditCategory(categoryList[position])
+            }
         }
     }
 

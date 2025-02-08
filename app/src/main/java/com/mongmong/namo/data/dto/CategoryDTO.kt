@@ -1,32 +1,17 @@
 package com.mongmong.namo.data.dto
 
-import com.mongmong.namo.domain.model.BaseResponse
 import com.google.gson.annotations.SerializedName
-import com.mongmong.namo.domain.model.CategoryModel
-
-/** 카테고리 생성 */
-class PostCategoryResponse (
-    val result: PostCategoryResult
-) : BaseResponse()
-
-class PostCategoryResult (
-    @SerializedName("id") val categoryId: Long = 0
-)
+import com.mongmong.namo.domain.model.BaseResponse
 
 data class CategoryRequestBody(
-    val name : String,
-    val paletteId: Int,
-    val isShare: Boolean = true
+    val categoryName : String,
+    val colorId: Int,
+    val isShared: Boolean = true
 )
 
-/** 카테고리 수정 */
-class EditCategoryResponse (
-    val result: EditCategoryResult
+data class CategoryBaseResponse(
+    val result: String
 ) : BaseResponse()
-
-class EditCategoryResult (
-    @SerializedName("id") val categoryId: Long = 0
-)
 
 /** 카테고리 삭제 */
 data class DeleteCategoryResponse (
@@ -35,22 +20,13 @@ data class DeleteCategoryResponse (
 
 /** 모든 카테고리 조회 */
 class GetCategoryResponse (
-    val result: List<GetCategoryResult>
+    val result: List<CategoryDTO>
 ) : BaseResponse()
 
-class GetCategoryResult (
+class CategoryDTO (
     val categoryId: Long,
     val categoryName: String,
     val colorId: Int,
     val baseCategory: Boolean,
     val shared: Boolean
-) {
-    fun convertToCategory(): CategoryModel {
-        return CategoryModel(
-            categoryId = this.categoryId,
-            name = this.categoryName,
-            colorId = this.colorId,
-            isShare = this.shared,
-        )
-    }
-}
+)

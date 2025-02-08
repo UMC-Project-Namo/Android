@@ -4,6 +4,8 @@ import android.util.Log
 import com.mongmong.namo.data.datasource.category.RemoteCategoryDataSource
 import com.mongmong.namo.domain.model.CategoryModel
 import com.mongmong.namo.data.remote.NetworkChecker
+import com.mongmong.namo.data.utils.mappers.CategoryMapper.toDTO
+import com.mongmong.namo.data.utils.mappers.CategoryMapper.toModel
 import com.mongmong.namo.domain.repositories.CategoryRepository
 import com.mongmong.namo.presentation.config.Constants.SUCCESS_CODE
 import javax.inject.Inject
@@ -15,7 +17,7 @@ class CategoryRepositoryImpl @Inject constructor(
 
     override suspend fun getCategories(): List<CategoryModel> {
         return remoteCategoryDataSource.getCategories().map {
-            it.convertToCategory()
+            it.toModel()
         }
     }
 
@@ -28,20 +30,20 @@ class CategoryRepositoryImpl @Inject constructor(
 
     override suspend fun addCategory(category: CategoryModel): Boolean {
         Log.d("CategoryRepositoryImpl", "addCategory categoryId: ${category.categoryId}\n$category")
-        return remoteCategoryDataSource.addCategoryToServer(category.convertLocalCategoryToServer()).code == SUCCESS_CODE
+        return remoteCategoryDataSource.addCategory(category.toDTO()).code == SUCCESS_CODE
     }
 
     override suspend fun editCategory(category: CategoryModel): Boolean {
         Log.d("CategoryRepositoryImpl", "editCategory $category")
-        return remoteCategoryDataSource.editCategoryToServer(
+        return remoteCategoryDataSource.editCategory(
             category.categoryId,
-            category.convertLocalCategoryToServer()
+            category.toDTO()
         ).code == SUCCESS_CODE
     }
 
     override suspend fun deleteCategory(category: CategoryModel): Boolean {
         Log.d("CategoryRepositoryImpl", "deleteCategory $category")
-        return remoteCategoryDataSource.deleteCategoryToServer(
+        return remoteCategoryDataSource.deleteCategory(
             category.categoryId
         ).code == SUCCESS_CODE
     }

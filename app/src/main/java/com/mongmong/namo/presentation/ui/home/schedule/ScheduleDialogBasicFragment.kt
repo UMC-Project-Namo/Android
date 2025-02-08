@@ -68,6 +68,7 @@ class ScheduleDialogBasicFragment : BaseFragment<FragmentScheduleDialogBasicBind
     override fun onResume() {
         super.onResume()
         mapView.resume()
+        viewModel.setDeleteBtnVisibility(!viewModel.isCreateMode())
     }
 
     override fun onPause() {
