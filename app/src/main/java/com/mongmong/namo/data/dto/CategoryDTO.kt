@@ -28,5 +28,5 @@ class CategoryDTO (
     val categoryName: String,
     val colorId: Int,
     val baseCategory: Boolean,
-    val isShared: Boolean
+    val shared: Boolean
 )

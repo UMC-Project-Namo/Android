@@ -136,7 +136,7 @@ class CategoryDetailFragment
         val isShare = viewModel.category.value!!.isShare
         binding.categoryShareToggleIv.apply {
             // 첫 진입 시 토글 이미지 세팅
-            isChecked = isShare
+            isChecked = viewModel.category.value!!.isShare
             // 토글 클릭 시 이미지 세팅
             setOnClickListener {
                 (it as SwitchCompat).isChecked = !isShare
