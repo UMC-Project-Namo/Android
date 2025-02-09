@@ -64,7 +64,7 @@ class RegisterViewModel @Inject constructor(
     fun enableHighlight() {
         highlightFields.value = mapOf(
             "nickname" to nickname.value.isNullOrEmpty(),
-            "birthday" to birthday.value.isNullOrEmpty(),
+            "birth" to birthday.value.isNullOrEmpty(),
             "color" to (color.value == null)
         )
     }
