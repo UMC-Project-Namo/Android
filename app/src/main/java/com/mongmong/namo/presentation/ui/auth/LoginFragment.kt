@@ -54,7 +54,9 @@ class LoginFragment: BaseFragment<FragmentLoginBinding>(R.layout.fragment_login)
     private fun initObserve() {
         viewModel.loginResult.observe(viewLifecycleOwner) {
             when {
+                // 로그인 실패
                 it == null -> return@observe
+                // 로그인 성공: 신규 유저 or 약관에 동의하지 않은 유저
                 it.newUser || viewModel.checkUpdatedTerms() -> {
                     findNavController().navigate(
                         R.id.action_loginFragment_to_termsFragment,
@@ -62,6 +64,7 @@ class LoginFragment: BaseFragment<FragmentLoginBinding>(R.layout.fragment_login)
                     )
                     return@observe
                 }
+                // 로그인 성공: 소셜 가입만 된 유저 or 회원가입 완료(signUpComplete)된 유저
                 it.accessToken.isNotEmpty() -> {
                     val intent = Intent(requireContext(),
                         if(!it.signUpComplete) RegisterActivity::class.java else MainActivity::class.java)
