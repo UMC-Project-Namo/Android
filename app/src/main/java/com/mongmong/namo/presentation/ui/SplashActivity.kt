@@ -87,7 +87,6 @@ class SplashActivity : AppCompatActivity() {
                     dsManager.saveAccessToken(response.result.accessToken)
                     dsManager.saveRefreshToken(response.result.refreshToken)
                 }
-
                 startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                 finish()
                 isDataLoaded.value = true

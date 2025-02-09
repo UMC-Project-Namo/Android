@@ -2,6 +2,8 @@ package com.mongmong.namo.presentation.enums
 
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 
 /** 내부 색상 저장 용도 */
 enum class CategoryColor(val colorId: Int, val hexColor: String) {
@@ -25,6 +27,13 @@ enum class CategoryColor(val colorId: Int, val hexColor: String) {
     MAGENTA(18, "#FF70DE"),
     DARK_GRAY(19, "#9C9C9C"),
     BLACK(20, "#1D1D1D");
+
+    fun toFormattedString(): String {
+        return name.lowercase() // 전체 소문자로 변환
+            .replace("_", " ") // `_`을 공백으로 변경
+            .split(" ") // 단어 단위로 분리
+            .joinToString(" ") { it.replaceFirstChar { char -> char.uppercase() } } // 첫 글자만 대문자로 변환
+    }
 
     companion object {
         // enum class의 모든 CategoryColor 반환
@@ -55,6 +64,12 @@ enum class CategoryColor(val colorId: Int, val hexColor: String) {
 
         private fun convertHexToInt(hexColor: String): Int {
             return Color.parseColor(hexColor)
+        }
+
+        @JvmStatic
+        fun convertColorIdToDrawable(paletteId: Int): Drawable {
+            val colorHex = convertColorIdToHexColor(paletteId)
+            return ColorDrawable(Color.parseColor(colorHex)) // 색상 Drawable 반환
         }
     }
 }

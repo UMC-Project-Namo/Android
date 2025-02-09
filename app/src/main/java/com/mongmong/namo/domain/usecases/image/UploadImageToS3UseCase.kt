@@ -1,6 +1,7 @@
 package com.mongmong.namo.domain.usecases.image
 
 import android.net.Uri
+import android.util.Log
 import com.mongmong.namo.domain.repositories.ImageRepository
 import javax.inject.Inject
 
@@ -19,6 +20,7 @@ class UploadImageToS3UseCase @Inject constructor(private val repository: ImageRe
                 }
             }
         }
+        Log.d("UploadImageToS3UseCase", "$uploadResults")
         return uploadResults
     }
 }
