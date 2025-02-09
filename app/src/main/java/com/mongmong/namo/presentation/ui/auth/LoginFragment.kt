@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -55,7 +56,10 @@ class LoginFragment: BaseFragment<FragmentLoginBinding>(R.layout.fragment_login)
             when {
                 it == null -> return@observe
                 it.newUser || viewModel.checkUpdatedTerms() -> {
-                    findNavController().navigate(R.id.action_loginFragment_to_termsFragment)
+                    findNavController().navigate(
+                        R.id.action_loginFragment_to_termsFragment,
+                        Bundle().apply { putString("userName", it.userName) }
+                    )
                     return@observe
                 }
                 it.accessToken.isNotEmpty() -> {
@@ -92,10 +96,10 @@ class LoginFragment: BaseFragment<FragmentLoginBinding>(R.layout.fragment_login)
     private fun startNaverLogin() {
         val oauthLoginCallback = object : OAuthLoginCallback {
             override fun onSuccess() {
-                // ✅ 변경된 방식: NidProfileCallback 사용
                 NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
                     override fun onSuccess(response: NidProfileResponse) {
                         val userName = response.profile?.name ?: "사용자"
+                        Log.d("naverSignUp", userName)
                         viewModel.tryLogin(
                             LoginPlatform.NAVER,
                             NaverIdLoginSDK.getAccessToken().toString(),

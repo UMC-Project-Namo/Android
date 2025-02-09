@@ -40,9 +40,8 @@ class AuthViewModel @Inject constructor(
             val response = repository.postLogin(platform.platformName, LoginBody(accessToken, refreshToken))
 
             if (response.code != SUCCESS_CODE) return@launch
-
-            saveLoginPlatform(platform)
             saveToken(response.result)
+            saveLoginPlatform(platform)
             saveUserId(response.result.userId)
 
             // 로그인 결과 설정
