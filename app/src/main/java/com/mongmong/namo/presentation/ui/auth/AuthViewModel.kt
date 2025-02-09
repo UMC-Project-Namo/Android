@@ -88,29 +88,35 @@ class AuthViewModel @Inject constructor(
     }
 
     /** 토큰 */
+    // 앱 내 저장된 토큰 정보 가져오기
     private fun getSavedToken(): TokenBody = runBlocking {
         val accessToken = dsManager.getAccessToken().first().orEmpty()
         val refreshToken = dsManager.getRefreshToken().first().orEmpty()
         return@runBlocking TokenBody(accessToken, refreshToken)
     }
 
+    // 로그인 한 sdk 정보 가져오기
     private fun getLoginPlatform(): String = runBlocking {
         dsManager.getPlatform().first().orEmpty()
     }
 
+    // 로그인 플랫폼 정보 앱 내에 저장
     private suspend fun saveLoginPlatform(platform: LoginPlatform) {
         dsManager.savePlatform(platform.platformName)
     }
 
+    // 토큰 정보 앱 내에 저장
     private suspend fun saveToken(tokenResult: LoginResult) {
         dsManager.saveAccessToken(tokenResult.accessToken)
         dsManager.saveRefreshToken(tokenResult.refreshToken)
     }
 
+    // userId 앱 내에 저장
     private suspend fun saveUserId(userId: Long) {
         dsManager.saveUserId(userId)
     }
 
+    // 앱 내에 저장된 토큰 정보 삭제
     private suspend fun deleteToken() {
         dsManager.clearTokens()
     }
