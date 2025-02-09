@@ -79,12 +79,9 @@ class PersonalDiaryDetailActivity
         }
         binding.diaryGalleryClickIv.setOnClickListener { getGallery() }
         binding.diarySaveBtn.setOnClickListener {
-            Log.d("PersonalDiaryDetailActivity", "save btn")
             if (viewModel.diarySchedule.value?.hasDiary == false) {
-                Log.d("PersonalDiaryDetailActivity", "save btn add")
                 viewModel.addDiary()
             } else {
-                Log.d("PersonalDiaryDetailActivity", "save btn edit")
                 viewModel.editDiary()
             }
         }
@@ -138,7 +135,7 @@ class PersonalDiaryDetailActivity
                 Toast.makeText(this, "변경사항이 적용되었습니다", Toast.LENGTH_SHORT).show()
                 viewModel.getDiaryData()
             } else {
-                Toast.makeText(this, "e${response.message}rror", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "e${response.message}", Toast.LENGTH_SHORT).show()
             }
         }
 
