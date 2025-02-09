@@ -33,6 +33,6 @@ class RequestRegisterUseCase(
     }
 
     companion object {
-        const val PREFIX = "diary"
+        const val PREFIX = "profile"
     }
 }

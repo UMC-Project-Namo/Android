@@ -94,10 +94,10 @@ class RegisterViewModel @Inject constructor(
 
     fun setProfileImage(uri: Uri) { _profileImage.value = uri }
 
-    fun setBirthday(year: String, month: String, day: String) { _birthday.value = "$year/$month/$day" }
+    fun setBirthday(year: String, month: String, day: String) { _birthday.value = "$year-$month-$day" }
 
     fun getFormattedBirthday(): String {
-        return _birthday.value?.replace("-", "/") ?: "생년월일을 선택하세요"
+        return _birthday.value?.replace("-", "/") ?: ""
     }
 
     fun requestRegister() {

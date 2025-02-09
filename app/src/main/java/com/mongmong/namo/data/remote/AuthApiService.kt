@@ -1,6 +1,7 @@
 package com.mongmong.namo.data.remote
 
 import com.mongmong.namo.data.dto.SignupCompleteRequest
+import com.mongmong.namo.data.dto.SignupCompleteResponse
 import com.mongmong.namo.domain.model.AuthResponse
 import com.mongmong.namo.domain.model.BaseResponse
 import retrofit2.http.Body
@@ -13,7 +14,7 @@ interface AuthApiService {
     suspend fun postLogout(): AuthResponse
 
     @POST("auths/signup/complete")
-    suspend fun postSignupComplete(@Body registerRequest: SignupCompleteRequest): BaseResponse
+    suspend fun postSignupComplete(@Body registerRequest: SignupCompleteRequest): SignupCompleteResponse
 
     // 회원탈퇴
     @POST("auths/delete/{socialType}")
