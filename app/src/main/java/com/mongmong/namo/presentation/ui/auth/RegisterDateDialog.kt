@@ -4,16 +4,15 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import com.mongmong.namo.databinding.DialogRegisterDateBinding
 import java.util.*
 
-class RegisterDateDialog(
-    private val birthday: String,
-    private val onDateSelected: (Int, Int, Int) -> Unit
-) : DialogFragment() {
-
+class RegisterDateDialog() : DialogFragment() {
+    private val viewModel: RegisterViewModel by activityViewModels()
     private var _binding: DialogRegisterDateBinding? = null
     private val binding get() = _binding!!
 
@@ -31,8 +30,8 @@ class RegisterDateDialog(
     private fun setupDatePicker() {
         binding.registerDateDp.maxDate = Calendar.getInstance().timeInMillis
 
-        val dateParts = birthday.split("-").mapNotNull { it.toIntOrNull() }
-        if (dateParts.size == 3) {
+        val dateParts = viewModel.birthday.value?.split("-")?.mapNotNull { it.toIntOrNull() }
+        if (dateParts?.size == 3) {
             val (year, month, day) = dateParts
             binding.registerDateDp.updateDate(year, month - 1, day)  // month는 0-based로 변환
         }
@@ -50,10 +49,15 @@ class RegisterDateDialog(
         binding.dialogNoBtn.setOnClickListener { dialog.dismiss() }
 
         binding.dialogYesBtn.setOnClickListener {
+            viewModel.clearHighlight("birth")
             val year = binding.registerDateDp.year
             val month = binding.registerDateDp.month  // 0부터 시작
             val day = binding.registerDateDp.dayOfMonth
-            onDateSelected(year, month, day)
+            viewModel.setBirthday(
+                year.toString(),
+                String.format("%02d", month + 1),
+                String.format("%02d", day)
+            )
             dialog.dismiss()
         }
     }

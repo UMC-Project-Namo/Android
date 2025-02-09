@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mongmong.namo.databinding.DialogRegisterColorBinding
 import com.mongmong.namo.presentation.enums.CategoryColor
@@ -11,16 +12,13 @@ import com.mongmong.namo.presentation.ui.home.category.adapter.CategoryPaletteRV
 import androidx.recyclerview.widget.GridLayoutManager
 
 
-class RegisterColorDialog(
-    private val initialColor: CategoryColor?,
-    private val onColorSelected: (CategoryColor?) -> Unit // nullable 허용
-) : BottomSheetDialogFragment() {
-
+class RegisterColorDialog() : BottomSheetDialogFragment() {
+    private val viewModel: RegisterViewModel by activityViewModels()
     private var _binding: DialogRegisterColorBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var paletteAdapter: CategoryPaletteRVAdapter
-    private var selectedColor: CategoryColor? = initialColor // 초기값을 null 허용
+    private var selectedColor: CategoryColor? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +37,7 @@ class RegisterColorDialog(
 
     private fun setupRecyclerView() {
         val colorList = ArrayList(CategoryColor.getAllColors())
-        val initialPosition = colorList.indexOf(initialColor).takeIf { it >= 0 } ?: -1  // 선택된 색이 없으면 -1
+        val initialPosition = colorList.indexOf(viewModel.color.value).takeIf { it >= 0 } ?: -1  // 선택된 색이 없으면 -1
 
         paletteAdapter = CategoryPaletteRVAdapter(
             requireContext(),
@@ -64,7 +62,8 @@ class RegisterColorDialog(
             dismiss()
         }
         binding.registerColorSaveBtn.setOnClickListener {
-            onColorSelected(selectedColor) // 선택하지 않았다면 null 전달
+            viewModel.clearHighlight("color")
+            viewModel.setColor(selectedColor)
             dismiss()
         }
     }

@@ -40,7 +40,6 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(R.layout.activity
         }
 
         binding.registerBirthContentTv.setOnClickListener {
-            viewModel.clearHighlight("birthday")
             showRegisterDateDialog()
         }
 
@@ -64,22 +63,13 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(R.layout.activity
     }
 
     private fun showRegisterDateDialog() {
-        val birthday = viewModel.birthday.value ?: ""
-        RegisterDateDialog(birthday) { year, month, day ->
-            viewModel.setBirthday(
-                year.toString(),
-                String.format("%02d", month + 1),  // DatePicker는 0-based → 1-based 변환
-                String.format("%02d", day)
-            )
-        }.show(supportFragmentManager, "RegisterDateDialog")
+        val dialog = RegisterDateDialog()
+        dialog.show(supportFragmentManager, "RegisterDateDialog")
     }
 
 
     private fun showColorDialog() {
-        val currentColor = viewModel.color.value
-        val dialog = RegisterColorDialog(initialColor = currentColor) { selectedColor ->
-            viewModel.setColor(selectedColor)
-        }
+        val dialog = RegisterColorDialog()
         dialog.show(supportFragmentManager, "RegisterColorDialog")
     }
 
