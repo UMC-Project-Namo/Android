@@ -35,21 +35,19 @@ class AuthViewModel @Inject constructor(
     val refreshResponse: LiveData<RefreshResponse> = _refreshResponse
 
     /** 로그인 */
-    fun tryLogin(platform: LoginPlatform, accessToken: String, refreshToken: String) {
+    fun tryLogin(platform: LoginPlatform, accessToken: String, refreshToken: String, userName: String) {
         viewModelScope.launch {
-            // 로그인 진행
             val response = repository.postLogin(platform.platformName, LoginBody(accessToken, refreshToken))
 
             if (response.code != SUCCESS_CODE) return@launch
-
-            // 로그인 정보 저장
-            saveLoginPlatform(platform)
-            // 토큰 저장
             saveToken(response.result)
-            // userId 저장
+            saveLoginPlatform(platform)
             saveUserId(response.result.userId)
 
-            _loginResult.value = response.result
+            // 로그인 결과 설정
+            _loginResult.value = response.result.apply {
+                this.userName = userName // 사용자 이름을 추가
+            }
         }
     }
 
@@ -84,7 +82,7 @@ class AuthViewModel @Inject constructor(
     // 약관 동의 여부 확인
     fun checkUpdatedTerms(): Boolean {
         for (term in _loginResult.value!!.terms) {
-            if (!term.check) return true // 하나라도 체크되어 있지 않을 경우 약관 동의 필요
+            if (!term.check) return true
         }
         return false
     }

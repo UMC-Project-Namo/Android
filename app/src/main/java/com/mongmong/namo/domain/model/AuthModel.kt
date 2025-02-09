@@ -1,5 +1,7 @@
 package com.mongmong.namo.domain.model
 
+import android.net.Uri
+
 data class AuthResponse(
     val result: String
 ) : BaseResponse() // 기본 string
@@ -18,7 +20,8 @@ data class LoginResult(
     val userId: Long = 0L,
     val newUser: Boolean = false,
     val signUpComplete: Boolean = true,
-    val terms: List<TermsResult> = emptyList()
+    val terms: List<TermsResult> = emptyList(),
+    var userName: String = ""
 )
 
 data class TermsResult(
@@ -44,4 +47,14 @@ data class TokenBody(
 data class LoginBody(
     val accessToken: String,
     val socialRefreshToken: String
+)
+
+// 회원가입
+data class RegisterInfo(
+    val intro: String,
+    val birthday: String,
+    val colorId: Int,
+    val name: String,
+    val nickname: String,
+    val profileImage: String
 )

@@ -17,8 +17,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class TermsFragment: BaseFragment<FragmentTermsBinding>(R.layout.fragment_terms) {
     private val viewModel : TermsViewModel by viewModels()
+    private var userName: String? = null
 
     override fun setup() {
+        userName = arguments?.getString("userName") ?: "사용자"
         initObserve()
         initClickListeners()
         checkboxListener()
@@ -149,6 +151,9 @@ class TermsFragment: BaseFragment<FragmentTermsBinding>(R.layout.fragment_terms)
 
     private fun moveToMainActivity(){
         requireActivity().finish()
-        startActivity(Intent(requireContext(), MainActivity::class.java))
+        startActivity(
+            Intent(requireContext(), RegisterActivity::class.java)
+                .putExtra("userName", userName)
+        )
     }
 }

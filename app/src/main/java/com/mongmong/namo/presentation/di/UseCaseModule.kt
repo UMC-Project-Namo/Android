@@ -1,6 +1,7 @@
 package com.mongmong.namo.presentation.di
 
 import com.mongmong.namo.domain.repositories.ActivityRepository
+import com.mongmong.namo.domain.repositories.AuthRepository
 import com.mongmong.namo.domain.repositories.CategoryRepository
 import com.mongmong.namo.domain.repositories.DiaryRepository
 import com.mongmong.namo.domain.repositories.FriendRepository
@@ -11,6 +12,7 @@ import com.mongmong.namo.domain.usecases.friend.DenyFriendRequestUseCase
 import com.mongmong.namo.domain.usecases.category.FindCategoryUseCase
 import com.mongmong.namo.domain.usecases.category.GetCategoriesUseCase
 import com.mongmong.namo.domain.usecases.activity.GetActivitiesUseCase
+import com.mongmong.namo.domain.usecases.auth.RequestRegisterUseCase
 import com.mongmong.namo.domain.usecases.friend.GetFriendsUseCase
 import com.mongmong.namo.domain.usecases.image.UploadImageToS3UseCase
 import dagger.Module
@@ -21,6 +23,13 @@ import dagger.hilt.android.components.ViewModelComponent
 @Module
 @InstallIn(ViewModelComponent::class)
 object UseCaseModule {
+    @Provides
+    fun provideRequestRegisterUseCase(
+        authRepository: AuthRepository,
+        uploadImageToS3UseCase: UploadImageToS3UseCase
+    ): RequestRegisterUseCase =
+        RequestRegisterUseCase(authRepository, uploadImageToS3UseCase)
+
     @Provides
     fun provideGetCategoriesUseCase(categoryRepository: CategoryRepository): GetCategoriesUseCase =
         GetCategoriesUseCase(categoryRepository)
