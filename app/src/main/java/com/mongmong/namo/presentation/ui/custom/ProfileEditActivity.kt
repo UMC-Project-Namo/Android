@@ -10,11 +10,15 @@ import com.mongmong.namo.R
 import com.mongmong.namo.databinding.ActivityProfileEditBinding
 import com.mongmong.namo.presentation.config.BaseActivity
 import com.mongmong.namo.presentation.ui.MainActivity
+import com.mongmong.namo.presentation.ui.common.ConfirmDialog
+import com.mongmong.namo.presentation.ui.community.moim.diary.MoimDiaryDetailActivity.Companion.BACK_BUTTON_ACTION
+import com.mongmong.namo.presentation.ui.community.moim.diary.MoimDiaryDetailActivity.Companion.VIEW_BUTTON_ACTION
 import com.mongmong.namo.presentation.utils.hideKeyboardOnTouchOutside
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileEditActivity : BaseActivity<ActivityProfileEditBinding>(R.layout.activity_profile_edit) {
+class ProfileEditActivity : BaseActivity<ActivityProfileEditBinding>(R.layout.activity_profile_edit),
+    ConfirmDialog.ConfirmDialogInterface {
     private val viewModel: ProfileEditViewModel by viewModels()
 
     override fun setup() {
@@ -36,6 +40,10 @@ class ProfileEditActivity : BaseActivity<ActivityProfileEditBinding>(R.layout.ac
 
         binding.profileEditColorCv.setOnClickListener {
             showColorDialog()
+        }
+
+        binding.profileEditBackIv.setOnClickListener {
+            showBackDialog()
         }
 
         binding.profileEditBirthContentTv.setOnClickListener {
@@ -65,6 +73,21 @@ class ProfileEditActivity : BaseActivity<ActivityProfileEditBinding>(R.layout.ac
     private fun showColorDialog() {
         val dialog = ProfileEditColorDialog()
         dialog.show(supportFragmentManager, "ProfileEditColorDialog")
+    }
+
+    private fun showBackDialog() {
+        val title = getString(R.string.moim_diary_confirm_back_title)
+        val content = getString(R.string.moim_diary_confirm_back_content)
+
+        val dialog = ConfirmDialog(
+            this, title, content, "확인", BACK_BUTTON_ACTION
+        )
+        dialog.isCancelable = false
+        dialog.show(supportFragmentManager, "")
+    }
+
+    override fun onClickYesButton(id: Int) {
+        finish()
     }
 
     private val galleryLauncher =
