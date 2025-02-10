@@ -172,6 +172,18 @@
         <item name="android:enabled">true</item>
     </style>
 
+    <style name="profile_toggle">
+        <item name="android:thumb">@drawable/selector_profile_switch_thumb</item>
+        <item name="android:layout_width">72dp</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:switchMinWidth">0dp</item>
+        <item name="android:thumbTextPadding">18dp</item>
+        <item name="android:track">@drawable/selector_profile_switch_track</item>
+        <item name="android:textOn">""</item>
+        <item name="android:textOff">""</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
     <style name="custom_setting_15sp_tv">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">15sp</item>
