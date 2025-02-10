@@ -37,12 +37,12 @@ class SettingFragment: BaseFragment<FragmentSettingBinding>(R.layout.fragment_se
         }
 
         viewModel.isLogoutComplete.observe(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), "로그아웃에 성공하셨습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.toast_setting_logout_success), Toast.LENGTH_SHORT).show()
             moveToLoginFragment() // 화면 이동
         }
 
         viewModel.isQuitComplete.observe(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), "회원탈퇴에 성공하셨습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.toast_setting_quit_success), Toast.LENGTH_SHORT).show()
             moveToLoginFragment() // 화면 이동
         }
     }
@@ -75,22 +75,26 @@ class SettingFragment: BaseFragment<FragmentSettingBinding>(R.layout.fragment_se
     }
 
     private fun logout() {
-        // 다이얼로그
-        val title = "로그아웃 하시겠어요?"
-
-        val dialog = ConfirmDialog(this@SettingFragment, title, null, "확인", LOGOUT_ID)
+        val dialog = ConfirmDialog(
+            this@SettingFragment,
+            getString(R.string.dialog_setting_logout_title),
+            null,
+            getString(R.string.dialog_confirm),
+            LOGOUT_ID
+        )
         // 알림창이 띄워져있는 동안 배경 클릭 막기
         dialog.isCancelable = false
         activity?.let { dialog.show(it.supportFragmentManager, "ConfirmDialog") }
     }
 
     private fun quit() {
-        // 다이얼로그
-        val title = "정말 계정을 삭제하시겠어요?"
-        val content = "지금까지의 정보는\n" +
-                "3일 뒤 모두 사라집니다."
-
-        val dialog = ConfirmDialog(this@SettingFragment, title, content, "확인", QUIT_ID)
+        val dialog = ConfirmDialog(
+            this@SettingFragment,
+            getString(R.string.dialog_setting_quit_title),
+            getString(R.string.dialog_setting_quit_content),
+            getString(R.string.dialog_confirm),
+            QUIT_ID
+        )
         // 알림창이 띄워져있는 동안 배경 클릭 막기
         dialog.isCancelable = false
         activity?.let { dialog.show(it.supportFragmentManager, "ConfirmDialog") }
