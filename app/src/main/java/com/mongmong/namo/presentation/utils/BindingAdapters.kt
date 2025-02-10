@@ -200,4 +200,22 @@ object BindingAdapters {
         }
     }
 
+    @JvmStatic
+    @BindingAdapter("app:centerCropImage")
+    fun setCenterCropImage(view: ImageView, profileImage: String?) {
+        profileImage?.let {
+            val radiusDp = 24f
+            val radiusPx = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                radiusDp,
+                view.context.resources.displayMetrics
+            ).toInt()
+
+            Glide.with(view.context)
+                .load(it)
+                .transform(CenterCrop(), RoundedCorners(radiusPx))
+                .into(view)
+        }
+    }
+
 }

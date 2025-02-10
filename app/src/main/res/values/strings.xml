@@ -14,6 +14,7 @@
     <string name="birth">생일</string>
     <string name="nickname">닉네임</string>
     <string name="input_hint">입력</string>
+    <string name="changes_save">변경 내용 저장</string>
 
     <!-- 약관 동의 관련 String -->
     <string name="for_service">서비스 이용을 위한</string>
@@ -81,6 +82,13 @@
     <string name="custom_font">커스텀 폰트는 열심히 준비중이몽몽~!</string>
     <string name="custom_my">my fragment</string>
 
+    <!-- 프로필 편집 -->
+    <string name="profile_edit_title">프로필 편집</string>
+    <string name="profile_edit_public_announce">공개 설정 시, 친구가 보는 내 프로필에 정보가 표시됩니다.</string>
+    <string name="profile_edit_public">공개</string>
+    <string name="profile_edit_private">비공개</string>
+    <string name="profile_edit_success">프로필 변경 내용이 저장되었습니다.</string>
+
     <!-- schedule 관련 String -->
     <string name="schedule_personal">개인 일정</string>
     <string name="schedule_personal_empty">등록된 개인 일정이 없습니다.</string>
@@ -121,7 +129,6 @@
     <string name="diary_no_place">없음</string>
     <string name="diary_title">나몽몽</string>
     <string name="diary_detail_view">상세보기</string>
-    <string name="diary_changes_save">변경 내용 저장</string>
     <string name="diary_add">기록 저장</string>
     <string name="diary_edit">기록 수정</string>
     <string name="diary_input">내용 입력</string>
