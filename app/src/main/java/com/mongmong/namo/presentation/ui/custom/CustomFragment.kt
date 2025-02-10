@@ -24,7 +24,7 @@ class CustomFragment : BaseFragment<FragmentCustomBinding>(R.layout.fragment_cus
     private fun onClickListener() {
         binding.apply {
             customSettingIv.setOnClickListener {
-                view?.findNavController()?.navigate(R.id.action_customFragment_to_customSettingFragment)
+//                view?.findNavController()?.navigate(R.id.action_customFragment_to_customSettingFragment)
             }
         }
     }

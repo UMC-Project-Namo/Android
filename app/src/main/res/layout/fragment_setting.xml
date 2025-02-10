@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="profile"
+            type="com.mongmong.namo.domain.model.ProfileModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/setting_titlebar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:padding="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/custom_title_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="9"
+                android:text="@string/custom_setting"
+                style="@style/header"/>
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/setting_profile_cl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:paddingVertical="24dp"
+            android:paddingHorizontal="30dp"
+            android:background="@drawable/bg_dialog"
+            android:elevation="10dp"
+            android:shadowColor="@color/main_text"
+            android:backgroundTint="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/setting_titlebar">
+
+            <TextView
+                android:id="@+id/setting_profile_title_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="내 프로필"
+                style="@style/content_bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/setting_profile_edit_btn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_edit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/setting_profile_title_tv"
+                app:layout_constraintBottom_toBottomOf="@id/setting_profile_title_tv"/>
+            
+            <androidx.cardview.widget.CardView
+                android:id="@+id/setting_profile_image_cv"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="0dp"
+                app:layout_constraintTop_toBottomOf="@id/setting_profile_title_tv"
+                app:layout_constraintStart_toStartOf="parent">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/img_default_profile"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:orientation="vertical"
+                app:layout_constraintStart_toEndOf="@id/setting_profile_image_cv"
+                app:layout_constraintTop_toTopOf="@id/setting_profile_image_cv"
+                app:layout_constraintBottom_toBottomOf="@id/setting_profile_image_cv"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="코코아#0000"
+                    style="@style/content_bold"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:maxLines="2"
+                    android:text="@{profile.introduction}"
+                    tools:text="어쩌구저쩌구한줄소개가 이렇게 최대 두줄로 표시됩니다."
+                    style="@style/subtext_12"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/setting_profile_image_cv">
+
+                <LinearLayout
+                    android:id="@+id/setting_profile_info_name_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/friend_info_profile_img_cv">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/name"
+                        style="@style/content_bold"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:id="@+id/setting_profile_info_name_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{profile.nickname}"
+                        tools:text="김나현"
+                        style="@style/content_regular"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/setting_profile_info_birth_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/setting_profile_info_name_ll">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/birth"
+                        style="@style/content_bold"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:id="@+id/setting_profile_info_birth_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{profile.birth}"
+                        tools:text="1월 25일"
+                        style="@style/content_regular"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/setting_profile_info_favorite_color_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/setting_profile_info_birth_ll">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/friend_favorite_color"
+                        style="@style/content_bold"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/setting_profile_info_favorite_color_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Namo Pink"
+                            tools:text="Namo Pink"
+                            style="@style/content_regular"/>
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/setting_profile_info_favorite_color_cv"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginStart="8dp"
+                            tools:src="@color/main_pink"
+                            app:tintColor="@{profile.favoriteColorId}"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="@dimen/setting_default_spacing"
+            app:layout_constraintTop_toBottomOf="@id/setting_profile_cl"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp">
+
+                <TextView
+                    android:id="@+id/setting_ver_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/custom_setting_ver"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/content_bold"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/setting_ver_info_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="1.0.0"
+                    app:layout_constraintTop_toTopOf="@id/setting_ver_tv"
+                    app:layout_constraintBottom_toBottomOf="@id/setting_ver_tv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    style="@style/content_bold"/>
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/setting_term_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/setting_default_margin"
+                android:paddingVertical="@dimen/setting_default_spacing"
+                android:text="@string/custom_setting_term"
+                style="@style/setting_arrow_tv"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/setting_individual_policy_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/setting_default_margin"
+                android:paddingVertical="@dimen/setting_default_spacing"
+                android:text="@string/custom_setting_individual_policy"
+                style="@style/setting_arrow_tv"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/setting_logout_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/setting_default_margin"
+                android:paddingVertical="@dimen/setting_default_spacing"
+                android:text="@string/custom_setting_logout"
+                style="@style/setting_arrow_tv"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/setting_quit_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/setting_default_margin"
+                android:paddingVertical="@dimen/setting_default_spacing"
+                android:text="@string/custom_setting_withdrawal"
+                style="@style/setting_arrow_tv"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
