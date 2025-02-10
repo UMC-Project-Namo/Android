@@ -10,7 +10,6 @@ import com.mongmong.namo.presentation.config.ApplicationClass
 import com.mongmong.namo.presentation.config.ApplicationClass.Companion.dsManager
 import com.mongmong.namo.presentation.config.BaseFragment
 import com.mongmong.namo.presentation.config.Constants
-import com.mongmong.namo.presentation.ui.auth.AuthViewModel
 import com.mongmong.namo.presentation.ui.common.ConfirmDialog
 import com.mongmong.namo.presentation.ui.common.ConfirmDialog.ConfirmDialogInterface
 import com.mongmong.namo.presentation.ui.onBoarding.OnBoardingActivity
@@ -19,8 +18,7 @@ import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class SettingFragment: BaseFragment<FragmentSettingBinding>(R.layout.fragment_setting), ConfirmDialogInterface {
-    private val profileViewModel: SettingViewModel by viewModels()
-    private val authViewModel : AuthViewModel by viewModels()
+    private val viewModel: SettingViewModel by viewModels()
 
     override fun setup() {
         setVersion()
@@ -37,16 +35,17 @@ class SettingFragment: BaseFragment<FragmentSettingBinding>(R.layout.fragment_se
     }
 
     private fun initObserve() {
-        profileViewModel.profile.observe(viewLifecycleOwner) { profile ->
+        viewModel.profile.observe(viewLifecycleOwner) { profile ->
             if (profile == null) return@observe
             binding.profile = profile
         }
 
-        authViewModel.isLogoutComplete.observe(viewLifecycleOwner) {
+        viewModel.isLogoutComplete.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), "로그아웃에 성공하셨습니다.", Toast.LENGTH_SHORT).show()
             moveToLoginFragment() // 화면 이동
         }
-        authViewModel.isQuitComplete.observe(viewLifecycleOwner) {
+
+        viewModel.isQuitComplete.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), "회원탈퇴에 성공하셨습니다.", Toast.LENGTH_SHORT).show()
             moveToLoginFragment() // 화면 이동
         }
@@ -83,7 +82,7 @@ class SettingFragment: BaseFragment<FragmentSettingBinding>(R.layout.fragment_se
         // 다이얼로그
         val title = "로그아웃 하시겠어요?"
 
-        val dialog = ConfirmDialog(this@SettingFragment, title, null, "확인", 0)
+        val dialog = ConfirmDialog(this@SettingFragment, title, null, "확인", LOGOUT_ID)
         // 알림창이 띄워져있는 동안 배경 클릭 막기
         dialog.isCancelable = false
         activity?.let { dialog.show(it.supportFragmentManager, "ConfirmDialog") }
@@ -95,7 +94,7 @@ class SettingFragment: BaseFragment<FragmentSettingBinding>(R.layout.fragment_se
         val content = "지금까지의 정보는\n" +
                 "3일 뒤 모두 사라집니다."
 
-        val dialog = ConfirmDialog(this@SettingFragment, title, content, "확인", 1)
+        val dialog = ConfirmDialog(this@SettingFragment, title, content, "확인", QUIT_ID)
         // 알림창이 띄워져있는 동안 배경 클릭 막기
         dialog.isCancelable = false
         activity?.let { dialog.show(it.supportFragmentManager, "ConfirmDialog") }
@@ -112,11 +111,14 @@ class SettingFragment: BaseFragment<FragmentSettingBinding>(R.layout.fragment_se
 
 
     override fun onClickYesButton(id: Int) { // 다이얼로그 확인 메시지 클릭
-        if (id == 0) { // 로그아웃
-            authViewModel.tryLogout()
+        when (id) {
+            LOGOUT_ID -> viewModel.tryLogout()
+            QUIT_ID -> viewModel.tryQuit()
         }
-        else if (id == 1) { // 회원탈퇴
-            authViewModel.tryQuit()
-        }
+    }
+
+    companion object {
+        private const val LOGOUT_ID = 0
+        private const val QUIT_ID = 1
     }
 }
