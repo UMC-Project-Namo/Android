@@ -21,17 +21,13 @@ class SettingFragment: BaseFragment<FragmentSettingBinding>(R.layout.fragment_se
     private val viewModel: SettingViewModel by viewModels()
 
     override fun setup() {
-        setVersion()
+        binding.version = viewModel.version
         initObserve()
     }
 
     override fun onResume() {
         super.onResume()
         onClickListener()
-    }
-
-    private fun setVersion() {
-        binding.settingVerInfoTv.text = ApplicationClass.VERSION
     }
 
     private fun initObserve() {

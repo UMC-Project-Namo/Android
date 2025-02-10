@@ -5,6 +5,9 @@
 
     <data>
         <variable
+            name="version"
+            type="String" />
+        <variable
             name="profile"
             type="com.mongmong.namo.domain.model.ProfileModel" />
     </data>
@@ -248,6 +251,7 @@
                     android:id="@+id/setting_ver_info_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@{version}"
                     tools:text="1.0.0"
                     app:layout_constraintTop_toTopOf="@id/setting_ver_tv"
                     app:layout_constraintBottom_toBottomOf="@id/setting_ver_tv"

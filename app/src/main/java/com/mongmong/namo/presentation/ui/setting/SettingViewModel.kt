@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.mongmong.namo.domain.model.ProfileModel
 import com.mongmong.namo.domain.repositories.AuthRepository
 import com.mongmong.namo.domain.repositories.ProfileRepository
+import com.mongmong.namo.presentation.config.ApplicationClass
 import com.mongmong.namo.presentation.config.ApplicationClass.Companion.dsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
@@ -21,6 +22,8 @@ class SettingViewModel @Inject constructor(
 ): ViewModel() {
     private val _profile = MutableLiveData<ProfileModel>()
     val profile: LiveData<ProfileModel> = _profile
+
+    val version = ApplicationClass.VERSION
 
     private val _isLogoutComplete = MutableLiveData<Boolean>()
     val isLogoutComplete: LiveData<Boolean> = _isLogoutComplete
