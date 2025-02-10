@@ -49,7 +49,6 @@ class ProfileEditDateDialog() : DialogFragment() {
         binding.dialogNoBtn.setOnClickListener { dialog.dismiss() }
 
         binding.dialogYesBtn.setOnClickListener {
-            viewModel.clearHighlight("birth")
             val year = binding.profileEditDateDp.year
             val month = binding.profileEditDateDp.month  // 0부터 시작
             val day = binding.profileEditDateDp.dayOfMonth

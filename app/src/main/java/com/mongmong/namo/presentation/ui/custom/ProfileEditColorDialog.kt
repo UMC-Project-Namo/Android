@@ -63,7 +63,6 @@ class ProfileEditColorDialog() : BottomSheetDialogFragment() {
             dismiss()
         }
         binding.profileEditColorSaveBtn.setOnClickListener {
-            viewModel.clearHighlight("color")
             viewModel.setColor(selectedColor)
             dismiss()
         }

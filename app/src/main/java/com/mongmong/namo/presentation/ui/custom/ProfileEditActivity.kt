@@ -20,13 +20,13 @@ class ProfileEditActivity : BaseActivity<ActivityProfileEditBinding>(R.layout.ac
     override fun setup() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        setUserName()
+        setProfileInfo()
         initClickListener()
         initObservers()
     }
 
-    private fun setUserName() {
-        viewModel.setUserName(intent.getStringExtra("userName") ?: "사용자")
+    private fun setProfileInfo() {
+        //viewModel.setProfileInfo()
     }
 
     private fun initClickListener() {
@@ -34,8 +34,7 @@ class ProfileEditActivity : BaseActivity<ActivityProfileEditBinding>(R.layout.ac
             galleryLauncher.launch("image/*")
         }
 
-        binding.profileEditColorSelectLl.setOnClickListener {
-            viewModel.clearHighlight("color")
+        binding.profileEditColorCv.setOnClickListener {
             showColorDialog()
         }
 
@@ -44,20 +43,15 @@ class ProfileEditActivity : BaseActivity<ActivityProfileEditBinding>(R.layout.ac
         }
 
         binding.profileEditSaveBtn.setOnClickListener {
-            if (viewModel.isEditEnabled.value == true) {
-                viewModel.editProfile()
-            } else {
-                viewModel.enableHighlight()
-                Toast.makeText(this, "색상과 필수 항목을 기재해주세요.", Toast.LENGTH_SHORT).show()
-            }
+            viewModel.editProfile()
         }
     }
 
     private fun initObservers() {
         viewModel.isEditComplete.observe(this) { isComplete ->
             if(isComplete.isSuccess) {
-                finish()
-                startActivity(Intent(this, MainActivity::class.java))
+                Toast.makeText(this, getString(R.string.profile_edit_success), Toast.LENGTH_SHORT).show()
+                // viewModel.setInitialProfile() 성공하면 초기 프로필 데이터 갱신
             } else Toast.makeText(this, isComplete.message, Toast.LENGTH_SHORT).show()
         }
     }

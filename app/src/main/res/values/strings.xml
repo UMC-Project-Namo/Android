@@ -87,6 +87,7 @@
     <string name="profile_edit_public_announce">공개 설정 시, 친구가 보는 내 프로필에 정보가 표시됩니다.</string>
     <string name="profile_edit_public">공개</string>
     <string name="profile_edit_private">비공개</string>
+    <string name="profile_edit_success">프로필 변경 내용이 저장되었습니다.</string>
 
     <!-- schedule 관련 String -->
     <string name="schedule_personal">개인 일정</string>

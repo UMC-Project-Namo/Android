@@ -66,11 +66,40 @@
                     android:layout_height="120dp"
                     android:layout_marginTop="30dp"
                     android:background="@drawable/bg_register_profile_border"
-                    android:src="@drawable/ic_gallery"
+                    android:src="@{viewModel.profileImage}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/profile_edit_top_cl"
-                    app:registerImage="@{viewModel.profileImage}" />
+                    app:layout_constraintTop_toBottomOf="@+id/profile_edit_top_cl" />
+
+                <ImageView
+                    android:id="@+id/profile_edit_profile_img_filter_iv"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/bg_profile_edit_filter"
+                    android:src="@drawable/ic_gallery"
+                    app:tint="@color/white"
+                    android:padding="46dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/profile_edit_profile_img_iv"
+                    app:layout_constraintEnd_toEndOf="@+id/profile_edit_profile_img_iv"
+                    app:layout_constraintStart_toStartOf="@+id/profile_edit_profile_img_iv"
+                    app:layout_constraintTop_toTopOf="@+id/profile_edit_profile_img_iv" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/profile_edit_color_cv"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="-12dp"
+                    android:layout_marginEnd="-12dp"
+                    android:background="@color/white"
+                    app:cardCornerRadius="40dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/profile_edit_profile_img_iv"
+                    app:layout_constraintEnd_toEndOf="@+id/profile_edit_profile_img_iv">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="4dp"
+                        android:src="@{CategoryColor.convertColorIdToDrawable(viewModel.color.colorId)}" />
+                </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:id="@+id/profile_edit_nickname_title_tv"
@@ -90,12 +119,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="59dp"
                     android:layout_marginEnd="30dp"
-                    android:backgroundTint='@{viewModel.highlightFields["nickname"] ? @color/main : (viewModel.nickname.isEmpty() ? @color/text_placeholder : @color/main_text)}'
+                    android:backgroundTint='@{viewModel.nickname.isEmpty() ? @color/text_placeholder : @color/main_text}'
                     android:hint="@string/register_nickname_hint"
                     android:maxLength="12"
-                    android:onTextChanged='@{(text, start, before, count) -> viewModel.clearHighlight("nickname")}'
                     android:text="@={viewModel.nickname}"
-                    android:textColorHint='@{viewModel.highlightFields["nickname"] ? @color/main : (viewModel.nickname.isEmpty() ? @color/text_placeholder : @color/main_text)}'
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="@id/profile_edit_nickname_title_tv"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -148,16 +175,17 @@
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/profile_edit_name_public_toggle"
-                    style="@style/profile_toggle"
                     android:layout_width="72dp"
                     android:layout_height="25dp"
                     android:background="@null"
+                    android:checked='@{viewModel.isPublicFields["name"]}'
                     android:thumb="@drawable/selector_profile_switch_thumb"
                     app:layout_constraintBottom_toBottomOf="@+id/profile_edit_name_content_tv"
                     app:layout_constraintEnd_toEndOf="@+id/profile_edit_nickname_content_et"
                     app:layout_constraintTop_toTopOf="@+id/profile_edit_name_content_tv"
                     app:switchMinWidth="72dp"
-                    app:track="@drawable/selector_profile_switch_track" />
+                    app:track="@drawable/selector_profile_switch_track"
+                    android:onCheckedChangeListener="@{(buttonView, isChecked) -> viewModel.setFieldPublic(`name`, isChecked)}"/>
 
                 <TextView
                     android:id="@+id/profile_edit_birth_title_tv"
@@ -175,7 +203,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.birthday.isEmpty() ? @string/register_birth_empty : viewModel.getFormattedBirthday()}"
-                    android:textColor='@{viewModel.highlightFields["birth"] ? @color/main : (viewModel.birthday.isEmpty() ? @color/text_placeholder : @color/main_text)}'
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="@+id/profile_edit_birth_title_tv"
                     app:layout_constraintStart_toStartOf="@+id/profile_edit_nickname_content_et"
@@ -183,26 +210,17 @@
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/profile_edit_birth_public_toggle"
-                    style="@style/profile_toggle"
                     android:layout_width="72dp"
                     android:layout_height="25dp"
                     android:background="@null"
                     android:thumb="@drawable/selector_profile_switch_thumb"
+                    android:checked='@{viewModel.isPublicFields["birth"]}'
                     app:layout_constraintBottom_toBottomOf="@+id/profile_edit_birth_content_tv"
                     app:layout_constraintEnd_toEndOf="@+id/profile_edit_nickname_content_et"
                     app:layout_constraintTop_toTopOf="@+id/profile_edit_birth_content_tv"
                     app:switchMinWidth="72dp"
-                    app:track="@drawable/selector_profile_switch_track" />
-
-                <TextView
-                    android:id="@+id/profile_edit_color_title_tv"
-                    style="@style/content_bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:text="@string/register_color_title"
-                    app:layout_constraintStart_toStartOf="@+id/profile_edit_nickname_title_tv"
-                    app:layout_constraintTop_toBottomOf="@+id/profile_edit_public_announce_tv" />
+                    app:track="@drawable/selector_profile_switch_track"
+                    android:onCheckedChangeListener="@{(buttonView, isChecked) -> viewModel.setFieldPublic(`birth`, isChecked)}"/>
 
                 <TextView
                     android:id="@+id/profile_edit_public_announce_tv"
@@ -214,41 +232,15 @@
                     app:layout_constraintStart_toStartOf="@id/profile_edit_birth_title_tv"
                     app:layout_constraintTop_toBottomOf="@+id/profile_edit_birth_title_tv" />
 
-                <LinearLayout
-                    android:id="@+id/profile_edit_color_select_ll"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@+id/profile_edit_color_title_tv"
-                    app:layout_constraintStart_toStartOf="@id/profile_edit_nickname_content_et"
-                    app:layout_constraintTop_toTopOf="@+id/profile_edit_color_title_tv">
-
-                    <TextView
-                        android:id="@+id/profile_edit_color_select_tv"
-                        style="@style/content_regular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:text='@{viewModel.color == null ? @string/register_color_select : viewModel.color.toFormattedString()}'
-                        android:textColor='@{viewModel.highlightFields["color"] ? @color/main : @color/main_text}' />
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/profile_edit_color_select_cv"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_gravity="center"
-                        android:colorFilter='@{viewModel.highlightFields["color"] ? @color/main : (viewModel.color == null ? @color/main_text : @android:color/transparent)}'
-                        android:src="@{viewModel.color == null ? @drawable/ic_register_color_add : CategoryColor.convertColorIdToDrawable(viewModel.color.colorId)}" />
-                </LinearLayout>
-
                 <TextView
                     android:id="@+id/profile_edit_intro_title_tv"
                     style="@style/content_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
                     android:text="@string/register_intro_title"
+                    android:layout_marginTop="32dp"
                     app:layout_constraintStart_toStartOf="@+id/profile_edit_nickname_title_tv"
-                    app:layout_constraintTop_toBottomOf="@+id/profile_edit_color_title_tv" />
+                    app:layout_constraintTop_toBottomOf="@+id/profile_edit_public_announce_tv" />
 
                 <TextView
                     android:id="@+id/profile_edit_intro_cnt_tv"
@@ -281,6 +273,7 @@
                     android:backgroundTint='@{viewModel.intro.isEmpty() ? @color/text_placeholder : @color/black}'
                     android:hint="@string/register_intro_hint"
                     android:maxLength="50"
+                    android:maxLines="2"
                     android:text="@={viewModel.intro}"
                     android:textColorHint="@color/text_placeholder"
                     android:textSize="15sp"
@@ -297,6 +290,7 @@
             android:layout_width="match_parent"
             android:layout_height="72dp"
             android:background="@{viewModel.isEditEnabled ? @color/main : @color/text_unselected}"
+            android:enabled="@{viewModel.isEditEnabled() ? true : false}"
             android:text="@string/changes_save"
             android:textAlignment="center"
             android:textColor="@color/white"
