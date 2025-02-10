@@ -29,7 +29,7 @@
     <!-- Setting -->
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.mongmong.namo.presentation.ui.custom.SettingFragment"
+        android:name="com.mongmong.namo.presentation.ui.setting.SettingFragment"
         android:label="SettingFragment"
         tools:layout="@layout/fragment_setting"/>
 

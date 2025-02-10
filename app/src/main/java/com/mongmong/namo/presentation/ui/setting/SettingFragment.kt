@@ -1,4 +1,4 @@
-package com.mongmong.namo.presentation.ui.custom
+package com.mongmong.namo.presentation.ui.setting
 
 import android.content.Intent
 import android.net.Uri
