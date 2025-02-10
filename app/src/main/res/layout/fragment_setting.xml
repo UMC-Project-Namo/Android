@@ -95,6 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="코코아#0000"
+                    android:text="@{@string/nickname_tag(profile.nickname, profile.tag)}"
                     style="@style/content_bold"/>
 
                 <TextView
@@ -136,7 +137,7 @@
                         android:id="@+id/setting_profile_info_name_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{profile.nickname}"
+                        android:text="@{profile.name}"
                         tools:text="김나현"
                         style="@style/content_regular"/>
 
@@ -197,17 +198,18 @@
                             android:id="@+id/setting_profile_info_favorite_color_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Namo Pink"
+                            android:text="@{profile.favoriteColor.toFormattedString()}"
                             tools:text="Namo Pink"
                             style="@style/content_regular"/>
 
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/setting_profile_info_favorite_color_cv"
+                        <View
+                            android:id="@+id/item_schedule_color_info_color_view"
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:layout_marginStart="8dp"
-                            tools:src="@color/main_pink"
-                            app:tintColor="@{profile.favoriteColorId}"/>
+                            android:background="@drawable/bg_circle"
+                            tools:backgroundTint="@color/main_pink"
+                            app:tintColor="@{profile.favoriteColor.colorId}" />
 
                     </LinearLayout>
 

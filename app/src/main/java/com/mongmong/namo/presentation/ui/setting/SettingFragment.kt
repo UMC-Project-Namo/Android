@@ -19,7 +19,8 @@ import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class SettingFragment: BaseFragment<FragmentSettingBinding>(R.layout.fragment_setting), ConfirmDialogInterface {
-    private val viewModel : AuthViewModel by viewModels()
+    private val profileViewModel: SettingViewModel by viewModels()
+    private val authViewModel : AuthViewModel by viewModels()
 
     override fun setup() {
         setVersion()
@@ -28,7 +29,6 @@ class SettingFragment: BaseFragment<FragmentSettingBinding>(R.layout.fragment_se
 
     override fun onResume() {
         super.onResume()
-
         onClickListener()
     }
 
@@ -37,11 +37,16 @@ class SettingFragment: BaseFragment<FragmentSettingBinding>(R.layout.fragment_se
     }
 
     private fun initObserve() {
-        viewModel.isLogoutComplete.observe(viewLifecycleOwner) {
+        profileViewModel.profile.observe(viewLifecycleOwner) { profile ->
+            if (profile == null) return@observe
+            binding.profile = profile
+        }
+
+        authViewModel.isLogoutComplete.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), "로그아웃에 성공하셨습니다.", Toast.LENGTH_SHORT).show()
             moveToLoginFragment() // 화면 이동
         }
-        viewModel.isQuitComplete.observe(viewLifecycleOwner) {
+        authViewModel.isQuitComplete.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), "회원탈퇴에 성공하셨습니다.", Toast.LENGTH_SHORT).show()
             moveToLoginFragment() // 화면 이동
         }
@@ -108,10 +113,10 @@ class SettingFragment: BaseFragment<FragmentSettingBinding>(R.layout.fragment_se
 
     override fun onClickYesButton(id: Int) { // 다이얼로그 확인 메시지 클릭
         if (id == 0) { // 로그아웃
-            viewModel.tryLogout()
+            authViewModel.tryLogout()
         }
         else if (id == 1) { // 회원탈퇴
-            viewModel.tryQuit()
+            authViewModel.tryQuit()
         }
     }
 }

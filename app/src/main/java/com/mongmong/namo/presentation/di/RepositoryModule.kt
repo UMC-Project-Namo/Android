@@ -6,6 +6,7 @@ import com.mongmong.namo.data.datasource.category.RemoteCategoryDataSource
 import com.mongmong.namo.data.datasource.diary.RemoteActivityDataSource
 import com.mongmong.namo.data.datasource.diary.RemoteDiaryDataSource
 import com.mongmong.namo.data.datasource.friend.RemoteFriendDataSource
+import com.mongmong.namo.data.datasource.profile.RemoteProfileDataSource
 import com.mongmong.namo.data.datasource.s3.ImageDataSource
 import com.mongmong.namo.data.datasource.schedule.RemoteScheduleDataSource
 import com.mongmong.namo.data.datasource.terms.RemoteTermDataSource
@@ -17,6 +18,7 @@ import com.mongmong.namo.data.repositoriyImpl.CategoryRepositoryImpl
 import com.mongmong.namo.data.repositoriyImpl.DiaryRepositoryImpl
 import com.mongmong.namo.data.repositoriyImpl.FriendRepositoryImpl
 import com.mongmong.namo.data.repositoriyImpl.ImageRepositoryImpl
+import com.mongmong.namo.data.repositoriyImpl.ProfileRepositoryImpl
 import com.mongmong.namo.data.repositoriyImpl.ScheduleRepositoryImpl
 import com.mongmong.namo.data.repositoriyImpl.TermRepositoryImpl
 import com.mongmong.namo.domain.repositories.ActivityRepository
@@ -25,6 +27,7 @@ import com.mongmong.namo.domain.repositories.CategoryRepository
 import com.mongmong.namo.domain.repositories.DiaryRepository
 import com.mongmong.namo.domain.repositories.FriendRepository
 import com.mongmong.namo.domain.repositories.ImageRepository
+import com.mongmong.namo.domain.repositories.ProfileRepository
 import com.mongmong.namo.domain.repositories.ScheduleRepository
 import com.mongmong.namo.domain.repositories.TermRepository
 import dagger.Module
@@ -85,6 +88,12 @@ object RepositoryModule {
         remoteCategoryDataSource: RemoteCategoryDataSource,
         networkChecker: NetworkChecker
     ): CategoryRepository = CategoryRepositoryImpl(remoteCategoryDataSource, networkChecker)
+
+    /** 프로필 */
+    @Provides
+    fun provideProfileRepository(
+        remoteProfileDataSource: RemoteProfileDataSource
+    ): ProfileRepository = ProfileRepositoryImpl(remoteProfileDataSource)
 
     /** s3 관련 */
     @Provides

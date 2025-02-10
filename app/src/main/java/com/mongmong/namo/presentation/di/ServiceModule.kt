@@ -10,6 +10,7 @@ import com.mongmong.namo.data.remote.FriendApiService
 import com.mongmong.namo.data.remote.ImageApiService
 import com.mongmong.namo.data.remote.ReissuanceApiService
 import com.mongmong.namo.data.remote.MoimApiService
+import com.mongmong.namo.data.remote.ProfileApiService
 import com.mongmong.namo.data.remote.ScheduleApiService
 import com.mongmong.namo.data.remote.TermApiService
 import com.mongmong.namo.presentation.ui.home.schedule.map.data.KakaoAPI
@@ -82,6 +83,12 @@ object ServiceModule {
     @Singleton
     fun provideFriendService(@NetworkModule.BasicRetrofit retrofit: Retrofit): FriendApiService =
         retrofit.create(FriendApiService::class.java)
+
+    /** 프로필 */
+    @Provides
+    @Singleton
+    fun provideProfileService(@NetworkModule.BasicRetrofit retrofit: Retrofit): ProfileApiService =
+        retrofit.create(ProfileApiService::class.java)
 
     /** 이미지 url  */
     @Provides
