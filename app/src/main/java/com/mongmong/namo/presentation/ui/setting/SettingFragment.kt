@@ -13,6 +13,8 @@ import com.mongmong.namo.presentation.config.Constants
 import com.mongmong.namo.presentation.ui.common.ConfirmDialog
 import com.mongmong.namo.presentation.ui.common.ConfirmDialog.ConfirmDialogInterface
 import com.mongmong.namo.presentation.ui.onBoarding.OnBoardingActivity
+import com.mongmong.namo.presentation.ui.setting.profile.ProfileEditActivity
+import com.mongmong.namo.presentation.ui.setting.profile.ProfileEditActivity.Companion.PROFILE_KEY
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 
@@ -27,7 +29,7 @@ class SettingFragment: BaseFragment<FragmentSettingBinding>(R.layout.fragment_se
 
     override fun onResume() {
         super.onResume()
-        onClickListener()
+        initClickListeners()
     }
 
     private fun initObserve() {
@@ -47,9 +49,16 @@ class SettingFragment: BaseFragment<FragmentSettingBinding>(R.layout.fragment_se
         }
     }
 
-
-    private fun onClickListener() {
+    private fun initClickListeners() {
         binding.apply {
+            // 프로필 편집
+            settingProfileEditBtn.setOnClickListener {
+                startActivity(
+                    Intent(context, ProfileEditActivity::class.java)
+                        .putExtra(PROFILE_KEY, viewModel.profile.value)
+                )
+            }
+
             // 이용 약관
             settingTermTv.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(Constants.TERM_URL))

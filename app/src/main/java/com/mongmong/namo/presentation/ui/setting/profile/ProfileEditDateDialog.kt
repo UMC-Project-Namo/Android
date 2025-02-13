@@ -1,4 +1,4 @@
-package com.mongmong.namo.presentation.ui.custom
+package com.mongmong.namo.presentation.ui.setting.profile
 
 import android.app.Dialog
 import android.graphics.Color
@@ -8,7 +8,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.mongmong.namo.databinding.DialogProfileEditDateBinding
-import com.mongmong.namo.databinding.DialogRegisterDateBinding
 import java.util.*
 
 class ProfileEditDateDialog() : DialogFragment() {

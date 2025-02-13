@@ -1,6 +1,5 @@
-package com.mongmong.namo.presentation.ui.custom
+package com.mongmong.namo.presentation.ui.setting.profile
 
-import android.content.Intent
 import android.net.Uri
 import android.view.MotionEvent
 import android.widget.Toast
@@ -8,11 +7,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import com.mongmong.namo.R
 import com.mongmong.namo.databinding.ActivityProfileEditBinding
+import com.mongmong.namo.domain.model.ProfileModel
 import com.mongmong.namo.presentation.config.BaseActivity
-import com.mongmong.namo.presentation.ui.MainActivity
 import com.mongmong.namo.presentation.ui.common.ConfirmDialog
 import com.mongmong.namo.presentation.ui.community.moim.diary.MoimDiaryDetailActivity.Companion.BACK_BUTTON_ACTION
-import com.mongmong.namo.presentation.ui.community.moim.diary.MoimDiaryDetailActivity.Companion.VIEW_BUTTON_ACTION
 import com.mongmong.namo.presentation.utils.hideKeyboardOnTouchOutside
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,7 +28,8 @@ class ProfileEditActivity : BaseActivity<ActivityProfileEditBinding>(R.layout.ac
     }
 
     private fun setProfileInfo() {
-        //viewModel.setProfileInfo()
+        val profileData = intent.getSerializableExtra(PROFILE_KEY) as ProfileModel
+        viewModel.setInitialProfileInfo(profileData)
     }
 
     private fun initClickListener() {
@@ -101,5 +100,9 @@ class ProfileEditActivity : BaseActivity<ActivityProfileEditBinding>(R.layout.ac
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         hideKeyboardOnTouchOutside(ev)
         return super.dispatchTouchEvent(ev)
+    }
+
+    companion object {
+        const val PROFILE_KEY = "profile"
     }
 }

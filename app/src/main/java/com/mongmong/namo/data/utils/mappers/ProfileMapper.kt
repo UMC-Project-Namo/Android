@@ -14,8 +14,8 @@ object ProfileMapper {
             introduction = this.bio,
             birth = this.birthdate,
             favoriteColor = CategoryColor.findCategoryColorByColorId(this.favoriteColorId),
-            nameVisible = this.nameVisible,
-            birthdayVisible = this.birthdayVisible
+            isNamePublic = this.nameVisible,
+            isBirthPublic = this.birthdayVisible
         )
     }
 }

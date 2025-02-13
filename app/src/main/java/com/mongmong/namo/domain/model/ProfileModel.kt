@@ -1,6 +1,7 @@
 package com.mongmong.namo.domain.model
 
 import com.mongmong.namo.presentation.enums.CategoryColor
+import java.io.Serializable
 
 data class ProfileModel(
     val profileUrl: String?,
@@ -10,6 +11,6 @@ data class ProfileModel(
     val name: String,
     val birth: String,
     val favoriteColor: CategoryColor,
-    val nameVisible: Boolean,
-    val birthdayVisible: Boolean
-)
+    val isNamePublic: Boolean,
+    val isBirthPublic: Boolean
+): Serializable

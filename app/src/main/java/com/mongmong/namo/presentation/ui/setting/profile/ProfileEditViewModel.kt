@@ -1,9 +1,9 @@
-package com.mongmong.namo.presentation.ui.custom
+package com.mongmong.namo.presentation.ui.setting.profile
 
 import android.net.Uri
 import androidx.lifecycle.*
 import com.mongmong.namo.domain.model.BaseResponse
-import com.mongmong.namo.domain.usecases.auth.RequestRegisterUseCase
+import com.mongmong.namo.domain.model.ProfileModel
 import com.mongmong.namo.domain.usecases.mypage.EditProfileUseCase
 import com.mongmong.namo.presentation.enums.CategoryColor
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -47,7 +47,7 @@ class ProfileEditViewModel @Inject constructor(
     // 자기소개 글자 수 카운트
     val introLength: LiveData<Int> = Transformations.map(intro) { it.length }
 
-    private var _initialProfileData: ProfileData? = null
+    private var _initialProfileData: ProfileModel? = null
 
     // 수정 버튼 활성화 여부
     val isEditEnabled = MediatorLiveData<Boolean>().apply {
@@ -60,32 +60,19 @@ class ProfileEditViewModel @Inject constructor(
         addSource(isPublicFields) { checkFormValidation() }
     }
 
-    fun setProfileInfo() {
-        // TODO
-    }
+    fun setInitialProfileInfo(initialProfile: ProfileModel) {
+        _initialProfileData = initialProfile
 
-    fun setInitialProfile(
-        image: String?,
-        nickname: String,
-        birthday: String,
-        intro: String,
-        color: CategoryColor?,
-        isNamePublic: Boolean,
-        isBirthPublic: Boolean
-    ) {
-        _initialProfileData = ProfileData(image, nickname, birthday, intro, color, isNamePublic, isBirthPublic)
-
-        _profileImage.value = image
-        this.nickname.value = nickname
-        _birthday.value = birthday
-        this.intro.value = intro
-        _color.value = color
+        _profileImage.value = initialProfile.profileUrl
+        this.nickname.value = initialProfile.nickname
+        _birthday.value = initialProfile.birth
+        this.intro.value = initialProfile.introduction
+        _color.value = initialProfile.favoriteColor
         _isPublicFields.value = mutableMapOf(
-            "name" to isNamePublic,
-            "birth" to isBirthPublic
+            "name" to initialProfile.isNamePublic,
+            "birth" to initialProfile.isBirthPublic
         )
     }
-
 
     fun setColor(categoryColor: CategoryColor?) { _color.value = categoryColor }
 
@@ -110,11 +97,11 @@ class ProfileEditViewModel @Inject constructor(
 
     private fun isProfileChanged(): Boolean {
         val initial = _initialProfileData ?: return false
-        return (profileImage.value != initial.profileImage ||
+        return (profileImage.value != initial.profileUrl ||
                 nickname.value != initial.nickname ||
-                birthday.value != initial.birthday ||
-                intro.value != initial.intro ||
-                color.value != initial.color ||
+                birthday.value != initial.birth ||
+                intro.value != initial.introduction ||
+                color.value != initial.favoriteColor ||
                 isPublicFields.value?.get("name") != initial.isNamePublic ||
                 isPublicFields.value?.get("birth") != initial.isBirthPublic)
     }
@@ -137,15 +124,3 @@ class ProfileEditViewModel @Inject constructor(
         }
     }
 }
-
-
-// 임시로 사용
-data class ProfileData(
-    val profileImage: String?,
-    val nickname: String,
-    val birthday: String,
-    val intro: String,
-    val color: CategoryColor?,
-    val isNamePublic: Boolean,
-    val isBirthPublic: Boolean
-)

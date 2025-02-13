@@ -1,4 +1,4 @@
-package com.mongmong.namo.presentation.ui.custom
+package com.mongmong.namo.presentation.ui.setting.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.mongmong.namo.databinding.DialogRegisterColorBinding
 import com.mongmong.namo.presentation.enums.CategoryColor
 import com.mongmong.namo.presentation.ui.home.category.adapter.CategoryPaletteRVAdapter
 import androidx.recyclerview.widget.GridLayoutManager

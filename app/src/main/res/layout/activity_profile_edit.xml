@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.mongmong.namo.presentation.ui.custom.ProfileEditViewModel" />
+            type="com.mongmong.namo.presentation.ui.setting.profile.ProfileEditViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
