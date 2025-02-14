@@ -1,10 +1,11 @@
 package com.mongmong.namo.presentation.ui.setting.profile
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.*
 import com.mongmong.namo.domain.model.BaseResponse
 import com.mongmong.namo.domain.model.ProfileModel
-import com.mongmong.namo.domain.usecases.mypage.EditProfileUseCase
+import com.mongmong.namo.domain.usecases.profile.EditProfileUseCase
 import com.mongmong.namo.presentation.enums.CategoryColor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

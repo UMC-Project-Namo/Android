@@ -80,7 +80,9 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/img_default_profile"/>
+                    app:imageUrl="@{profile.profileUrl}"
+                    app:placeHolder="@{@drawable/img_default_profile}"
+                    tools:src="@drawable/img_default_profile"/>
 
             </androidx.cardview.widget.CardView>
 

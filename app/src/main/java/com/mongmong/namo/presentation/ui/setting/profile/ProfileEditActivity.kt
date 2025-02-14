@@ -56,9 +56,10 @@ class ProfileEditActivity : BaseActivity<ActivityProfileEditBinding>(R.layout.ac
 
     private fun initObservers() {
         viewModel.isEditComplete.observe(this) { isComplete ->
-            if(isComplete.isSuccess) {
+            if (isComplete.isSuccess) {
                 Toast.makeText(this, getString(R.string.profile_edit_success), Toast.LENGTH_SHORT).show()
                 // viewModel.setInitialProfile() 성공하면 초기 프로필 데이터 갱신
+                finish() // 화면 종료
             } else Toast.makeText(this, isComplete.message, Toast.LENGTH_SHORT).show()
         }
     }

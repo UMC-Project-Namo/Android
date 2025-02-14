@@ -24,12 +24,15 @@ class SettingFragment: BaseFragment<FragmentSettingBinding>(R.layout.fragment_se
 
     override fun setup() {
         binding.version = viewModel.version
+
         initObserve()
+        initClickListeners()
     }
 
     override fun onResume() {
         super.onResume()
-        initClickListeners()
+
+        viewModel.getProfile()
     }
 
     private fun initObserve() {

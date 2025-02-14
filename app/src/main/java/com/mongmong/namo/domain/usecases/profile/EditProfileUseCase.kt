@@ -1,13 +1,16 @@
-package com.mongmong.namo.domain.usecases.mypage
+package com.mongmong.namo.domain.usecases.profile
 
 import android.net.Uri
+import android.util.Log
+import com.mongmong.namo.data.dto.PatchProfileRequest
 import com.mongmong.namo.domain.model.BaseResponse
 import com.mongmong.namo.domain.model.RegisterInfo
-import com.mongmong.namo.domain.repositories.AuthRepository
+import com.mongmong.namo.domain.repositories.ProfileRepository
 import com.mongmong.namo.domain.usecases.image.UploadImageToS3UseCase
 import javax.inject.Inject
 
 class EditProfileUseCase @Inject constructor(
+    private val profileRepository: ProfileRepository,
     private val uploadImageToS3UseCase: UploadImageToS3UseCase
 ) {
     suspend operator fun invoke(
@@ -20,19 +23,18 @@ class EditProfileUseCase @Inject constructor(
         isNamePublic: Boolean
     ): BaseResponse {
         val newImageUrl = uploadImageToS3UseCase.execute(PREFIX, listOf<Uri>(Uri.parse(profileImage)))
-        /*
-        return authRepository.postSignupComplete(
-            RegisterInfo(
-                name = name,
+        Log.d("EditProfileUseCase", "birthDay: $birthday")
+        return profileRepository.editProfile(
+            PatchProfileRequest(
                 nickname = nickname,
-                colorId = colorId,
+                favoriteColorId = colorId,
                 birthday = birthday,
-                intro = intro,
-                profileImage = newImageUrl[0]
+                bio = intro,
+                profileImage = newImageUrl[0],
+                nameVisible = isNamePublic,
+                birthdayVisible = isBirthdayPublic
             )
         )
-        */
-        return BaseResponse()
     }
 
     companion object {
