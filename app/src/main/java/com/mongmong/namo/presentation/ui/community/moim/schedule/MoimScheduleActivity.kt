@@ -211,12 +211,6 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
             }
         }
 
-        viewModel.isCurrentUserOwner.observe(this) { isOwner ->
-            if (isOwner) {
-                participantAdapter.updateIsOwner(isOwner)
-            }
-        }
-
         viewModel.successState.observe(this) { successState ->
             Log.e("MoimScheduleACT", "API 요청 성공 여부: ${successState.isSuccess}")
             if (successState.isSuccess) { // 요청이 성공한 경우
@@ -361,7 +355,6 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
                 flexDirection = FlexDirection.ROW
             }
         }
-        Log.d("MoimScheduleAct", "isOwner: ${viewModel.isCurrentUserOwner.value!!}")
     }
 
     //TODO: 게스트 리사이클러뷰 연결
