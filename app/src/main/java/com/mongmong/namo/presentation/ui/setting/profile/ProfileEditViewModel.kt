@@ -65,6 +65,7 @@ class ProfileEditViewModel @Inject constructor(
         _initialProfileData = initialProfile
 
         _profileImage.value = initialProfile.profileUrl
+        _name.value = initialProfile.name
         this.nickname.value = initialProfile.nickname
         _birthday.value = initialProfile.birth
         this.intro.value = initialProfile.introduction
