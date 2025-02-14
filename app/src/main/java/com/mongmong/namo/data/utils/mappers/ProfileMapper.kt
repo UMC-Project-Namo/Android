@@ -9,7 +9,7 @@ object ProfileMapper {
         return ProfileModel(
             profileUrl = this.profileImage,
             nickname = this.nickname,
-            tag = this.tag,
+            tag = this.tag.ifEmpty { "1234" },
             name = this.name,
             introduction = this.bio,
             birth = this.birthdate,

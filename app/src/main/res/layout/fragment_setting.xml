@@ -96,17 +96,21 @@
                 app:layout_constraintBottom_toBottomOf="@id/setting_profile_image_cv"
                 app:layout_constraintEnd_toEndOf="parent">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/setting_profile_copy_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingVertical="2dp"
                     tools:text="코코아#0000"
                     android:text="@{@string/nickname_tag(profile.nickname, profile.tag)}"
+                    android:drawablePadding="8dp"
+                    android:drawableEnd="@drawable/ic_copy"
                     style="@style/content_bold"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="6dp"
                     android:maxLines="2"
                     android:text="@{profile.introduction}"
                     tools:text="어쩌구저쩌구한줄소개가 이렇게 최대 두줄로 표시됩니다."

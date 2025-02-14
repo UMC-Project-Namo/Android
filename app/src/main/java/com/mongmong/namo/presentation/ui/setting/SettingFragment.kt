@@ -1,5 +1,8 @@
 package com.mongmong.namo.presentation.ui.setting
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
@@ -60,6 +63,14 @@ class SettingFragment: BaseFragment<FragmentSettingBinding>(R.layout.fragment_se
                     Intent(context, ProfileEditActivity::class.java)
                         .putExtra(PROFILE_KEY, viewModel.profile.value)
                 )
+            }
+
+            // {닉네임#태그} 복사
+            settingProfileCopyBtn.setOnClickListener {
+                val clipboardManager = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip: ClipData = ClipData.newPlainText("copy", getString(R.string.nickname_tag, viewModel.profile.value?.nickname, viewModel.profile.value?.tag))
+                clipboardManager.setPrimaryClip(clip) //클립보드에 데이터 set
+                Toast.makeText(requireContext(), getString(R.string.toast_copy), Toast.LENGTH_SHORT).show()
             }
 
             // 이용 약관
