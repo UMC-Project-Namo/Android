@@ -168,7 +168,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.name}"
-                    android:textColorHint="@color/text_placeholder"
+                    android:textColor="@color/text_disable"
                     app:layout_constraintBottom_toBottomOf="@id/profile_edit_name_title_tv"
                     app:layout_constraintStart_toStartOf="@+id/profile_edit_nickname_content_et"
                     app:layout_constraintTop_toTopOf="@id/profile_edit_name_title_tv" />
@@ -203,7 +203,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.birthday.isEmpty() ? @string/register_birth_empty : viewModel.getFormattedBirthday()}"
-                    android:textSize="15sp"
+                    android:textColor="@color/text_disable"
                     app:layout_constraintBottom_toBottomOf="@+id/profile_edit_birth_title_tv"
                     app:layout_constraintStart_toStartOf="@+id/profile_edit_nickname_content_et"
                     app:layout_constraintTop_toTopOf="@+id/profile_edit_birth_title_tv" />

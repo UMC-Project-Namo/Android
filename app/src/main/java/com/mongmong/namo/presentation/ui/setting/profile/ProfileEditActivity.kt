@@ -45,10 +45,6 @@ class ProfileEditActivity : BaseActivity<ActivityProfileEditBinding>(R.layout.ac
             showBackDialog()
         }
 
-        binding.profileEditBirthContentTv.setOnClickListener {
-            showRegisterDateDialog()
-        }
-
         binding.profileEditSaveBtn.setOnClickListener {
             viewModel.editProfile()
         }
@@ -63,12 +59,6 @@ class ProfileEditActivity : BaseActivity<ActivityProfileEditBinding>(R.layout.ac
             } else Toast.makeText(this, isComplete.message, Toast.LENGTH_SHORT).show()
         }
     }
-
-    private fun showRegisterDateDialog() {
-        val dialog = ProfileEditDateDialog()
-        dialog.show(supportFragmentManager, "ProfileEditDateDialog")
-    }
-
 
     private fun showColorDialog() {
         val dialog = ProfileEditColorDialog()
