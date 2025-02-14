@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kakao.vectormap.LatLng
 import com.mongmong.namo.domain.model.MoimScheduleDetail
-import com.mongmong.namo.domain.model.Participant
 import com.mongmong.namo.domain.model.SchedulePeriod
 import com.mongmong.namo.domain.repositories.ScheduleRepository
 import com.mongmong.namo.domain.usecases.image.UploadImageToS3UseCase
@@ -41,7 +40,6 @@ class MoimScheduleViewModel @Inject constructor(
 
     var isCoverImageEdit: Boolean = false
 
-    //TODO: 참석자 수정
     var participantIdsToAdd = ArrayList<Long>(arrayListOf()) // 스케줄에 추가할 유저 ID(userId)
     var participantIdsToRemove = ArrayList<Long>(arrayListOf()) // 스케줄에서 삭제할 참가자 ID(participantId)
 
@@ -160,12 +158,6 @@ class MoimScheduleViewModel @Inject constructor(
         )
     }
 
-    fun updateMembers(selectedMember: List<Participant>) {
-        _moimSchedule.value = _moimSchedule.value!!.copy(
-            participants = selectedMember
-        )
-    }
-
     // 시간 변경
     fun updateTime(startDateTime: LocalDateTime?, endDateTime: LocalDateTime?) {
         _moimSchedule.value = _moimSchedule.value?.copy(
@@ -213,6 +205,13 @@ class MoimScheduleViewModel @Inject constructor(
     // 저장된 userId 가져오기
     private fun getMyUserId(): Long = runBlocking {
         dsManager.getUserId().first() ?: 0L
+    }
+
+    // 모임 참석자들의 userId
+    fun getParticipantUserIdList(): List<Long> {
+        return _moimSchedule.value!!.participants.filter {
+            it.userId != getMyUserId() // 내 id 제외
+        }.map { it.userId }
     }
 
     companion object {

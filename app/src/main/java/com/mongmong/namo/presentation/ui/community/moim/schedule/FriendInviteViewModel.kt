@@ -8,8 +8,11 @@ import androidx.lifecycle.viewModelScope
 import com.mongmong.namo.domain.model.Friend
 import com.mongmong.namo.domain.repositories.ScheduleRepository
 import com.mongmong.namo.domain.usecases.friend.GetFriendsUseCase
+import com.mongmong.namo.presentation.config.ApplicationClass.Companion.dsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,9 +22,18 @@ class FriendInviteViewModel @Inject constructor(
 ): ViewModel() {
     var moimScheduleId: Long = 0L
 
+    var invitedUserIdList: List<Long>? = null
+
     // 모든 친구 목록
-    private val _friendList = MutableLiveData<List<Friend>>()
-    val friendList: LiveData<List<Friend>> = _friendList
+    private val _allFriendList = MutableLiveData<List<Friend>>()
+    val allFriendList: LiveData<List<Friend>> = _allFriendList
+
+    // allFriend - invitedFriend
+    private val _remainFriendList = MutableLiveData<List<Friend>>()
+    val remainFriendList: LiveData<List<Friend>> = _remainFriendList
+
+    // 이미 초대된 친구
+    var invitedFriendList: List<Friend> = emptyList()
 
     // 초대할 친구 목록
     private val _friendToInviteList = MutableLiveData<ArrayList<Friend>>(ArrayList())
@@ -38,7 +50,7 @@ class FriendInviteViewModel @Inject constructor(
     /** 친구 목록 조회 */
     private fun getFriends() {
         viewModelScope.launch {
-            _friendList.value = getFriendsUseCase.execute()
+            _allFriendList.value = getFriendsUseCase.execute()
         }
     }
 
@@ -48,6 +60,21 @@ class FriendInviteViewModel @Inject constructor(
         if (moimScheduleId == 0L) return
         viewModelScope.launch {
             _isSuccess.value = repository.inviteMoimParticipant(moimScheduleId, _friendToInviteList.value!!.map { friend -> friend.userId })
+        }
+    }
+
+    // 초대된 친구 세팅
+    fun setInvitedFriend() {
+        if (invitedUserIdList.isNullOrEmpty()) return
+
+        // 초대된 친구
+        invitedFriendList = _allFriendList.value?.filter {
+            it.userId in invitedUserIdList!!
+        } ?: emptyList()
+
+        // 초대되고 남은 친구
+        _remainFriendList.value = _allFriendList.value?.filter {
+            it.userId !in invitedUserIdList!!
         }
     }
 

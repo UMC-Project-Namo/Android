@@ -45,6 +45,7 @@ import com.mongmong.namo.presentation.ui.common.ConfirmDialog
 import com.mongmong.namo.presentation.ui.common.ConfirmDialog.ConfirmDialogInterface
 import com.mongmong.namo.presentation.ui.community.moim.MoimFragment.Companion.MOIM_CREATE_KEY
 import com.mongmong.namo.presentation.ui.community.moim.schedule.FriendInviteActivity.Companion.MOIM_INVITE_KEY
+import com.mongmong.namo.presentation.ui.community.moim.schedule.FriendInviteActivity.Companion.MOIM_PARTICIPANT_ID_KEY
 import com.mongmong.namo.presentation.utils.PermissionChecker.hasImagePermission
 import com.mongmong.namo.presentation.utils.converter.PickerConverter.setSelectedTime
 import dagger.hilt.android.AndroidEntryPoint
@@ -116,8 +117,10 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
         binding.moimScheduleAddParticipantTv.setOnClickListener {
             // 친구 추가하기 화면으로 이동
             startActivity(
-                Intent(this, FriendInviteActivity::class.java)
-                    .putExtra(MOIM_INVITE_KEY, viewModel.moimSchedule.value!!.moimId)
+                Intent(this, FriendInviteActivity::class.java).apply {
+                    putExtra(MOIM_INVITE_KEY, viewModel.moimSchedule.value!!.moimId)
+                    if (viewModel.getParticipantUserIdList().isNotEmpty()) putExtra(MOIM_PARTICIPANT_ID_KEY, viewModel.getParticipantUserIdList().toLongArray())
+                }
             )
         }
 

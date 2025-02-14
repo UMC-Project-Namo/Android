@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
+        <variable
+            name="canEdit"
+            type="Boolean" />
         <variable
             name="friend"
             type="com.mongmong.namo.domain.model.Friend"/>
@@ -84,6 +88,7 @@
             android:layout_height="28dp"
             android:checked="false"
             android:button="@null"
+            android:visibility="@{canEdit ? View.VISIBLE : View.GONE}"
             android:background="@drawable/selector_invite"/>
 
     </LinearLayout>

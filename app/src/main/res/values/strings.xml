@@ -233,6 +233,7 @@
     <string name="moim_schedule_invite_friend_reset">전체 선택 취소</string>
     <string name="moim_schedule_friend_invite_selected_num"><![CDATA[<font color=\'#DA6022\'>%d</font> / %d]]></string> <!-- 선택 인원수 / 전체 친구 수 -->
     <string name="moim_schedule_do_invite">초대하기</string>
+    <string name="moim_schedule_invited_friend">초대된 친구</string>
     <string name="moim_schedule_all_friend">모든 친구</string>
     <string name="moim_schedule_invite_friend_empty">아직 추가된 친구가 없어요.\n친구를 추가한 후 모임을 만들어보세요!</string>
     <string name="moim_schedule_add_guest">게스트 초대하기</string>

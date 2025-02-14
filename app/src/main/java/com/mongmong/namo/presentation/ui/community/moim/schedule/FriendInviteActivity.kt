@@ -2,6 +2,7 @@ package com.mongmong.namo.presentation.ui.community.moim.schedule
 
 import android.text.Html
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mongmong.namo.R
@@ -18,18 +19,29 @@ class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.
 
     private val viewModel: FriendInviteViewModel by viewModels()
 
-    private lateinit var friendToInviteAdapter: FriendInvitePreparatoryRVAdapter
-    private lateinit var allFriendAdapter: FriendInviteRVAdapter
+    private var invitedFriendAdapter = FriendInviteRVAdapter(canEdit = false) // 초대한 친구
+    private lateinit var friendToInviteAdapter: FriendInvitePreparatoryRVAdapter // 초대할 친구
+    private var allFriendAdapter = FriendInviteRVAdapter(canEdit = true) // 모든 친구
 
     override fun setup() {
         binding.viewModel = viewModel
 
+        getDataFromScheduleScreen()
+        initClickListeners()
+        initObserve()
+    }
+
+    private fun getDataFromScheduleScreen() {
+        // moimScheduleId
         intent.getLongExtra(MOIM_INVITE_KEY, 0L).let { moimScheduleId ->
             viewModel.moimScheduleId = moimScheduleId
         }
 
-        initClickListeners()
-        initObserve()
+        // 이미 초대된 참석자들의 id
+        intent.getLongArrayExtra(MOIM_PARTICIPANT_ID_KEY)?.let { memberIds ->
+            viewModel.invitedUserIdList = memberIds.toList()
+            binding.friendInviteInvitedFriendLl.visibility = View.VISIBLE
+        }
     }
 
     private fun initClickListeners() {
@@ -52,8 +64,21 @@ class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.
 
     // 초대한 친구 현황 표시용
     private fun setFriendSelectedNum() {
+        val totalCount = viewModel.remainFriendList.value?.size ?: viewModel.allFriendList.value?.size
         // {초대할 친구 수} / {전체 친구 수}
-        binding.friendInviteSelectedNumTv.text = Html.fromHtml(String.format(resources.getString(R.string.moim_schedule_friend_invite_selected_num), viewModel.friendToInviteList.value?.size, viewModel.friendList.value?.size))
+        binding.friendInviteSelectedNumTv.text = Html.fromHtml(
+            String.format(resources.getString(R.string.moim_schedule_friend_invite_selected_num),
+                viewModel.friendToInviteList.value?.size,
+                totalCount)
+        )
+    }
+
+    // 초대된 친구 어댑터 설정
+    private fun setInvitedFriendAdapter() {
+        binding.friendInviteInvitedListRv.apply {
+            adapter = invitedFriendAdapter
+            layoutManager = LinearLayoutManager(context)
+        }
     }
 
     // 초대할 친구 어댑터 설정
@@ -77,7 +102,6 @@ class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.
 
     // 모든 친구 어댑터 설정
     private fun setAllFriendAdapter() {
-        allFriendAdapter = FriendInviteRVAdapter()
         binding.friendInviteListRv.apply {
             adapter = allFriendAdapter
             layoutManager = LinearLayoutManager(context)
@@ -86,8 +110,10 @@ class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.
         allFriendAdapter.setItemClickListener(object : FriendInviteRVAdapter.MyItemClickListener {
             override fun onInviteButtonClick(isSelected: Boolean, position: Int) {
                 // 초대할 친구 목록에 추가
-                Log.d("FriendInviteACT", "onInviteButtonClick - isSelected: $isSelected, position: $position")
-                viewModel.updateSelectedFriend(isSelected, viewModel.friendList.value!![position])
+//                Log.d("FriendInviteACT", "onInviteButtonClick - isSelected: $isSelected, position: $position")
+                val friendToInvite = viewModel.remainFriendList.value?.let { it[position] }
+                    ?: viewModel.allFriendList.value!![position]
+                viewModel.updateSelectedFriend(isSelected, friendToInvite)
             }
 
             override fun onItemClick(position: Int) {
@@ -108,11 +134,16 @@ class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.
         }
 
         // 모든 친구
-        viewModel.friendList.observe(this) {
-            if (it.isNotEmpty()) {
+        viewModel.allFriendList.observe(this) { friendList ->
+            if (friendList.isNotEmpty()) {
                 setAllFriendAdapter()
             }
-            allFriendAdapter.addFriend(it)
+            // 이미 초대된 친구
+            viewModel.setInvitedFriend()
+            setInvitedFriendAdapter()
+            invitedFriendAdapter.addFriend(viewModel.invitedFriendList)
+            // 모든 친구
+            allFriendAdapter.addFriend(viewModel.remainFriendList.value ?: friendList)
             setFriendSelectedNum()
         }
 
@@ -136,5 +167,6 @@ class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.
 
     companion object {
         const val MOIM_INVITE_KEY = "moim_invite_key"
+        const val MOIM_PARTICIPANT_ID_KEY = "moim_participant_id_key"
     }
 }

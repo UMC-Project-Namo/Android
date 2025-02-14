@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mongmong.namo.databinding.ItemFriendInviteBinding
 import com.mongmong.namo.domain.model.Friend
 
-class FriendInviteRVAdapter: RecyclerView.Adapter<FriendInviteRVAdapter.ViewHolder>(){
+class FriendInviteRVAdapter(
+    val canEdit: Boolean? = true
+): RecyclerView.Adapter<FriendInviteRVAdapter.ViewHolder>(){
 
     private var friendList = emptyList<Friend>()
     private var isFriendSelectedList = mutableListOf<Boolean>()
@@ -75,6 +77,7 @@ class FriendInviteRVAdapter: RecyclerView.Adapter<FriendInviteRVAdapter.ViewHold
     inner class ViewHolder(val binding: ItemFriendInviteBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(friend: Friend) {
             binding.friend = friend
+            binding.canEdit = canEdit
         }
     }
 }
