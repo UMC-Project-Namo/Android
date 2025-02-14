@@ -47,7 +47,17 @@ class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.
     private fun initClickListeners() {
         // 뒤로가기
         binding.friendInviteBackIv.setOnClickListener {
-            finish()
+            // 변경사항이 없는 경우
+            if (viewModel.friendToInviteList.value.isNullOrEmpty()) {
+                finish()
+                return@setOnClickListener
+            }
+            // 변경사항이 있는 경우
+            showCustomDialog(
+                R.string.dialog_moim_schedule_invite_change_notify_title,
+                R.string.dialog_moim_schedule_invite_change_notify_content,
+                DIALOG_CHANGE_NOTIFY_ID
+            )
         }
 
         // 전체 선택 취소
@@ -58,7 +68,11 @@ class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.
 
         // 초대하기 버튼
         binding.friendInviteBtn.setOnClickListener {
-            showCustomDialog(R.string.dialog_moim_schedule_invite_complete_title, R.string.dialog_moim_schedule_invite_complete_content, 0)
+            showCustomDialog(
+                R.string.dialog_moim_schedule_invite_complete_title,
+                R.string.dialog_moim_schedule_invite_complete_content,
+                DIALOG_FRIEND_INVITE_ID
+            )
         }
     }
 
@@ -162,11 +176,17 @@ class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.
     }
 
     override fun onClickYesButton(id: Int) {
-        viewModel.inviteMoimParticipants() // 참석자 초대 진행
+        when (id) {
+            DIALOG_FRIEND_INVITE_ID -> viewModel.inviteMoimParticipants() // 참석자 초대 진행
+            DIALOG_CHANGE_NOTIFY_ID -> finish() // 화면 닫기
+        }
     }
 
     companion object {
         const val MOIM_INVITE_KEY = "moim_invite_key"
         const val MOIM_PARTICIPANT_ID_KEY = "moim_participant_id_key"
+
+        private const val DIALOG_FRIEND_INVITE_ID = 0
+        private const val DIALOG_CHANGE_NOTIFY_ID = 1
     }
 }
