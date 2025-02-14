@@ -142,7 +142,7 @@
 
                 <TextView
                     android:id="@+id/profile_edit_nickname_rule_tv"
-                    style="@style/content_regular"
+                    style="@style/subtext_12"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:lineHeight="24sp"

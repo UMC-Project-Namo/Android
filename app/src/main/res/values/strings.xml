@@ -78,18 +78,6 @@
     <string name="group_withdrawal">탈퇴하기</string>
     <string name="input_group_name">그룹명 입력</string>
 
-    <!-- Custom 화면 관련 String -->
-    <string name="custom_palette">palette fragment</string>
-    <string name="custom_font">커스텀 폰트는 열심히 준비중이몽몽~!</string>
-    <string name="custom_my">my fragment</string>
-
-    <!-- 프로필 편집 -->
-    <string name="profile_edit_title">프로필 편집</string>
-    <string name="profile_edit_public_announce">공개 설정 시, 친구가 보는 내 프로필에 정보가 표시됩니다.</string>
-    <string name="profile_edit_public">공개</string>
-    <string name="profile_edit_private">비공개</string>
-    <string name="profile_edit_success">프로필 변경 내용이 저장되었습니다.</string>
-
     <!-- schedule 관련 String -->
     <string name="schedule_personal">개인 일정</string>
     <string name="schedule_personal_empty">등록된 개인 일정이 없습니다.</string>
@@ -195,17 +183,25 @@
     <string name="noticeFormat">yyyy.MM.dd (E) hh:mm a</string>
 
     <!-- setting fragment 관련 string -->
-    <string name="custom_setting">Setting</string>
-    <string name="custom_setting_ver">버전 정보</string>
-    <string name="custom_setting_term">이용 약관</string>
-    <string name="custom_setting_individual_policy">개인정보 처리방침</string>
-    <string name="custom_setting_logout">로그아웃</string>
-    <string name="custom_setting_withdrawal">회원탈퇴</string>
+    <string name="setting">Setting</string>
+    <string name="setting_profile_my">내 프로필</string>
+    <string name="setting_version">버전 정보</string>
+    <string name="setting_term">이용 약관</string>
+    <string name="setting_individual_policy">개인정보 처리방침</string>
+    <string name="setting_logout">로그아웃</string>
+    <string name="setting_withdrawal">회원탈퇴</string>
     <string name="dialog_setting_logout_title">정말 로그아웃 하시겠어요?</string>
     <string name="dialog_setting_quit_title">정말 계정을 삭제하시겠어요?</string>
     <string name="dialog_setting_quit_content">지금까지의 정보는\n3일 뒤 모두 사라집니다.</string>
     <string name="toast_setting_logout_success">로그아웃에 성공하셨습니다.</string>
     <string name="toast_setting_quit_success">회원탈퇴에 성공하셨습니다.</string>
+
+    <!-- 프로필 편집 -->
+    <string name="profile_edit_title">프로필 편집</string>
+    <string name="profile_edit_public_announce">공개 설정 시, 친구가 보는 내 프로필에 정보가 표시됩니다.</string>
+    <string name="profile_edit_public">공개</string>
+    <string name="profile_edit_private">비공개</string>
+    <string name="profile_edit_success">프로필 변경 내용이 저장되었습니다.</string>
 
     <!-- 카테고리 관련 String -->
     <string name="category">카테고리</string>

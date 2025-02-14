@@ -30,7 +30,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="9"
-                android:text="@string/custom_setting"
+                android:text="@string/setting"
                 style="@style/header"/>
 
         </LinearLayout>
@@ -54,7 +54,7 @@
                 android:id="@+id/setting_profile_title_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="내 프로필"
+                android:text="@string/setting_profile_my"
                 style="@style/content_bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -245,7 +245,7 @@
                     android:id="@+id/setting_ver_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/custom_setting_ver"
+                    android:text="@string/setting_version"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     style="@style/content_bold"/>
@@ -272,7 +272,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/setting_default_margin"
                 android:paddingVertical="@dimen/setting_default_spacing"
-                android:text="@string/custom_setting_term"
+                android:text="@string/setting_term"
                 style="@style/setting_arrow_tv"/>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -281,7 +281,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/setting_default_margin"
                 android:paddingVertical="@dimen/setting_default_spacing"
-                android:text="@string/custom_setting_individual_policy"
+                android:text="@string/setting_individual_policy"
                 style="@style/setting_arrow_tv"/>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -290,7 +290,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/setting_default_margin"
                 android:paddingVertical="@dimen/setting_default_spacing"
-                android:text="@string/custom_setting_logout"
+                android:text="@string/setting_logout"
                 style="@style/setting_arrow_tv"/>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -299,7 +299,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/setting_default_margin"
                 android:paddingVertical="@dimen/setting_default_spacing"
-                android:text="@string/custom_setting_withdrawal"
+                android:text="@string/setting_withdrawal"
                 style="@style/setting_arrow_tv"/>
 
         </LinearLayout>
