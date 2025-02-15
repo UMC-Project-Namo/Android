@@ -78,8 +78,8 @@ class ScheduleRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun addMoimSchedule(moimSchedule: MoimScheduleDetail): Boolean {
-        return remoteScheduleDataSource.addMoimSchedule(moimSchedule.toDTO()).code == SUCCESS_CODE
+    override suspend fun addMoimSchedule(moimSchedule: MoimScheduleDetail): Long {
+        return remoteScheduleDataSource.addMoimSchedule(moimSchedule.toDTO()).result
     }
 
     override suspend fun editMoimSchedule(

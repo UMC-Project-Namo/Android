@@ -43,6 +43,8 @@ class MoimScheduleViewModel @Inject constructor(
     var participantIdsToAdd = ArrayList<Long>(arrayListOf()) // 스케줄에 추가할 유저 ID(userId)
     var participantIdsToRemove = ArrayList<Long>(arrayListOf()) // 스케줄에서 삭제할 참가자 ID(participantId)
 
+    var createdMoimId: Long = -1
+
     // API 호출 성공 여부
     private val _successState = MutableLiveData<SuccessState>()
     var successState: LiveData<SuccessState> = _successState
@@ -60,10 +62,11 @@ class MoimScheduleViewModel @Inject constructor(
     fun postMoimSchedule() {
         viewModelScope.launch {
             uploadImageToServer(_moimSchedule.value?.coverImg)
+            createdMoimId = repository.addMoimSchedule(_moimSchedule.value!!)
 
             _successState.value = SuccessState(
                 SuccessType.ADD,
-                repository.addMoimSchedule(_moimSchedule.value!!)
+                createdMoimId >= 0
             )
         }
     }

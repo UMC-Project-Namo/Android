@@ -47,7 +47,7 @@ interface ScheduleRepository {
 
     suspend fun addMoimSchedule(
         moimSchedule: MoimScheduleDetail
-    ): Boolean
+    ): Long
 
     suspend fun editMoimSchedule(
         moimSchedule: MoimScheduleDetail,

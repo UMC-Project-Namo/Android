@@ -1,5 +1,7 @@
 package com.mongmong.namo.presentation.ui.community.moim.schedule
 
+import android.app.Activity
+import android.content.Intent
 import android.text.Html
 import android.util.Log
 import android.view.View
@@ -7,8 +9,13 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mongmong.namo.R
 import com.mongmong.namo.databinding.ActivityFriendInviteBinding
+import com.mongmong.namo.domain.model.MoimCreateInfo
 import com.mongmong.namo.presentation.config.BaseActivity
+import com.mongmong.namo.presentation.enums.SuccessType
+import com.mongmong.namo.presentation.ui.MainActivity
 import com.mongmong.namo.presentation.ui.common.ConfirmDialog
+import com.mongmong.namo.presentation.ui.community.moim.MoimFragment.Companion.MOIM_CREATE_KEY
+import com.mongmong.namo.presentation.ui.community.moim.MoimFragment.Companion.MOIM_EDIT_KEY
 import com.mongmong.namo.presentation.ui.community.moim.schedule.adapter.FriendInvitePreparatoryRVAdapter
 import com.mongmong.namo.presentation.ui.community.moim.schedule.adapter.FriendInviteRVAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -164,6 +171,11 @@ class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.
         // API 호출 성공 여부
         viewModel.isSuccess.observe(this) { isSuccess ->
             if (isSuccess) {
+                // 편집여부 전달 (업데이트)
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    putExtra(MOIM_EDIT_KEY, isSuccess) // 편집 여부
+                }
+                setResult(Activity.RESULT_OK, intent)
                 finish()
             }
         }
