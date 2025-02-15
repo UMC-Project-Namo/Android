@@ -6,8 +6,9 @@ import com.mongmong.namo.domain.model.BaseResponse
 import com.mongmong.namo.domain.model.RegisterInfo
 import com.mongmong.namo.domain.repositories.AuthRepository
 import com.mongmong.namo.domain.usecases.image.UploadImageToS3UseCase
+import javax.inject.Inject
 
-class RequestRegisterUseCase(
+class RequestRegisterUseCase @Inject constructor(
     private val authRepository: AuthRepository,
     private val uploadImageToS3UseCase: UploadImageToS3UseCase
 ) {

@@ -14,6 +14,8 @@
     <string name="birth">생일</string>
     <string name="nickname">닉네임</string>
     <string name="input_hint">입력</string>
+    <string name="changes_save">변경 내용 저장</string>
+    <string name="toast_copy">클립보드에 복사되었습니다.</string>
 
     <!-- 약관 동의 관련 String -->
     <string name="for_service">서비스 이용을 위한</string>
@@ -56,7 +58,7 @@
     <string name="nav_home">Home</string>
     <string name="nav_community">Community</string>
     <string name="nav_shop">Shop</string>
-    <string name="nav_custom">Custom</string>
+    <string name="nav_setting">Setting</string>
 
     <!-- Group 화면 관련 String -->
     <string name="group_calendar">Group Calendar</string>
@@ -75,11 +77,6 @@
     <string name="group_code">그룹 코드</string>
     <string name="group_withdrawal">탈퇴하기</string>
     <string name="input_group_name">그룹명 입력</string>
-
-    <!-- Custom 화면 관련 String -->
-    <string name="custom_palette">palette fragment</string>
-    <string name="custom_font">커스텀 폰트는 열심히 준비중이몽몽~!</string>
-    <string name="custom_my">my fragment</string>
 
     <!-- schedule 관련 String -->
     <string name="schedule_personal">개인 일정</string>
@@ -121,7 +118,6 @@
     <string name="diary_no_place">없음</string>
     <string name="diary_title">나몽몽</string>
     <string name="diary_detail_view">상세보기</string>
-    <string name="diary_changes_save">변경 내용 저장</string>
     <string name="diary_add">기록 저장</string>
     <string name="diary_edit">기록 수정</string>
     <string name="diary_input">내용 입력</string>
@@ -186,13 +182,26 @@
     <string name="timeFormat">hh:mm a</string>
     <string name="noticeFormat">yyyy.MM.dd (E) hh:mm a</string>
 
-    <!-- setting fragent 관련 string -->
-    <string name="custom_setting">설정</string>
-    <string name="custom_setting_ver">버전 정보</string>
-    <string name="custom_setting_term">이용 약관</string>
-    <string name="custom_setting_individual_policy">개인정보 처리방침</string>
-    <string name="custom_setting_logout">로그아웃</string>
-    <string name="custom_setting_withdrawal">회원탈퇴</string>
+    <!-- setting fragment 관련 string -->
+    <string name="setting">Setting</string>
+    <string name="setting_profile_my">내 프로필</string>
+    <string name="setting_version">버전 정보</string>
+    <string name="setting_term">이용 약관</string>
+    <string name="setting_individual_policy">개인정보 처리방침</string>
+    <string name="setting_logout">로그아웃</string>
+    <string name="setting_withdrawal">회원탈퇴</string>
+    <string name="dialog_setting_logout_title">정말 로그아웃 하시겠어요?</string>
+    <string name="dialog_setting_quit_title">정말 계정을 삭제하시겠어요?</string>
+    <string name="dialog_setting_quit_content">지금까지의 정보는\n3일 뒤 모두 사라집니다.</string>
+    <string name="toast_setting_logout_success">로그아웃에 성공하셨습니다.</string>
+    <string name="toast_setting_quit_success">회원탈퇴에 성공하셨습니다.</string>
+
+    <!-- 프로필 편집 -->
+    <string name="profile_edit_title">프로필 편집</string>
+    <string name="profile_edit_public_announce">공개 설정 시, 친구가 보는 내 프로필에 정보가 표시됩니다.</string>
+    <string name="profile_edit_public">공개</string>
+    <string name="profile_edit_private">비공개</string>
+    <string name="profile_edit_success">프로필 변경 내용이 저장되었습니다.</string>
 
     <!-- 카테고리 관련 String -->
     <string name="category">카테고리</string>

@@ -21,4 +21,7 @@
     <!-- 배경 색상 -->
     <color name="dimed_light">#33000000</color>
     <color name="dimed_dark">#80000000</color>
+
+    <!-- 토글 색상 -->
+    <color name="toggle">#63A4E0</color>
 </resources>

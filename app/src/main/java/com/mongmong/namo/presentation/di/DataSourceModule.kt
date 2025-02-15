@@ -5,11 +5,13 @@ import com.mongmong.namo.data.datasource.diary.RemoteActivityDataSource
 import com.mongmong.namo.data.datasource.schedule.RemoteScheduleDataSource
 import com.mongmong.namo.data.datasource.diary.RemoteDiaryDataSource
 import com.mongmong.namo.data.datasource.friend.RemoteFriendDataSource
+import com.mongmong.namo.data.datasource.profile.RemoteProfileDataSource
 import com.mongmong.namo.data.remote.ActivityApiService
 import com.mongmong.namo.data.remote.CategoryApiService
 import com.mongmong.namo.data.remote.DiaryApiService
 import com.mongmong.namo.data.remote.MoimApiService
 import com.mongmong.namo.data.remote.FriendApiService
+import com.mongmong.namo.data.remote.ProfileApiService
 import com.mongmong.namo.data.remote.ScheduleApiService
 import dagger.Module
 import dagger.Provides
@@ -47,4 +49,8 @@ object DataSourceModule {
     /** 카테고리 */
     @Provides
     fun provideRemoteCategoryDataSource(apiService: CategoryApiService): RemoteCategoryDataSource = RemoteCategoryDataSource(apiService)
+
+    /** 프로필 */
+    @Provides
+    fun provideRemoteProfileDataSource(apiService: ProfileApiService): RemoteProfileDataSource = RemoteProfileDataSource(apiService)
 }

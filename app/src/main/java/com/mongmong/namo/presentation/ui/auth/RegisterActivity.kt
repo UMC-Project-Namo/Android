@@ -35,7 +35,6 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(R.layout.activity
         }
 
         binding.registerColorSelectLl.setOnClickListener {
-            viewModel.clearHighlight("color")
             showColorDialog()
         }
 

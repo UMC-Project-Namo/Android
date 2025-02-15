@@ -273,7 +273,7 @@
             android:layout_height="60dp"
             android:background="@{viewModel.diaryChanged ? @color/main : @color/text_unselected}"
             android:padding="15dp"
-            android:text="@{viewModel.diarySchedule.hasDiary ? @string/diary_changes_save : @string/diary_add}"
+            android:text="@{viewModel.diarySchedule.hasDiary ? @string/changes_save : @string/diary_add}"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:enabled="@{viewModel.diaryChanged}"

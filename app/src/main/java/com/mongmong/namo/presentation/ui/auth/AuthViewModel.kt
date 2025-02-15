@@ -25,12 +25,6 @@ class AuthViewModel @Inject constructor(
     private val _loginResult = MutableLiveData<LoginResult?>()
     val loginResult: LiveData<LoginResult?> = _loginResult
 
-    private val _isLogoutComplete = MutableLiveData<Boolean>()
-    val isLogoutComplete: LiveData<Boolean> = _isLogoutComplete
-
-    private val _isQuitComplete = MutableLiveData<Boolean>()
-    val isQuitComplete: LiveData<Boolean> = _isQuitComplete
-
     private val _refreshResponse = MutableLiveData<RefreshResponse>()
     val refreshResponse: LiveData<RefreshResponse> = _refreshResponse
 
@@ -58,27 +52,6 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    /** 로그아웃 */
-    fun tryLogout() {
-        viewModelScope.launch {
-            if (repository.postLogout()) {
-                _isLogoutComplete.value = true
-                deleteToken()
-            }
-        }
-    }
-
-    /** 회원탈퇴 */
-    fun tryQuit() {
-        viewModelScope.launch {
-            val isSuccess = repository.postQuit(getLoginPlatform())
-            if (isSuccess) {
-                _isQuitComplete.value = true
-                deleteToken()
-            }
-        }
-    }
-
     // 약관 동의 여부 확인
     fun checkUpdatedTerms(): Boolean {
         for (term in _loginResult.value!!.terms) {
@@ -95,11 +68,6 @@ class AuthViewModel @Inject constructor(
         return@runBlocking TokenBody(accessToken, refreshToken)
     }
 
-    // 로그인 한 sdk 정보 가져오기
-    private fun getLoginPlatform(): String = runBlocking {
-        dsManager.getPlatform().first().orEmpty()
-    }
-
     // 로그인 플랫폼 정보 앱 내에 저장
     private suspend fun saveLoginPlatform(platform: LoginPlatform) {
         dsManager.savePlatform(platform.platformName)
@@ -114,10 +82,5 @@ class AuthViewModel @Inject constructor(
     // userId 앱 내에 저장
     private suspend fun saveUserId(userId: Long) {
         dsManager.saveUserId(userId)
-    }
-
-    // 앱 내에 저장된 토큰 정보 삭제
-    private suspend fun deleteToken() {
-        dsManager.clearTokens()
     }
 }

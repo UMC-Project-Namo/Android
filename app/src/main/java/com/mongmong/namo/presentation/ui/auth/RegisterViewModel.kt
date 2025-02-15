@@ -30,28 +30,28 @@ class RegisterViewModel @Inject constructor(
     private val _color = MutableLiveData<CategoryColor?>(null)
     val color: LiveData<CategoryColor?> = _color
 
-    // 닉네임 유효성 검사
-    val isNicknameValid: LiveData<Boolean> = Transformations.map(nickname) {
-        validateNickname(it)
-    }
-
     private val _isRegisterComplete = MutableLiveData<BaseResponse>()
     val isRegisterComplete: LiveData<BaseResponse> = _isRegisterComplete
-
-    // 생년월일 유효성 검사
-    private val isBirthValid: LiveData<Boolean> = Transformations.map(birthday) {
-        it.isNotEmpty()
-    }
 
     // 자기소개 글자 수 카운트
     val introLength: LiveData<Int> = Transformations.map(intro) { it.length }
 
-    // 모든 필드의 하이라이트 상태를 관리하는 LiveData (하나만 사용)
+    // 하이라이트 상태 관리
     val highlightFields = MutableLiveData<Map<String, Boolean>>(mapOf(
         "nickname" to false,
         "birth" to false,
         "color" to false
     ))
+
+    // 닉네임 유효성 검사
+    val isNicknameValid: LiveData<Boolean> = Transformations.map(nickname) {
+        validateNickname(it)
+    }
+
+    // 생년월일 유효성 검사
+    private val isBirthValid: LiveData<Boolean> = Transformations.map(birthday) {
+        it.isNotEmpty()
+    }
 
     // 회원가입 버튼 활성화 여부
     val isRegisterEnabled = MediatorLiveData<Boolean>().apply {

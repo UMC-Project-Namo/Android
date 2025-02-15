@@ -26,21 +26,11 @@
         android:label="ShopFragment"
         tools:layout="@layout/fragment_shop"/>
 
-    <!-- Custom -->
+    <!-- Setting -->
     <fragment
-        android:id="@+id/customFragment"
-        android:name="com.mongmong.namo.presentation.ui.custom.CustomFragment"
-        android:label="CustomFragment"
-        tools:layout="@layout/fragment_custom">
-        <action
-            android:id="@+id/action_customFragment_to_customSettingFragment"
-            app:destination="@id/customSettingFragment"/>
-    </fragment>
-
-    <fragment
-        android:id="@+id/customSettingFragment"
-        android:name="com.mongmong.namo.presentation.ui.custom.CustomSettingFragment"
-        android:label="CustomSettingFragment"
-        tools:layout="@layout/fragment_custom_setting"/>
+        android:id="@+id/settingFragment"
+        android:name="com.mongmong.namo.presentation.ui.setting.SettingFragment"
+        android:label="SettingFragment"
+        tools:layout="@layout/fragment_setting"/>
 
 </navigation>
