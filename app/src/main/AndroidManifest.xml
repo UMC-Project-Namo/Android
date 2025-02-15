@@ -103,6 +103,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".presentation.ui.community.alert.FriendAlertActivity"/>
         <activity android:name=".presentation.ui.community.moim.schedule.FriendInviteActivity"/>
+        <activity android:name=".presentation.ui.setting.profile.ProfileEditActivity"/>
 
         <meta-data
             android:name="google_analytics_adid_collection_enabled"

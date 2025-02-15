@@ -9,7 +9,8 @@
     <dimen name="onboarding_skip_text_size">15sp</dimen>
     <dimen name="test_100">100dp</dimen>
     <dimen name="test_10">10dp</dimen>
-    <dimen name="custom_setting_default_spacing">20dp</dimen>
+    <dimen name="setting_default_spacing">3dp</dimen>
+    <dimen name="setting_default_margin">20dp</dimen>
     <dimen name="margin_bottomsheet_top">96dp</dimen>
     <dimen name="margin_calendar_start">20dp</dimen>
     <dimen name="margin_calendar_end">10dp</dimen>

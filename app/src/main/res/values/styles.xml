@@ -172,7 +172,7 @@
         <item name="android:enabled">true</item>
     </style>
 
-    <style name="custom_setting_15sp_tv">
+    <style name="setting_arrow_tv">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/main_text</item>

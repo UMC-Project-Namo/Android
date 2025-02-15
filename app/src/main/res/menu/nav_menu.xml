@@ -24,9 +24,9 @@
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/customFragment"
+        android:id="@+id/settingFragment"
         android:icon="@drawable/selector_nav_custom"
-        android:title="@string/nav_custom"
+        android:title="@string/nav_setting"
         android:enabled="true"
         app:showAsAction="ifRoom"/>
 </menu>

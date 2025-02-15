@@ -91,7 +91,7 @@ class PersonalDiaryViewModel @Inject constructor(
     // 개인 기록 추가
     fun addDiary() {
         viewModelScope.launch {
-            Log.d("PersonalDiaryViewModel addDiary", "$_diary")
+            Log.d("PersonalDiaryViewModel addDiary", "${_diary.value}")
             val newImageUrls = uploadImageToS3UseCase.execute(
                 PREFIX, (diary.value?.diaryImages ?: emptyList()).map { Uri.parse(it.imageUrl) }
             )
@@ -180,7 +180,6 @@ class PersonalDiaryViewModel @Inject constructor(
                         diary.value?.diaryImages != initialImgList ||
                         diary.value?.enjoyRating != initialEnjoy
                 )
-        Log.d("initDiaryState", "${_diary?.value?.content} \n${initialDiaryContent}\n${initialEnjoy}\n${initialImgList}")
     }
 
     fun updateEnjoy(count: Int) {

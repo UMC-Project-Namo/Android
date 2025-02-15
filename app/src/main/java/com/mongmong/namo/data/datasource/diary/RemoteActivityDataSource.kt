@@ -209,6 +209,6 @@ class RemoteActivityDataSource @Inject constructor(
                 Log.d("ActivityDataSource deleteActivity Fail", response.message)
             }
         }
-        return  response
+        return response
     }
 }

@@ -33,8 +33,8 @@ class RemoteDiaryDataSource @Inject constructor(
             }.onSuccess {
                 Log.d("RemoteDiaryDataSource getScheduleForDiary Success", "$it")
                 response = it
-            }.onFailure {
-                Log.d("RemoteDiaryDataSource getScheduleForDiary Failure", "$it")
+            }.onFailure { exception ->
+                Log.d("RemoteDiaryDataSource getScheduleForDiary Failure", "${exception.handleError()}")
             }
         }
         return response
@@ -49,8 +49,8 @@ class RemoteDiaryDataSource @Inject constructor(
             }.onSuccess {
                 Log.d("RemoteDiaryDataSource getPersonalDiary Success", "$it")
                 response = it
-            }.onFailure {
-                Log.d("RemoteDiaryDataSource getPersonalDiary Failure", "$it")
+            }.onFailure { exception ->
+                Log.d("RemoteDiaryDataSource getPersonalDiary Failure", "${exception.handleError()}")
             }
         }
         return response
@@ -75,7 +75,8 @@ class RemoteDiaryDataSource @Inject constructor(
                     )
                 )
             }.onSuccess {
-                Log.d("RemoteDiaryDataSource addPersonalDiary Success", "$it")
+                Log.d("RemoteDiaryDataSource addPersonalDiary Success", "${it}")
+                response = it
             }.onFailure { exception ->
                 response = exception.handleError()
                 Log.d("RemoteDiaryDataSource addPersonalDiary Failure", response.message)
