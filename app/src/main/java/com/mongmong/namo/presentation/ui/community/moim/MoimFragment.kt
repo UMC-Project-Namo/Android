@@ -19,6 +19,7 @@ import com.mongmong.namo.presentation.ui.community.moim.diary.MoimDiaryDetailAct
 import com.mongmong.namo.presentation.ui.community.moim.schedule.FriendInviteActivity
 import com.mongmong.namo.presentation.ui.community.moim.schedule.FriendInviteActivity.Companion.MOIM_INVITE_KEY
 import com.mongmong.namo.presentation.ui.community.moim.schedule.MoimScheduleActivity
+import com.mongmong.namo.presentation.ui.community.moim.schedule.MoimScheduleActivity.Companion.MOIM_ID_KEY
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -88,7 +89,7 @@ class MoimFragment : BaseFragment<FragmentMoimBinding>(R.layout.fragment_moim),
             override fun onItemClick(position: Int) {
                 // 모임 일정 편집 화면으로 이동
                 val intent = Intent(context, MoimScheduleActivity::class.java)
-                    .putExtra("moimScheduleId", viewModel.moimPreviewList.value!![position].moimId)
+                    .putExtra(MOIM_ID_KEY, viewModel.moimPreviewList.value!![position].moimId)
                 getMoimResultData.launch(intent)
             }
         })

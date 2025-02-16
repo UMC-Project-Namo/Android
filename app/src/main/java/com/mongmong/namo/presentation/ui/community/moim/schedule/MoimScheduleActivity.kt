@@ -65,6 +65,8 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
 
     private val viewModel : MoimScheduleViewModel by viewModels()
 
+    private lateinit var getInviteResultData: ActivityResultLauncher<Intent>
+
     override fun setup() {
         binding.viewModel = viewModel
 
@@ -73,6 +75,7 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
         setResultLocation()
         initClickListeners()
         initObserve()
+        initInviteResultData()
     }
 
     override fun onResume() {
@@ -91,7 +94,8 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
     }
 
     private fun initViews() {
-        viewModel.setMoimSchedule(intent.getLongExtra("moimScheduleId", 0L))
+        viewModel.moimScheduleId = intent.getLongExtra(MOIM_ID_KEY, 0L)
+        viewModel.setMoimSchedule()
 
         val slideAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in_up)
         binding.moimScheduleContainerLayout.startAnimation(slideAnimation)
@@ -116,13 +120,12 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
 
         // 친구 초대 버튼 클릭
         binding.moimScheduleAddParticipantTv.setOnClickListener {
-            // 친구 추가하기 화면으로 이동
-            startActivity(
-                Intent(this, FriendInviteActivity::class.java).apply {
-                    putExtra(MOIM_INVITE_KEY, viewModel.moimSchedule.value!!.moimId)
-                    if (viewModel.getParticipantUserIdList().isNotEmpty()) putExtra(MOIM_PARTICIPANT_ID_KEY, viewModel.getParticipantUserIdList().toLongArray())
-                }
-            )
+            // 친구 초대 화면으로 이동
+            val intent = Intent(this, FriendInviteActivity::class.java).apply {
+                putExtra(MOIM_INVITE_KEY, viewModel.moimSchedule.value!!.moimId)
+                if (viewModel.getParticipantUserIdList().isNotEmpty()) putExtra(MOIM_PARTICIPANT_ID_KEY, viewModel.getParticipantUserIdList().toLongArray())
+            }
+            getInviteResultData.launch(intent)
         }
 
         // 게스트 초대 버튼 클릭 (편집 모드)
@@ -183,6 +186,18 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
         binding.moimScheduleDeleteBtn.setOnClickListener {
             // 삭제 확인 다이얼로그 띄우기
             showCustomDialog(getString(R.string.dialog_moim_delete_title), R.string.dialog_moim_delete_content, R.string.delete, 0)
+        }
+    }
+
+    private fun initInviteResultData() {
+        getInviteResultData = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode != Activity.RESULT_OK) return@registerForActivityResult
+
+            // 변경사항 확인
+            val isEdited = result.data?.getBooleanExtra(MOIM_EDIT_KEY, false)
+            if (isEdited == true) viewModel.getMoimScheduleDetailInfo() // 변경 사항이 있다면 업데이트
         }
     }
 
@@ -472,10 +487,16 @@ class MoimScheduleActivity : BaseActivity<ActivityMoimScheduleBinding>(R.layout.
     override fun onClickYesButton(id: Int) {
         when (id) {
             0 -> deleteSchedule() // 일정 삭제 진행
-            1 -> startActivity(
-                Intent(this, FriendInviteActivity::class.java)
-                    .putExtra(MOIM_INVITE_KEY, viewModel.moimSchedule.value!!.moimId)
-            ) // 친구 초대 화면으로 이동
+            1 -> { // 친구 초대 화면으로 이동
+                val intent = Intent(this, FriendInviteActivity::class.java).apply {
+                    putExtra(MOIM_INVITE_KEY, viewModel.moimSchedule.value!!.moimId)
+                }
+                getInviteResultData.launch(intent)
+            }
         }
+    }
+
+    companion object {
+        const val MOIM_ID_KEY = "moimId"
     }
 }

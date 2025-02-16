@@ -27,6 +27,8 @@ class MoimScheduleViewModel @Inject constructor(
     private val repository: ScheduleRepository,
     private val uploadImageToS3UseCase: UploadImageToS3UseCase
 ) : ViewModel() {
+    var moimScheduleId: Long = -1
+
     private val _moimSchedule = MutableLiveData<MoimScheduleDetail>()
     val moimSchedule: LiveData<MoimScheduleDetail> = _moimSchedule
 
@@ -50,7 +52,7 @@ class MoimScheduleViewModel @Inject constructor(
     var successState: LiveData<SuccessState> = _successState
 
     /** 모임 일정 상세 조회 */
-    private fun getMoimSchedule(moimScheduleId: Long) {
+    fun getMoimScheduleDetailInfo() {
         viewModelScope.launch {
             _moimSchedule.value = repository.getMoimScheduleDetail(moimScheduleId)
             getGuestInvitationLink()
@@ -140,12 +142,12 @@ class MoimScheduleViewModel @Inject constructor(
     }
 
     // 모임 일정 기본 정보 세팅
-    fun setMoimSchedule(moimScheduleId: Long) {
+    fun setMoimSchedule() {
         if (moimScheduleId == 0L) { // 모임 일정 생성
             _moimSchedule.value = MoimScheduleDetail()
             return
         }
-        getMoimSchedule(moimScheduleId) // 모임 일정 편집
+        getMoimScheduleDetailInfo() // 모임 일정 편집
     }
 
     fun updateImage(uri: Uri?) {
