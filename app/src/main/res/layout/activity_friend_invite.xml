@@ -6,6 +6,9 @@
     <data>
         <import type="android.view.View"/>
         <variable
+            name="isInvitedFriendExist"
+            type="Boolean" />
+        <variable
             name="viewModel"
             type="com.mongmong.namo.presentation.ui.community.moim.schedule.FriendInviteViewModel" />
     </data>
@@ -53,6 +56,7 @@
             android:layout_marginStart="30dp"
             android:layout_marginEnd="32dp"
             android:layout_marginTop="16dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@id/friend_invite_search_btn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/friend_invite_top_cl"
@@ -64,6 +68,7 @@
             android:layout_height="30dp"
             android:layout_marginEnd="30dp"
             android:text="@string/diary_filter_search"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/friend_invite_search_et"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/friend_invite_search_et"
@@ -182,7 +187,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginHorizontal="25dp"
             android:orientation="vertical"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintTop_toBottomOf="@id/friend_invite_reset_ll">
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -196,12 +201,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:visibility="@{isInvitedFriendExist ? View.VISIBLE : View.GONE}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_friend_invite"
                 tools:itemCount="2"
                 app:layout_constraintTop_toBottomOf="@id/friend_search_et"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:visibility="@{isInvitedFriendExist ? View.GONE : View.VISIBLE}"
+                android:text="@string/moim_schedule_invited_friend_not_yet"
+                android:layout_gravity="center"
+                style="@style/content_regular"/>
 
         </LinearLayout>
 

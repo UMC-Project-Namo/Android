@@ -44,7 +44,7 @@ class FriendInviteActivity : BaseActivity<ActivityFriendInviteBinding>(R.layout.
         // 이미 초대된 참석자들의 id
         intent.getLongArrayExtra(MOIM_PARTICIPANT_ID_KEY)?.let { memberIds ->
             viewModel.invitedUserIdList = memberIds.toList()
-            binding.friendInviteInvitedFriendLl.visibility = View.VISIBLE
+            binding.isInvitedFriendExist = true
         }
     }
 
