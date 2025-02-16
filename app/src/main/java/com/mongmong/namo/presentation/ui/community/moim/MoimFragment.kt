@@ -3,6 +3,7 @@ package com.mongmong.namo.presentation.ui.community.moim
 import android.app.Activity
 import android.content.Intent
 import android.util.Log
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,31 +29,14 @@ class MoimFragment : BaseFragment<FragmentMoimBinding>(R.layout.fragment_moim),
 
     private var moimAdapter = MoimRVAdapter()
 
-    private val getResultText = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode != Activity.RESULT_OK) return@registerForActivityResult
-
-        // 변경사항 확인
-        val isEdited = result.data?.getBooleanExtra(MOIM_EDIT_KEY, false)
-        if (isEdited == true) viewModel.getMoim() // 변경 사항이 있다면 업데이트
-
-        // 생성 모드인지 확인
-        try {
-            val createdMoimInfo = result.data?.getSerializableExtra(MOIM_CREATE_KEY) as MoimCreateInfo
-            Log.d("MoimFragment", "createdMoimInfo: $createdMoimInfo")
-            viewModel.createdMoimId = createdMoimInfo.moimId
-            showFriendInviteDialog(createdMoimInfo) // 친구 초대 다이얼로그 띄우기
-        } catch (e: Exception) {
-            Log.e("MoimFragment", "Error processing MoimCreateInfo: ${e.message}")
-        }
-    }
+    private lateinit var getMoimResultData: ActivityResultLauncher<Intent>
 
     override fun setup() {
         binding.viewModel = this@MoimFragment.viewModel
         setAdapter()
         initClickListeners()
         initObserve()
+        initMoimResultData()
     }
 
     private fun initClickListeners() {
@@ -61,7 +45,30 @@ class MoimFragment : BaseFragment<FragmentMoimBinding>(R.layout.fragment_moim),
             // 모임 일정 생성 화면으로 이동
             val intent = Intent(context, MoimScheduleActivity::class.java)
                 .putExtra("moim", Moim())
-            getResultText.launch(intent)
+            getMoimResultData.launch(intent)
+        }
+    }
+
+    private fun initMoimResultData() {
+        // 모임 생성/수정/삭제 후 업데이트 결과 받아오기
+        getMoimResultData = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode != Activity.RESULT_OK) return@registerForActivityResult
+
+            // 변경사항 확인
+            val isEdited = result.data?.getBooleanExtra(MOIM_EDIT_KEY, false)
+            if (isEdited == true) viewModel.getMoim() // 변경 사항이 있다면 업데이트
+
+            // 생성 모드인지 확인
+            try {
+                val createdMoimInfo = result.data?.getSerializableExtra(MOIM_CREATE_KEY) as MoimCreateInfo
+                Log.d("MoimFragment", "createdMoimInfo: $createdMoimInfo")
+                viewModel.createdMoimId = createdMoimInfo.moimId
+                showFriendInviteDialog(createdMoimInfo) // 친구 초대 다이얼로그 띄우기
+            } catch (e: Exception) {
+                Log.e("MoimFragment", "Error processing MoimCreateInfo: ${e.message}")
+            }
         }
     }
 
@@ -82,7 +89,7 @@ class MoimFragment : BaseFragment<FragmentMoimBinding>(R.layout.fragment_moim),
                 // 모임 일정 편집 화면으로 이동
                 val intent = Intent(context, MoimScheduleActivity::class.java)
                     .putExtra("moimScheduleId", viewModel.moimPreviewList.value!![position].moimId)
-                getResultText.launch(intent)
+                getMoimResultData.launch(intent)
             }
         })
     }
@@ -112,7 +119,7 @@ class MoimFragment : BaseFragment<FragmentMoimBinding>(R.layout.fragment_moim),
         // 친구 초대 화면으로 이동
         val intent = Intent(requireActivity(), FriendInviteActivity::class.java)
             .putExtra(MOIM_INVITE_KEY, viewModel.createdMoimId)
-        getResultText.launch(intent)
+        getMoimResultData.launch(intent)
     }
 
     companion object {
