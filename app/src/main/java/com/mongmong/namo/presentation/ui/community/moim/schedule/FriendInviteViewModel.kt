@@ -8,11 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.mongmong.namo.domain.model.Friend
 import com.mongmong.namo.domain.repositories.ScheduleRepository
 import com.mongmong.namo.domain.usecases.friend.GetFriendsUseCase
-import com.mongmong.namo.presentation.config.ApplicationClass.Companion.dsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,6 +39,8 @@ class FriendInviteViewModel @Inject constructor(
     // API 호출 성공 여부
     private val _isSuccess = MutableLiveData<Boolean>()
     var isSuccess: LiveData<Boolean> = _isSuccess
+
+    val isInvitedFriendVisible = MutableLiveData<Boolean>(true)
 
     init {
         getFriends()
@@ -89,5 +88,9 @@ class FriendInviteViewModel @Inject constructor(
         if (isSelected) tempFriendArr.add(friend)
         else tempFriendArr.remove(friend)
         _friendToInviteList.value = tempFriendArr
+    }
+
+    fun toggleInvitedFriendVisibility() {
+        isInvitedFriendVisible.value = !isInvitedFriendVisible.value!!
     }
 }

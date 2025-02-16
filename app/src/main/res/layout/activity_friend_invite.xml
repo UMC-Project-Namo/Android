@@ -194,18 +194,36 @@
                 android:orientation="vertical"
                 android:visibility="visible">
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/moim_schedule_invited_friend"
-                    style="@style/content_bold"/>
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/moim_schedule_invited_friend"
+                        style="@style/content_bold"/>
+
+                    <ImageView
+                        android:id="@+id/moim_diary_participant_hide_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{() -> viewModel.toggleInvitedFriendVisibility()}"
+                        android:padding="5dp"
+                        android:rotation="@{viewModel.isInvitedFriendVisible ? 180 : 0}"
+                        android:src="@drawable/ic_arrow_down_bold"
+                        android:visibility="visible"/>
+
+                </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/friend_invite_invited_list_rv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:visibility="@{isInvitedFriendExist ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{!isInvitedFriendExist ? View.GONE : viewModel.isInvitedFriendVisible ? View.VISIBLE : View.GONE}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/item_friend_invite"
                     tools:itemCount="2"/>
@@ -214,7 +232,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:visibility="@{isInvitedFriendExist ? View.GONE : View.VISIBLE}"
+                    android:visibility="@{isInvitedFriendExist ? View.GONE : viewModel.isInvitedFriendVisible ? View.VISIBLE : View.GONE}"
                     android:text="@string/moim_schedule_invited_friend_not_yet"
                     android:layout_gravity="center"
                     style="@style/content_regular"/>
