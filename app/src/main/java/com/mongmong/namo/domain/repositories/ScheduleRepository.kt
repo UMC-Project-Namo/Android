@@ -47,7 +47,7 @@ interface ScheduleRepository {
 
     suspend fun addMoimSchedule(
         moimSchedule: MoimScheduleDetail
-    ): Boolean
+    ): Long
 
     suspend fun editMoimSchedule(
         moimSchedule: MoimScheduleDetail,
@@ -65,7 +65,12 @@ interface ScheduleRepository {
         imageUrl: String
     ): Boolean
 
-    suspend fun getGuestInvitaionLink(
+    suspend fun inviteMoimParticipant(
+        moimScheduleId: Long,
+        memberIdsToInvite: List<Long>
+    ): Boolean
+
+    suspend fun getGuestInvitationLink(
         moimScheduleId: Long
     ): String
 }
